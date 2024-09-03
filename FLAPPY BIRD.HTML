@@ -71,6 +71,19 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
+
+        #rulesPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +108,14 @@
     <img src="png-transparent-bell-flying-bird-flight-floppy-bird-infinity-flappy-bird-fly-animals-insects-smiley.png" alt="Game Over" style="width: 100px; height: 100px;">
     <p>Game Over!</p>
     <button onclick="restartGame()">Restart</button>
+</div>
+
+<div id="rulesPopup">
+    <h2>Game Rules</h2>
+    <p>- Press the spacebar or tap to make the bird jump.</p>
+    <p>- Avoid the pipes and score points by passing between them.</p>
+    <p>- The game ends if the bird hits a pipe or the ground.</p>
+    <button onclick="startGame()">Start Game</button>
 </div>
 
 <footer>
@@ -219,13 +240,24 @@
         updateGameArea();
     }
 
+    function startGame() {
+        document.getElementById("rulesPopup").style.display = "none";
+        updateGameArea();
+    }
+
     document.addEventListener("keydown", function(event) {
         if (event.key === " ") {
             jumpBird();
         }
     });
 
-    updateGameArea();
+    document.addEventListener("touchstart", function() {
+        jumpBird();
+    });
+
+    window.onload = function() {
+        document.getElementById("rulesPopup").style.display = "block";
+    };
 </script>
 
 </body>
