@@ -9,10 +9,12 @@
             margin: 0;
             overflow: hidden;
             background-color: #87CEEB;
+            font-family: Arial, sans-serif;
         }
 
         canvas {
             display: block;
+            background-color: #fff;
         }
 
         .navbar {
@@ -21,6 +23,12 @@
             background-color: #333;
             padding: 10px;
             color: white;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 2px -2px gray;
+            z-index: 10;
         }
         .navbar .welcome {
             margin-left: 10px;
@@ -58,9 +66,16 @@
         footer {
             font-weight: bold;
             text-decoration: none;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
         }
 
-        #gameOverPopup {
+        #gameOverPopup, #rulesPopup {
             display: none;
             position: fixed;
             top: 50%;
@@ -70,6 +85,18 @@
             background-color: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
             text-align: center;
+            z-index: 20;
+        }
+        #rulesPopup {
+            max-width: 90%;
+            width: 300px;
+        }
+        #rulesPopup p {
+            margin: 0;
+            padding: 10px 0;
+        }
+        #rulesPopup button, #gameOverPopup button {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -91,6 +118,13 @@
 
 <canvas id="gameCanvas" width="800" height="400"></canvas>
 
+<div id="rulesPopup">
+    <h2>Game Rules</h2>
+    <p>Press the space bar or tap the screen to make the bird jump.</p>
+    <p>Avoid the pipes and try to get the highest score!</p>
+    <button onclick="startGame()">Start Game</button>
+</div>
+
 <div id="gameOverPopup">
     <img src="png-transparent-bell-flying-bird-flight-floppy-bird-infinity-flappy-bird-fly-animals-insects-smiley.png" alt="Game Over" style="width: 100px; height: 100px;">
     <p>Game Over!</p>
@@ -98,7 +132,7 @@
 </div>
 
 <footer>
-    <div style="text-align: center; color: blue;">
+    <div>
         <p>&copy; 2024 VR1 Site. All rights reserved.</p>
     </div>
 </footer>
@@ -209,6 +243,11 @@
         requestAnimationFrame(updateGameArea);
     }
 
+    function startGame() {
+        document.getElementById("rulesPopup").style.display = "none";
+        updateGameArea();
+    }
+
     function restartGame() {
         gameOver = false;
         pipes = [];
@@ -225,7 +264,20 @@
         }
     });
 
-    updateGameArea();
+    document.addEventListener("touchstart", function(event) {
+        jumpBird();
+    });
+
+    window.addEventListener('resize', function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    window.onload = function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        document.getElementById("rulesPopup").style.display = "block";
+    };
 </script>
 
 </body>
