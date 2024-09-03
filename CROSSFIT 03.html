@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Stopwatch</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #1f1f1f; /* Dark background */
+            color: #fff; /* Text color */
+            padding: 20px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        #exercise-name {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #3498db; /* Blue text for exercise name */
+        }
+        .stopwatch {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #2ecc71; /* Green text for stopwatch */
+        }
+        #total-stopwatch {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #e74c3c; /* Red text for total stopwatch */
+        }
+        #region {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #ecf0f1; /* Light text color for region display */
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #3498db; /* Blue button background */
+            color: #fff; /* White button text */
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+     /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+        }
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+        footer {
+           font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="welcome">Welcome, guest xyz123</div>
+    <div class="hamburger">
+        <img src="download.png" alt="Menu">
+        <div class="dropdown-content">
+            <a href="profile.html">Profile</a>
+            <a href="logout.html">Logout</a>
+            <a href="home.html">Home</a>
+            <a href="GALLERY.HTML">Stream</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+</div>
+<p>Note: Perform each exercise for a minimum of 40 seconds.</p>
+
+<div id="exercise-name">Exercise: <span id="current-exercise">Stretch Legs</span></div>
+<div id="region">Region: Full Body</div>
+<div id="exercise-stopwatch" class="stopwatch">00:00</div>
+<div id="total-stopwatch">Total Time: 00:00</div>
+<button id="start-button" onclick="startProgram()">Start</button>
+<button id="stop-button" onclick="stopProgram()">Stop</button>
+<button id="next-button" onclick="nextExercise()">Next</button>
+
+<script>
+    let exerciseStopwatchInterval;
+    let totalStopwatchInterval;
+    let exerciseSeconds = 0;
+    let totalSeconds = 0;
+    let currentExerciseIndex = 0;
+    let programRunning = false;
+    const exercises = [
+        { name: "Stretch Legs", region: "Full Body" },
+        { name: "Keep One Leg Forward and Touch and Stretch", region: "Legs" },
+        { name: "Push-Up Alternative Palm/Shoulder Taps", region: "Upper Body" },
+        { name: "Pelvic Hold Maximum (Leg on Leg)", region: "Core" },
+        { name: "Spiderman/Cross/Normal Mountain Climbers", region: "Cardio" },
+        { name: "Deadlifts", region: "Legs" },
+        { name: "90 Degree Toe Touch", region: "Legs" },
+        { name: "Cat Camel Donkey/Flutter Kicks", region: "Core" },
+        { name: "Alternative Toe Touches", region: "Core" },
+        { name: "Shoulder Rotation", region: "Upper Body" }
+    ];
+
+    function updateExercise() {
+        document.getElementById("current-exercise").innerText = exercises[currentExerciseIndex].name;
+        document.getElementById("region").innerText = `Region: ${exercises[currentExerciseIndex].region}`;
+    }
+
+    function startExerciseStopwatch() {
+        exerciseStopwatchInterval = setInterval(function () {
+            exerciseSeconds++;
+            const minutes = Math.floor(exerciseSeconds / 60);
+            const remainingSeconds = exerciseSeconds % 60;
+            document.getElementById("exercise-stopwatch").innerText = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    function startTotalStopwatch() {
+        totalStopwatchInterval = setInterval(function () {
+            totalSeconds++;
+            const minutes = Math.floor(totalSeconds / 60);
+            const remainingSeconds = totalSeconds % 60;
+            document.getElementById("total-stopwatch").innerText = `Total Time: ${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    function stopExerciseStopwatch() {
+        clearInterval(exerciseStopwatchInterval);
+        exerciseSeconds = 0;
+    }
+
+    function stopTotalStopwatch() {
+        clearInterval(totalStopwatchInterval);
+        totalSeconds = 0;
+    }
+
+    function startProgram() {
+        if (!programRunning) {
+            programRunning = true;
+            startExerciseStopwatch();
+            startTotalStopwatch();
+        }
+    }
+
+    function stopProgram() {
+        if (programRunning) {
+            programRunning = false;
+            stopExerciseStopwatch();
+            stopTotalStopwatch();
+        }
+    }
+
+    function nextExercise() {
+        if (programRunning) {
+            stopExerciseStopwatch();
+            currentExerciseIndex = (currentExerciseIndex + 1) % exercises.length;
+
+            // Check if one set is completed
+            if (currentExerciseIndex === 0) {
+                stopTotalStopwatch();
+            }
+
+            updateExercise();
+            document.getElementById("exercise-stopwatch").innerText = "00:00";
+            startExerciseStopwatch();
+
+            // Start or reset total stopwatch
+            if (currentExerciseIndex === 0) {
+                stopTotalStopwatch();
+                startTotalStopwatch();
+            }
+        }
+    }
+
+    // Initial setup
+    updateExercise();
+</script>
+
+</body>
+</html>

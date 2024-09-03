@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .checkbox-group {
+            margin-bottom: 20px;
+        }
+        .checkbox-group label {
+            display: inline-block;
+        }
+        .fallback-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 20px 0;
+        }
+    </style>
+    <script>
+        const correctGmail = "guest_xyz123@vr1.com";
+        const correctPassword = "vr1isgreat";
+
+        function validateForm() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const checkbox = document.getElementById("agreeCheckbox");
+
+            if (!checkbox.checked) {
+                alert("You must agree to the terms and conditions before proceeding.");
+                return false;
+            }
+
+            if (email === correctGmail && password === correctPassword) {
+                alert("Login successful! Your user name is guest xyz123.");
+                return true;
+            } else {
+                alert("Incorrect email or password. Please try again.");
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Project</h1>
+        <p>To access the project, you will need to log in with the following credentials. <strong>Please remember them, as you will need them when logging in:</strong></p>
+        <p><strong>Email:</strong> guest_xyz123@vr1.com</p>
+        <p><strong>Password:</strong> vr1isgreat</p>
+        <p>Please note that the site may show the image below at times due to limited cloud space, and there is a chance of the website being shut down due to copyright claims.</p>
+        
+        <img src="licensed-image.jpg" alt="Content not available" class="fallback-image">
+
+        <div class="checkbox-group">
+            <label>
+                <input type="checkbox" id="agreeCheckbox" required> I agree with the terms and conditions. <span style="color: red;">(This box is compulsory)</span>
+            </label>
+        </div>
+
+        <form action="logout.html" onsubmit="return validateForm();">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn">Proceed</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About VR1 Site</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #444;
+        }
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #007bff;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+        }
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+        .rating {
+            margin-top: 10px;
+        }
+        .rating input[type="radio"] {
+            display: none;
+        }
+        .rating label {
+            font-size: 30px;
+            color: #ccc;
+            cursor: pointer;
+        }
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: #ffcc00;
+        }
+        .rating input[type="radio"]:checked ~ label {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <div class="welcome">Welcome, guest xyz123</div>
+        <div class="hamburger">
+            <img src="download.png" alt="Menu">
+            <div class="dropdown-content">
+                <a href="profile.html">Profile</a>
+                <a href="logout.html">Logout</a>
+                <a href="home.html">Home</a>
+                <a href="GALLERY.HTML">Stream</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </div>
+
+    <h1>About VR1 Site</h1>
+    <p>The VR1 site was founded by <a href="vishal.html" style="text-decoration: none;"><strong>Vishal</strong></a>, who started with an agenda to create a movie streaming site. Over the course of four months, Vishal and his team worked tirelessly, and with immense leadership, they succeeded in developing the movie streaming site within 16 weeks. Following this initial success, in collaboration with his team and leadership, <strong>Vishal</strong> took it up a notch by adding series, games, and workout interfaces to ensure users could stay entertained and fit.</p>
+    <p><strong>Vishal</strong> began as a front-end developer, but through his dedication and hard work, he transformed the website within 24 weeks, taking GUI and front-end development to the next level.</p>
+    <p>Feel free to <a href="home.html" style="text-decoration: none;"><strong>browse the site</strong></a> and share your feedback!</p>
+    <h2>Rate Us:</h2>
+<div class="rating">
+    <input type="radio" id="star1" name="rating" value="10">
+    <label for="star1">&#9733;</label>
+    <input type="radio" id="star2" name="rating" value="9">
+    <label for="star2">&#9733;</label>
+    <input type="radio" id="star3" name="rating" value="8">
+    <label for="star3">&#9733;</label>
+    <input type="radio" id="star4" name="rating" value="7">
+    <label for="star4">&#9733;</label>
+    <input type="radio" id="star5" name="rating" value="6">
+    <label for="star5">&#9733;</label>
+    <input type="radio" id="star6" name="rating" value="5">
+    <label for="star6">&#9733;</label>
+    <input type="radio" id="star7" name="rating" value="4">
+    <label for="star7">&#9733;</label>
+    <input type="radio" id="star8" name="rating" value="3">
+    <label for="star8">&#9733;</label>
+    <input type="radio" id="star9" name="rating" value="2">
+    <label for="star9">&#9733;</label>
+    <input type="radio" id="star10" name="rating" value="1">
+    <label for="star10">&#9733;</label>
+
+
+
+    </div>
+    <button onclick="submitRating()">Submit Rating</button>
+    <p id="thankyou" style="display: none;">Thank you for your feedback!</p>
+
+    <script>
+        function submitRating() {
+            var rating = document.querySelector('input[name="rating"]:checked');
+            if (rating) {
+                var ratingValue = rating.value;
+                // Here, you can send the rating value to your server-side code for processing
+                // For demonstration purposes, I'm just showing an alert with the rating value
+                alert("Thank you for rating us " + ratingValue + "!");
+                document.getElementById('thankyou').style.display = "block";
+            } else {
+                alert("Please select a rating before submitting.");
+            }
+        }
+    </script>
+</body>
+</html>

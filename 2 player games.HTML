@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Player Shooting Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        .footer-logo {
+            width: 20%;
+            height: auto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+        }
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="welcome">Welcome, guest xyz123</div>
+    <div class="hamburger">
+        <img src="download.png" alt="Menu">
+        <div class="dropdown-content">
+            <a href="profile.html">Profile</a>
+            <a href="logout.html">Logout</a>
+            <a href="home.html">Home</a>
+            <a href="GALLERY.HTML">Stream</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+</div>
+
+    <div id="instructionPopup" class="popup">
+        <h2>Game Instructions</h2>
+        <p>Player 1: Use W/S to move, Space to shoot</p>
+        <p>Player 2: Use Arrow Up/Down to move, Enter to shoot</p>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="gameOverPopup" class="popup hidden">
+        <h2 id="winnerText"></h2>
+        <button onclick="resetGame()">Play Again</button>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const handImages = {
+            blue: new Image(),
+            red: new Image()
+        };
+        handImages.blue.src = "pointing-gun.png";
+        handImages.red.src = "pointing-gun-1632373_1280.webp";
+
+        const players = [
+            {
+                x: 50,
+                y: canvas.height / 2,
+                width: 100,
+                height: 100,
+                color: "blue",
+                speed: 5,
+                bullets: []
+            },
+            {
+                x: canvas.width - 150,
+                y: canvas.height / 2,
+                width: 100,
+                height: 100,
+                color: "red",
+                speed: 5,
+                bullets: []
+            }
+        ];
+
+        let winner = null;
+
+        function drawPlayer(player) {
+            ctx.drawImage(handImages[player.color], player.x, player.y, player.width, player.height);
+        }
+
+        function drawBullets(player) {
+            ctx.fillStyle = player.color;
+            for (const bullet of player.bullets) {
+                ctx.fillRect(bullet.x, bullet.y, 10, 5);
+            }
+        }
+
+        function moveBullets(player) {
+            for (let i = player.bullets.length - 1; i >= 0; i--) {
+                player.bullets[i].x += player === players[0] ? 5 : -5;
+                if (player.bullets[i].x > canvas.width || player.bullets[i].x < 0) {
+                    player.bullets.splice(i, 1);
+                }
+            }
+        }
+
+        function checkCollision() {
+            for (const player of players) {
+                for (let i = 0; i < player.bullets.length; i++) {
+                    const opponent = players.find(p => p !== player);
+                    if (
+                        player.bullets[i].x < opponent.x + opponent.width &&
+                        player.bullets[i].x + 10 > opponent.x &&
+                        player.bullets[i].y < opponent.y + opponent.height &&
+                        player.bullets[i].y + 5 > opponent.y
+                    ) {
+                        winner = player;
+                    }
+                }
+            }
+        }
+
+        function shoot(player) {
+            player.bullets.push({
+                x: player.x + (player === players[0] ? player.width : 0),
+                y: player.y + player.height / 2 - 2.5
+            });
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (const player of players) {
+                drawPlayer(player);
+                drawBullets(player);
+                moveBullets(player);
+            }
+
+            checkCollision();
+
+            if (winner) {
+                document.getElementById('winnerText').textContent = `${winner.color.toUpperCase()} Player Wins!`;
+                document.getElementById('gameOverPopup').classList.remove('hidden');
+            } else {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        function startGame() {
+            document.getElementById('instructionPopup').classList.add('hidden');
+            gameLoop();
+        }
+
+        function resetGame() {
+            winner = null;
+            for (const player of players) {
+                player.bullets = [];
+                player.y = canvas.height / 2;
+            }
+            document.getElementById('gameOverPopup').classList.add('hidden');
+            gameLoop();
+        }
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "W") {
+                players[0].y -= players[0].speed;
+            } else if (event.key === "S") {
+                players[0].y += players[0].speed;
+            } else if (event.key === " ") {
+                shoot(players[0]);
+            }
+
+            if (event.key === "ArrowUp") {
+                players[1].y -= players[1].speed;
+            } else if (event.key === "ArrowDown") {
+                players[1].y += players[1].speed;
+            } else if (event.key === "Enter") {
+                shoot(players[1]);
+            }
+        });
+    </script>
+
+    <footer>
+        <img src="LOGO-px7pZaNH5.png" alt="Logo" class="footer-logo">
+    </footer>
+
+</body>
+</html>

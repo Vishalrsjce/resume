@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Matrix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .matrix-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust column width as needed */
+            gap: 20px;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .matrix-item {
+            text-align: center; /* Center the content */
+            border: 2px solid #ccc; /* Add border */
+            padding: 10px; /* Add padding */
+            height: 200px; /* Set a fixed height */
+            display: flex;
+            flex-direction: column; /* Align text below image */
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s; /* Add transition effect */
+        }
+
+        .matrix-item img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .matrix-item:hover {
+            transform: scale(1.05); /* Enlarge on hover */
+            border-color: #333; /* Change border color on hover */
+        }
+
+        .workout-type {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #666; /* Adjust color */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            color: #555;
+        }
+     /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+        }
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+        footer {
+           font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="welcome">Welcome, guest xyz123</div>
+    <div class="hamburger">
+        <img src="download.png" alt="Menu">
+        <div class="dropdown-content">
+            <a href="profile.html">Profile</a>
+            <a href="logout.html">Logout</a>
+            <a href="home.html">Home</a>
+            <a href="GALLERY.HTML">Stream</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+</div>
+
+    <h2>Workout Matrix</h2>
+
+    <div class="matrix-container">
+        <div class="matrix-item">
+            <a href="50REPS CHALLENGESX5SETSX10REPS.html">
+                <img src="GALqbf0WwAAIfAb.jpg" alt="50REPS CHALLENGESX5SETSX10REPS">
+            </a>
+            <div class="workout-type">50 Rep Challenges</div>
+        </div>
+        <div class="matrix-item">
+            <a href="200 CLUB.html">
+                <img src="GB8j0b1XkAAWiU2.jpg" alt="200 CLUB">
+            </a>
+            <div class="workout-type">200 Club</div>
+        </div>
+        <div class="matrix-item">
+            <a href="ALL 30S.html">
+                <img src="GDAL0tVWkAAm40Y.jpg" alt="ALL 30S">
+            </a>
+            <div class="workout-type">All 30s</div>
+        </div>
+        <div class="matrix-item">
+            <a href="BARBELL WORLOUTSX15 CONTINIOUS.html">
+                <img src="Fv7bXkgWAAA7kIg.jpg" alt="BARBELL WORLOUTSX15 CONTINIOUS">
+            </a>
+            <div class="workout-type">Barbell Workouts x15 Continuous</div>
+        </div>
+        <!-- Continue adding the remaining matrix items with their respective images -->
+        <div class="matrix-item">
+            <a href="CORE 60 SECX4.html">
+                <img src="Fv7bXkgXwAAUMDx.jpg" alt="CORE 60 SECX4">
+            </a>
+            <div class="workout-type">Core 60 Sec x4</div>
+        </div>
+        <div class="matrix-item">
+            <a href="core.html">
+                <img src="F_u2nWXWMAA9JZ9.jpg" alt="Core">
+            </a>
+            <div class="workout-type">Core</div>
+        </div>
+        <div class="matrix-item">
+            <a href="CROSSFIT 01.html">
+                <img src="F_u2nWYWEAAmceC.jpg" alt="CROSSFIT 01">
+            </a>
+            <div class="workout-type">Crossfit 01</div>
+        </div>
+        <div class="matrix-item">
+            <a href="CROSSFIT 02.html">
+                <img src="F_u2nv0WQAAnE2l.jpg" alt="CROSSFIT 02">
+            </a>
+            <div class="workout-type">Crossfit 02</div>
+        </div>
+        <div class="matrix-item">
+            <a href="CROSSFIT 03.html">
+                <img src="F_u2nwKWMAAuWS6.jpg" alt="CROSSFIT 03">
+            </a>
+            <div class="workout-type">Crossfit 03</div>
+        </div>
+        <div class="matrix-item">
+            <a href="day1.html">
+                <img src="F_u2oTFWUAAUN7U.jpg" alt="Day 1">
+            </a>
+            <div class="workout-type">Day 1</div>
+        </div>
+        <div class="matrix-item">
+            <a href="day2.html">
+                <img src="F3WyQWgXkAA9t9p.jpg" alt="Day 2">
+            </a>
+            <div class="workout-type">Day 2</div>
+        </div>
+        <div class="matrix-item">
+            <a href="day3.html">
+                <img src="F9egxVzWIAA5lyr.jpg" alt="Day 3">
+            </a>
+            <div class="workout-type">Day 3</div>
+        </div>
+        <div class="matrix-item">
+            <a href="DUMBBELLS VS BODY WEIGHTX15.html">
+                <img src="Fz9RXDDXwAEx6hu.jpg" alt="DUMBBELLS VS BODY WEIGHTX15">
+            </a>
+            <div class="workout-type">Dumbbells vs Body Weight x15</div>
+        </div>
+        <div class="matrix-item">
+            <a href="FULL BODY PUMP.html">
+                <img src="F09iItaX0AEcF_w.jpg" alt="FULL BODY PUMP">
+            </a>
+            <div class="workout-type">Full Body Pump</div>
+        </div>
+        <div class="matrix-item">
+            <a href="STRENGTH & CARDIO.html">
+                <img src="F7rwOl7akAAtZGH.jpg" alt="STRENGTH & CARDIO">
+            </a>
+            <div class="workout-type">Strength & Cardio</div>
+        </div>
+        <div class="matrix-item">
+            <a href="TYPE1.html">
+                <img src="F9IDBQDXwAAT1le.jpg" alt="TYPE1">
+            </a>
+            <div class="workout-type">Type 1</div>
+        </div>
+    </div>
+<BREAK>
+<BREAK>
+<BREAK>
+<BREAK>
+
+    <footer>
+        <a href="chrishemsworth.html">Click Here for Demo/Motivation (Chris Hemsworth)</a>
+    </footer>
+
+</body>
+
+</html>
+
+
+   

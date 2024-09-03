@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Guy - Overview and Episodes</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #ADD8E6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+         .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+            width: 100%;
+        }
+
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 60px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #e50914;
+        }
+
+        .description-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .text-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 10px;
+            margin-right: 20px;
+            min-width: 300px;
+        }
+
+        .text-content h1 {
+            font-size: 2em;
+            margin: 0 0 10px 0;
+            color: #e50914;
+        }
+
+        .text-content p {
+            margin: 10px 0;
+        }
+
+        .image-content {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .image-content img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-container input,
+        .filter-container select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #FFF;
+            border-radius: 5px;
+            margin: 5px 0;
+            background-color: #FFF;
+            color: #000000;
+        }
+
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .episode {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #FFF;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .episode:hover {
+            transform: scale(1.05);
+        }
+
+        .episode img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .episode .title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #e50914;
+        }
+
+        .episode .synopsis {
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .episode .rating {
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .episode .rating::before {
+            content: "IMDB: ★ ";
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #FFF;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+            text-align: left;
+            color: #000000;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            color: #e50914;
+            margin-top: 20px;
+        }
+
+        .series-box {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .series-box img {
+            width: 100px;
+            height: auto;
+            margin: 10px;
+        }
+
+        .top-rated-episode {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .top-rated-episode img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .top-rated-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #e50914;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .description-container {
+                flex-direction: column;
+            }
+
+            .text-content {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .filter-container {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Updated navbar with the new series title -->
+    <div class="navbar">
+        <div class="welcome">Welcome, guest xyz123</div>
+        <div class="hamburger">
+            <img src="download.png" alt="Menu">
+            <div class="dropdown-content">
+                <a href="profile.html">Profile</a>
+                <a href="logout.html">Logout</a>
+                <a href="home.html">Home</a>
+                <a href="GALLERY.HTML">Stream</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Updated container with the new series title and image -->
+    <div class="container">
+        <div class="header">
+            <img src="family-guy-logo.png" alt="Family Guy Logo">
+            <h1>Family Guy - Overview and Episodes</h1>
+        </div>
+
+        <div class="description-container">
+            <div class="text-content">
+                <h1>Family Guy</h1>
+                <p>1999 | Maturity Rating: U/A 16+ | Animated Sitcom</p>
+                <p>Follow the dysfunctional Griffin family—Peter, Lois, Stewie, Brian, Meg, and Chris—in their hilariously absurd adventures.</p>
+                <p><strong>Starring:</strong> Seth MacFarlane, Alex Borstein, Seth Green</p>
+                <p><strong>Creator:</strong> Seth MacFarlane</p>
+            </div>
+            <div class="image-content">
+                <img src="family-guy-poster.jpg" alt="Family Guy Poster">
+            </div>
+        </div>
+
+        <div class="filter-container">
+            <input type="text" id="search-bar" placeholder="Search for episodes...">
+            <div>
+                <label for="season-filter">Filter by season:</label>
+                <select id="season-filter">
+                    <option value="all">All</option>
+                    <option value="S04">Season 4</option>
+                    <option value="S06">Season 6</option>
+                    <option value="S08">Season 8</option>
+                    <option value="S09">Season 9</option>
+                    <option value="S10">Season 10</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="top-rated-container" class="top-rated-episode">
+            <div class="top-rated-badge">Top Rated</div>
+            <img src="family-guy-logo.png" alt="Top Rated Episode">
+        </div>
+
+        <div id="episodes-container" class="episodes-grid">
+            <!-- Episodes will be dynamically added here -->
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 VR1site. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="episode-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Episode Title</h2>
+            <video id="modal-video" controls>
+                <source id="modal-video-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p id="modal-synopsis">Episode Synopsis</p>
+            <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
+        </div>
+    </div>
+
+    <script>
+        const episodes = [
+    {
+        season: 'S04',
+        img: 'Family Guy S04-S14 (1999-) + Movie (2005)/Family Guy S04 (360p re-dvdrip)/family-guy-s04e01.jpg',
+        title: 'S04E01 - North by North Quahog',
+        synopsis: 'Peter and Lois take a vacation to rekindle their marriage, but the trip goes awry.',
+        rating: '8.4/10',
+        link: '404.mp4'
+    },
+    {
+        season: 'S04',
+        img: 'Family Guy S04-S14 (1999-) + Movie (2005)/Family Guy S04 (360p re-dvdrip)/family-guy-s04e03.jpg',
+        title: 'S04E03 - Blind Ambition',
+        synopsis: 'Peter becomes jealous of his friends’ achievements and decides to set a world record.',
+        rating: '7.9/10',
+        link: '404.mp4'
+    },
+    {
+        season: 'S08',
+        img: 'Family Guy S04-S14 (1999-) + Movie (2005)/Family Guy S08 (360p re-dvdrip)/family-guy-s08e01.jpg',
+        title: 'S08E01 - Road to the Multiverse',
+        synopsis: 'Brian and Stewie explore alternate universes, including one where dogs rule and humans obey.',
+        rating: '9.1/10',
+        link: '404.mp4'
+    },
+    {
+        season: 'S09',
+        img: 'Family Guy S04-S14 (1999-) + Movie (2005)/Family Guy S09 (360p re-webrip)/family-guy-s09e01.jpg',
+        title: 'S09E01 - And Then There Were Fewer',
+        synopsis: 'The Griffins and other Quahog residents are invited to a mysterious mansion, where guests start dying one by one.',
+        rating: '8.6/10',
+        link: '404.mp4'
+    },
+    {
+        season: 'S10',
+        img: 'Family Guy S04-S14 (1999-) + Movie (2005)/Family Guy S10 (360p re-webrip)/family-guy-s10e05.jpg',
+        title: 'S10E05 - Back to the Pilot',
+        synopsis: 'Brian and Stewie travel back to the pilot episode of Family Guy to change history.',
+        rating: '8.8/10',
+        link: '404.mp4'
+    },
+    {
+        season: 'S10',
+        img: 'Family Guy S04-S14 (1999-) + Movie (2005)/Family Guy S10 (360p re-webrip)/family-guy-s10e20.jpg',
+        title: 'S10E20 - Leggo My Meg-O',
+        synopsis: 'Meg gets kidnapped in Paris, and Brian and Stewie embark on a mission to rescue her.',
+        rating: '7.7/10',
+        link: '404.mp4'
+    }
+];
+
+
+        function renderEpisodes() {
+            const container = document.getElementById('episodes-container');
+            const searchBar = document.getElementById('search-bar');
+            const seasonFilter = document.getElementById('season-filter');
+            const filterText = searchBar.value.toLowerCase();
+            const season = seasonFilter.value;
+            let topRatedEpisodes = {};
+
+            container.innerHTML = '';
+
+            const filteredEpisodes = episodes.filter(ep => {
+                const rating = parseFloat(ep.rating.split('/')[0]);
+                if (!topRatedEpisodes[ep.season] || rating > topRatedEpisodes[ep.season].rating) {
+                    topRatedEpisodes[ep.season] = { ...ep, rating };
+                }
+                return (
+                    (season === 'all' || ep.season === season) &&
+                    (ep.title.toLowerCase().includes(filterText) ||
+                    ep.synopsis.toLowerCase().includes(filterText))
+                );
+            });
+
+            const topRatedEpisode = Object.values(topRatedEpisodes).reduce((prev, current) => (current.rating > prev.rating ? current : prev), { rating: 0 });
+
+            if (topRatedEpisode) {
+                document.querySelector('.top-rated-episode img').src = topRatedEpisode.img;
+                document.querySelector('.top-rated-episode img').alt = topRatedEpisode.title;
+                document.querySelector('.top-rated-badge').textContent = `Top Rated: ${topRatedEpisode.title}`;
+                document.querySelector('.top-rated-episode').onclick = () => showDetails(topRatedEpisode);
+            }
+
+            filteredEpisodes.forEach(ep => {
+                const episodeElement = document.createElement('div');
+                episodeElement.classList.add('episode');
+                episodeElement.innerHTML = `
+                    <img src="${ep.img}" alt="${ep.title}">
+                    <div class="title">${ep.title}</div>
+                    <div class="synopsis">${ep.synopsis}</div>
+                    <div class="rating">${ep.rating}</div>
+                `;
+                episodeElement.addEventListener('click', () => showDetails(ep));
+                container.appendChild(episodeElement);
+            });
+        }
+
+        function showDetails(episode) {
+            const modal = document.getElementById('episode-modal');
+            document.getElementById('modal-title').textContent = episode.title;
+            document.getElementById('modal-synopsis').textContent = episode.synopsis;
+            document.getElementById('modal-rating-value').textContent = episode.rating;
+            document.getElementById('modal-video-source').src = episode.link;
+            document.getElementById('modal-video').load();
+            modal.style.display = 'flex';
+        }
+
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('episode-modal').style.display = 'none';
+            document.getElementById('modal-video').pause();
+        });
+
+        window.onclick = event => {
+            if (event.target == document.getElementById('episode-modal')) {
+                document.getElementById('episode-modal').style.display = 'none';
+                document.getElementById('modal-video').pause();
+            }
+        };
+
+        document.getElementById('search-bar').addEventListener('input', renderEpisodes);
+        document.getElementById('season-filter').addEventListener('change', renderEpisodes);
+
+        renderEpisodes();
+
+    </script>
+</body>
+</html>

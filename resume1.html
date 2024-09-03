@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishal R - Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            margin-top: 0;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .highlight {
+            font-weight: bold;
+        }
+        .filter-btn {
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        footer a {
+            text-decoration: none;
+            color: #007bff;
+            margin: 0 10px;
+        }
+        .portfolio-links {
+            margin-top: 10px;
+        }
+        .portfolio-links a {
+            margin: 0 10px;
+        }
+        .bold-link {
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Vishal R - Portfolio</h1>
+    </header>
+    <div class="filter">
+        <h1>FILTER</h1>
+        <button class="filter-btn" onclick="toggleSection('all')">Show All</button>
+        <button class="filter-btn" onclick="toggleSection('education')">Education</button>
+        <button class="filter-btn" onclick="toggleSection('projects')">Projects</button>
+        <button class="filter-btn" onclick="toggleSection('language')">Language Proficiency</button>
+        <button class="filter-btn" onclick="toggleSection('technical')">Technical Skills</button>
+        <button class="filter-btn" onclick="toggleSection('certifications')">Certifications</button>
+        <button class="filter-btn" onclick="toggleSection('contact')">Contact Information</button>
+        <button class="filter-btn" onclick="toggleSection('objective')">Objective</button>
+    </div>
+
+    <div class="container">
+        <div id="objective" style="display: none;">
+            <h2>Objective:</h2>
+            <p>Dynamic and dedicated Electronics and Communication Engineering student with a passion for technology and innovation. Eager to leverage academic knowledge and hands-on experience to contribute to ground-breaking projects in the field of electronics.</p>
+        </div>
+
+        <div id="education" style="display: none;">
+            <h2>Education:</h2>
+            <ul>
+                <li><span class="highlight">Bachelor of Engineering in Electronics and Communication Engineering:</span>
+                    <p>SJCE College of Engineering, JSSSTU University, Mysore. Expected Graduation: June 2025</p>
+                </li>
+                <li><span class="highlight">Pre-University Course:</span>
+                    <p>SBRR Mahajanas Independent Pre-University College</p>
+                </li>
+                <li><span class="highlight">High School:</span>
+                    <p>Podar International School, CBSE<br>
+                    Excel Public School, CBSE<br>
+                    Canara High School, CBSE</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="projects" style="display: none;">
+            <h2>Projects:</h2>
+            <ul>
+                      <li><span class="highlight">A Unified Site with Games, Workout Regimen, Movies, Series, and Much More:</span>
+                    <p>This project is a comprehensive platform that brings together various entertainment and fitness resources in one place. It includes games, workout plans, movies, TV series, and more, making it a versatile and engaging site for users.</p>
+                    <p><a href="main.html" class="bold-link">Click here to view more</a></p>
+                </li>
+                <li><span class="highlight">Density Based Traffic Control System:</span>
+                    <p>Developed a traffic control system utilizing density sensing techniques to regulate traffic flow efficiently. The system is designed to detect traffic density in different lanes and adjust signal timings accordingly to optimize traffic movement and minimize congestion.</p>
+                </li>
+                <li><span class="highlight">Obstacle Detecting Miniature Car with Alert:</span>
+                    <p>Designed and constructed a miniature car equipped with obstacle detection sensors. The car is capable of detecting obstacles in its path and providing real-time alerts to the user, enhancing safety and maneuverability in constrained environments.</p>
+                </li>
+                <li><span class="highlight">Obstacle Detecting Miniature Car with Alert:</span>
+                    <p>Designed and constructed a miniature car equipped with obstacle detection sensors. The car is capable of detecting obstacles in its path and providing real-time alerts to the user, enhancing safety and maneuverability in constrained environments.</p>
+                </li>
+                <li><span class="highlight">Wireless Notice Board:</span>
+                    <p>Implemented a wireless notice board system for the real-time display of announcements and messages. The system enables seamless communication within a designated area, allowing users to remotely update and broadcast information without the need for physical notice boards.</p>
+                </li>
+                <li><span class="highlight">Simulation of Noise Cancellation and Signal Reconstruction:</span>
+                    <p>Conducted a simulation study on noise cancellation techniques and signal reconstruction methods to improve audio quality. The project involved analyzing different algorithms and digital signal processing techniques to mitigate noise interference and enhance the fidelity of audio signals.</p>
+                </li>
+                <li><span class="highlight">Water Level Detector using Servo Motor:</span>
+                    <p>Developed a water level detection system utilizing a servo motor for applications such as tank monitoring and control. The system is designed to accurately measure water levels and provide feedback for automated control or monitoring purposes, ensuring efficient utilization of resources.</p>
+                </li>
+                <li><span class="highlight">STM32 Model for Fire Detection and Extinguishing:</span>
+                    <p>Created a fire detection and extinguishing system using the STM32 microcontroller platform. The system incorporates sensors for detecting fire incidents and triggering prompt extinguishing mechanisms to mitigate potential hazards. It aims to enhance safety measures and minimize damage in fire-prone environments.</p>
+                </li>
+                <li><span class="highlight">Movie Recommendation System with and without SVD using Front-end:</span>
+                    <p>Implemented a movie recommendation system with and without Singular Value Decomposition (SVD) algorithms, accompanied by a user-friendly front-end interface. The system analyzes user preferences and viewing history to generate personalized movie recommendations, facilitating a more engaging and tailored viewing experience.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="language" style="display: none;">
+            <h2>Language Proficiency:</h2>
+            <ul>
+                <li>English</li>
+                <li>Hindi</li>
+                <li>Kannada</li>
+            </ul>
+        </div>
+
+        <div id="technical" style="display: none;">
+            <h2>Technical Skills:</h2>
+            <ul>
+                <li><span class="highlight">Programming Languages:</span> C, C++, MATLAB, Assembly Language, JavaScript, HTML, CSS</li>
+                <li><span class="highlight">Technologies:</span> PLC (Programmable Logic Controller), SCADA (Supervisory Control and Data Acquisition)</li>
+                <li><span class="highlight">Hard Skills:</span> Observation, Decision Making, Management Tasks, Communication, Multi-tasking, Managing and Assigning</li>
+            </ul>
+        </div>
+
+        <div id="certifications" style="display: none;">
+            <h2>Certifications:</h2>
+            <ul>
+                <li>Certified PLC Programmer</li>
+                <li>Certified SCADA Engineer</li>
+                <li>Certified in Embedded IoT Workshop</li>
+            </ul>
+        </div>
+        
+        <div id="contact" style="display: none;">
+            <h2>Contact Information:</h2>
+            <ul>
+                <li><span class="highlight">Phone:</span> +91 9845507248</li>
+                <li><span class="highlight">Email:</span> <a href="mailto:vishal642003@gmail.com">vishal642003@gmail.com</a></li>
+                <li><span class="highlight">LinkedIn:</span> <a href="https://linkedin.com/in/vishal-r-664929292" target="_blank">linkedin.com/in/vishal-r-664929292</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <a href="resume1.pdf" download>Click here to Download PDF</a>
+        <span>|</span>
+        <a href="resume1.pdf" target="_blank">Click here to View PDF</a>
+        <div class="portfolio-links">
+            <a href="resume1.html">Resume</a>
+            <a href="about1.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="index.html">Home</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleSection(sectionId) {
+            var sections = document.querySelectorAll('.container > div');
+            if (sectionId === 'all') {
+                sections.forEach(function(section) {
+                    section.style.display = 'block';
+                });
+            } else {
+                sections.forEach(function(section) {
+                    if (section.id === sectionId) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

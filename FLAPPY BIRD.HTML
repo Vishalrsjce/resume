@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #87CEEB;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+        }
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+        footer {
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #gameOverPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="welcome">Welcome, guest xyz123</div>
+    <div class="hamburger">
+        <img src="download.png" alt="Menu">
+        <div class="dropdown-content">
+            <a href="profile.html">Profile</a>
+            <a href="logout.html">Logout</a>
+            <a href="home.html">Home</a>
+            <a href="GALLERY.HTML">Stream</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+</div>
+
+<canvas id="gameCanvas" width="800" height="400"></canvas>
+
+<div id="gameOverPopup">
+    <img src="png-transparent-bell-flying-bird-flight-floppy-bird-infinity-flappy-bird-fly-animals-insects-smiley.png" alt="Game Over" style="width: 100px; height: 100px;">
+    <p>Game Over!</p>
+    <button onclick="restartGame()">Restart</button>
+</div>
+
+<footer>
+    <div style="text-align: center; color: blue;">
+        <p>&copy; 2024 VR1 Site. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const birdImg = new Image();
+    birdImg.src = "png-transparent-bell-flying-bird-flight-floppy-bird-infinity-flappy-bird-fly-animals-insects-smiley.png";
+
+    const bird = {
+        x: 50,
+        y: canvas.height / 2 - 15,
+        width: 30,
+        height: 30,
+        velocity: 0,
+        gravity: 0.5,
+        jumpStrength: 8,
+    };
+
+    let pipes = [];
+    let score = 0;
+    let gameOver = false;
+
+    function drawBird() {
+        ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+    }
+
+    function drawPipes() {
+        for (let i = 0; i < pipes.length; i++) {
+            ctx.fillStyle = "green";
+            ctx.fillRect(pipes[i].x, pipes[i].y, pipes[i].width, pipes[i].height);
+        }
+    }
+
+    function jumpBird() {
+        bird.velocity = -bird.jumpStrength;
+    }
+
+    function updateGameArea() {
+        if (gameOver) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        bird.velocity += bird.gravity;
+        bird.y += bird.velocity;
+
+        if (bird.y < 0) {
+            bird.y = 0;
+            bird.velocity = 0;
+        } else if (bird.y + bird.height > canvas.height) {
+            bird.y = canvas.height - bird.height;
+            bird.velocity = 0;
+        }
+
+        drawBird();
+
+        if (Math.random() < 0.01) {
+            const gapHeight = 200;
+            const minHeight = 50;
+            const pipeHeight = Math.floor(Math.random() * (canvas.height - gapHeight - 2 * minHeight)) + minHeight;
+
+            const upperPipe = {
+                x: canvas.width,
+                y: 0,
+                width: 30,
+                height: pipeHeight,
+                passed: false,
+            };
+
+            const lowerPipe = {
+                x: canvas.width,
+                y: pipeHeight + gapHeight,
+                width: 30,
+                height: canvas.height - (pipeHeight + gapHeight),
+                passed: false,
+            };
+
+            pipes.push(upperPipe, lowerPipe);
+        }
+
+        for (let i = 0; i < pipes.length; i++) {
+            pipes[i].x -= 3;
+
+            if (
+                bird.x < pipes[i].x + pipes[i].width &&
+                bird.x + bird.width > pipes[i].x &&
+                bird.y < pipes[i].y + pipes[i].height &&
+                bird.y + bird.height > pipes[i].y
+            ) {
+                gameOver = true;
+                document.getElementById("gameOverPopup").style.display = "block";
+            }
+
+            if (pipes[i].x + pipes[i].width < bird.x && !pipes[i].passed) {
+                score++;
+                pipes[i].passed = true;
+            }
+        }
+
+        drawPipes();
+
+        ctx.fillStyle = "black";
+        ctx.font = "20px Arial";
+        ctx.fillText("Score: " + score, 10, 30);
+
+        requestAnimationFrame(updateGameArea);
+    }
+
+    function restartGame() {
+        gameOver = false;
+        pipes = [];
+        score = 0;
+        bird.y = canvas.height / 2 - 15;
+        bird.velocity = 0;
+        document.getElementById("gameOverPopup").style.display = "none";
+        updateGameArea();
+    }
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === " ") {
+            jumpBird();
+        }
+    });
+
+    updateGameArea();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Protected Site</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ADD8E6; /* Light blue background color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 50px;
+            text-align: center;
+        }
+
+        .header-container {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+
+        .header-container img {
+            width: 100%;
+            height: auto;
+        }
+
+        .header-container .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-container .overlay h2 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .header-container .overlay p {
+            font-size: 1.2em;
+            margin: 10px 0 20px;
+            max-width: 80%;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        p#message {
+            margin-top: 20px;
+            color: #888;
+        }
+
+        a#enterSiteLink {
+            display: none;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .slide-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #fff;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-container .text-box {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .slide-container .text-box h3 {
+            margin-top: 0;
+        }
+
+        .slide-container .image-box {
+            flex: 1;
+            text-align: right;
+        }
+
+        .slide-container .image-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-container">
+            <img src="PAGE 1.jpg" alt="Unlimited Moves Shows Gaming Workout Variations and More">
+            <div class="overlay">
+                <h2>VR1 Account Login</h2>
+                <p>Has movies, TV sitcoms, games, workout regimen, and more.</p>
+                <p>Use anywhere, cancel anytime.</p>
+                <p>Ready to explore? Enter your Gmail ID and password.</p>
+                <form id="verificationForm" onsubmit="checkGmail(); return false;">
+                    <label for="gmail">Enter Gmail ID:</label>
+                    <input type="email" id="gmail" required>
+                    <button type="submit">Next</button>
+                </form>
+
+                <form id="passwordForm" style="display: none;" onsubmit="checkPassword(); return false;">
+                    <label for="password">Enter Password:</label>
+                    <input type="password" id="password" required>
+                    <button type="submit">Enter</button>
+                </form>
+
+                <p id="message"></p>
+                
+                <p><a href="home.html" id="enterSiteLink">Enter the Site</a></p>
+            </div>
+        </div>
+
+        <div class="slide-container">
+            <div class="text-box">
+                <h3>Enjoy on your Devices</h3>
+                <p>Watch on Smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-Ray players, and more.</p>
+            </div>
+            <div class="image-box">
+                <img src="TV SLIDE.png" alt="Devices">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 VR1 Site. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const correctGmail = "guest_xyz123@vr1.com";
+        const correctPassword = "vr1isgreat";
+
+        function checkGmail() {
+            const enteredGmail = document.getElementById("gmail").value;
+            const messageElement = document.getElementById("message");
+            const verificationForm = document.getElementById("verificationForm");
+            const passwordForm = document.getElementById("passwordForm");
+
+            if (enteredGmail === correctGmail) {
+                messageElement.innerHTML = "Gmail ID correct. Please enter the password.";
+                verificationForm.style.display = "none";
+                passwordForm.style.display = "block";
+            } else {
+                messageElement.innerHTML = "Incorrect Gmail ID. Please try again.";
+            }
+        }
+
+        function checkPassword() {
+            const enteredPassword = document.getElementById("password").value;
+            const messageElement = document.getElementById("message");
+            const enterSiteLink = document.getElementById("enterSiteLink");
+
+            if (enteredPassword === correctPassword) {
+                messageElement.innerHTML = "Welcome! You can now enter the site.";
+                enterSiteLink.style.display = "block";
+            } else {
+                messageElement.innerHTML = "Incorrect password. Please try again.";
+                enterSiteLink.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>

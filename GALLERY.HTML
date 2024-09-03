@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Gallery</title>
+    <style>
+        /* Existing CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #ADD8E6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+            width: 100%;
+        }
+
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 60px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #e50914;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .filter-buttons button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .filter-buttons button:hover {
+            background-color: #555;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .movie {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #FFF;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .movie:hover {
+            transform: scale(1.05);
+        }
+
+        .movie img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .movie .title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #e50914;
+        }
+
+        .movie .synopsis {
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .movie .rating {
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .movie .rating::before {
+            content: "IMDB: ★ ";
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #FFF;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+            text-align: left;
+            color: #000000;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            color: #e50914;
+            margin-top: 20px;
+        }
+
+        .top-rated-movie {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .top-rated-movie img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .top-rated-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #e50914;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .description-container {
+                flex-direction: column;
+            }
+
+            .text-content {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .modal-content {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+
+        /* Search Bar Styles */
+        .search-bar {
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: box-shadow 0.3s;
+        }
+
+        .search-bar input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="welcome">Welcome, guest xyz123</div>
+        <div class="hamburger">
+            <img src="download.png" alt="Menu">
+            <div class="dropdown-content">
+                <a href="profile.html">Profile</a>
+                <a href="logout.html">Logout</a>
+                <a href="home.html">Home</a>
+                <a href="wishlist.html">Wishlist</a>
+                <a href="stream.html">Stream</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+  <div class="header">
+    <img src="netflix-mobile-application-logo-free-png.webp" alt="Gallery Logo">
+
+
+            <h1>Movie Gallery</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for movies...">
+        </div>
+
+<div class="filter-buttons">
+    <button onclick="filterMovies('all')">All</button>
+    <button onclick="filterMovies('action')">Action</button>
+    <button onclick="filterMovies('comedy')">Comedy</button>
+    <button onclick="filterMovies('adventure')">Adventure</button>
+    <button onclick="filterMovies('superhero')">Super Hero</button>
+    <button onclick="filterMovies('thriller')">Thriller</button> <!-- New button for Thriller -->
+    <button onclick="filterMovies('romance')">Romance</button>   <!-- New button for Romance -->
+    <button onclick="filterMovies('sci-fi')">Sci-Fi</button>     <!-- New button for Sci-Fi -->
+</div>
+
+        <div id="top-rated-container" class="top-rated-movie">
+            <div class="top-rated-badge">Top Rated</div>
+            <img src="netflix-mobile-application-logo-free-png.webp" alt="Top Rated Movie">
+        </div>
+
+        <div id="movies-container" class="movies-grid">
+            <!-- Movies will be dynamically added here -->
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 VR1 Site. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Movie Title</h2>
+            <video id="modal-video" controls>
+                <source id="modal-video-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p id="modal-synopsis">Movie Synopsis</p>
+            <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
+        </div>
+    </div>
+
+    <script>
+      const movies = [
+    {
+        genre: ['adventure', 'thriller'],
+        img: 'Uncharted_(2022)_[720p]_[YTStv.lol].jpg',
+        title: "Uncharted (2022)",
+        synopsis: "Nathan Drake embarks on a treasure hunt...",
+        rating: '6.4/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['adventure', 'action'],
+        img: 'ford_v_ferrari.jpg',
+        title: "Ford v Ferrari (2019)",
+        synopsis: "The story of Ford's effort to build a car...",
+        rating: '8.1/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['comedy', 'romance'],
+        img: '17_again.jpg',
+        title: "17 Again (2009)",
+        synopsis: "A 37-year-old man wakes up to find he's 17 again...",
+        rating: '6.7/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['comedy', 'action'],
+        img: 'Rush_Hour_2_(2001)[720p]_[YTStv.lol].jpg',
+        title: "Rush Hour 2 (2001)",
+        synopsis: "Detectives Carter and Lee return to solve a new case involving counterfeit money.",
+        rating: '6.6/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['comedy', 'action'],
+        img: 'Rush Hour 1 (1998).jpg',
+        title: "Rush Hour (1998)",
+        synopsis: "A Hong Kong detective and an LAPD detective team up to rescue a kidnapped girl.",
+        rating: '7.0/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'comedy', 'thriller'],
+        img: 'Red_Notice_(2021)_[720p]_[YTStv.lol].jpg',
+        title: "Red Notice (2021)",
+        synopsis: "An Interpol agent tracks the world's most wanted art thief...",
+        rating: '6.3/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'thriller'],
+        img: 'John_Wick_Chapter_4_(2023)_[720p]_[YTStv.lol].jpg',
+        title: "John Wick: Chapter 4 (2023)",
+        synopsis: "John Wick uncovers a path to defeating The High Table...",
+        rating: '8.1/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['comedy', 'action', 'sci-fi'],
+        img: 'The_Fall_Guy_(2024)_[720p]_[YTStv.lol].jpg',
+        title: "The Fall Guy (2024)",
+        synopsis: "A retired stuntman returns to work on a movie...",
+        rating: 'N/A',
+        link: "404.mp4"
+    },
+    {
+        genre: ['comedy', 'thriller'],
+        img: 'knives_out.jpg',
+        title: "Knives Out (2019)",
+        synopsis: "A detective investigates the death of a patriarch...",
+        rating: '7.9/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['adventure', 'family'],
+        img: 'spirit.jpg',
+        title: "Spirit: Stallion of the Cimarron",
+        synopsis: "The mustang Spirit goes on a journey...",
+        rating: '7.2/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'superhero'],
+        img: 'X-Men.2000.720p.BrRip.x264.YIFY.jpg',
+        title: "X-Men (2000)",
+        synopsis: "Two mutants come to a private academy for mutants...",
+        rating: '7.4/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'superhero'],
+        img: 'X-Men.2.2003.720p.BrRip.x264.YIFY.jpg',
+        title: "X-Men 2 (2003)",
+        synopsis: "The X-Men band together to find a mutant assassin...",
+        rating: '7.5/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'superhero'],
+        img: 'X.Men.Days.of.Future.Past.2014.720p.BluRay.x264.YIFY.jpg',
+        title: "X-Men: Days of Future Past (2014)",
+        synopsis: "The X-Men send Wolverine to the past...",
+        rating: '8.0/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'superhero'],
+        img: 'The.Wolverine..2013.720p.BluRay.x264.YIFY.jpg',
+        title: "The Wolverine (2013)",
+        synopsis: "Wolverine travels to Japan...",
+        rating: '6.7/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'thriller', 'superhero'],
+        img: 'The_Dark_Knight_(2008)[720p]_[YTStv.lol].jpg',
+        title: "The Dark Knight (2008)",
+        synopsis: "Batman faces the Joker, a criminal mastermind...",
+        rating: '9.0/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'comedy', 'action'],
+        img: 'deadpool_2.jpg',
+        title: "Deadpool 2 (2018)",
+        synopsis: "Deadpool forms a team to protect a young mutant...",
+        rating: '7.7/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'superhero'],
+        img: 'thor.jpg',
+        title: "Thor (2011)",
+        synopsis: "Thor, the god of thunder...",
+        rating: '6.8/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'superhero'],
+        img: 'avengers_endgame.jpg',
+        title: "Avengers: Endgame (2019)",
+        synopsis: "After the devastating events of Avengers: Infinity War...",
+        rating: '8.4/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'action', 'romance'],
+        img: 'spiderman_far_from_home.jpg',
+        title: "Spider-Man: Far From Home (2019)",
+        synopsis: "Following the events of Avengers: Endgame...",
+        rating: '7.3/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'action', 'thriller'],
+        img: 'spiderman_no_way_home.jpg',
+        title: "Spider-Man: No Way Home (2021)",
+        synopsis: "Peter Parker seeks help from Doctor Strange...",
+        rating: '8.4/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'sci-fi', 'action'],
+        img: 'ant_man.jpg',
+        title: "Ant-Man (2015)",
+        synopsis: "Scott Lang becomes Ant-Man...",
+        rating: '7.3/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'sci-fi', 'action'],
+        img: 'ant_man_and_the_wasp.jpg',
+        title: "Ant-Man and the Wasp (2018)",
+        synopsis: "Scott Lang teams up with the Wasp...",
+        rating: '7.3/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'sci-fi', 'action'],
+        img: 'avengers_infinity_war.jpg',
+        title: "Avengers: Infinity War (2018)",
+        synopsis: "The Avengers must stop Thanos...",
+        rating: '8.4/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'sci-fi', 'action'],
+        img: 'guardians_of_the_galaxy.jpg',
+        title: "Guardians of the Galaxy (2014)",
+        synopsis: "A group of intergalactic criminals must pull together...",
+        rating: '8.0/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['superhero', 'sci-fi', 'action'],
+        img: 'spiderman_homecoming.jpg',
+        title: "Spider-Man: Homecoming (2017)",
+        synopsis: "Peter Parker tries to balance high school life...",
+        rating: '7.4/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['adventure', 'sci-fi', 'superhero'],
+        img: 'thor_ragnarok.jpg',
+        title: "Thor: Ragnarok (2017)",
+        synopsis: "Thor must escape from the alien planet Sakaar...",
+        rating: '7.9/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'thriller'],
+        img: 'captain_america.jpg',
+        title: "Captain America (2011)",
+        synopsis: "Steve Rogers becomes Captain America...",
+        rating: '6.9/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'sci-fi', 'thriller'],
+        img: 'captain_america_civil_war.jpg',
+        title: "Captain America: Civil War (2016)",
+        synopsis: "The Avengers are divided...",
+        rating: '7.8/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['action', 'thriller'],
+        img: 'The_Gray_Man_(2022)_[720p]_[YTStv.lol].jpg',
+        title: "The Gray Man (2022)",
+        synopsis: "A CIA operative is hunted by a rogue agent...",
+        rating: '6.5/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['comedy', 'adventure', 'sci-fi'],
+        img: 'Back to the Future.jpg',
+        title: "Back to the Future (1985)",
+        synopsis: "Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past...",
+        rating: '8.5/10',
+        link: "404.mp4"
+    },
+    {
+        genre: ['comedy', 'sci-fi', 'action'],
+        img: 'free-guy-2021.jpg',
+        title: "Free Guy (2021)",
+        synopsis: "A bank teller discovers he's actually a background player in an open-world video game...",
+        rating: '7.2/10',
+        link: "404.mp4"
+    }
+];
+
+function renderMovies(filteredMovies = movies) {
+    // Sort movies alphabetically by title
+    filteredMovies.sort((a, b) => a.title.localeCompare(b.title));
+
+    const container = document.getElementById('movies-container');
+    let topRatedMovie = filteredMovies[0];
+
+    container.innerHTML = '';
+
+    filteredMovies.forEach(movie => {
+        const rating = parseFloat(movie.rating.split('/')[0]);
+        if (rating > parseFloat(topRatedMovie.rating.split('/')[0])) {
+            topRatedMovie = movie;
+        }
+
+        const movieElement = document.createElement('div');
+        movieElement.classList.add('movie');
+        movieElement.innerHTML = `
+            <img src="${movie.img}" alt="${movie.title}">
+            <div class="title">${movie.title}</div>
+            <div class="synopsis">${movie.synopsis}</div>
+            <div class="rating">${movie.rating}</div>
+        `;
+        movieElement.addEventListener('click', () => showDetails(movie));
+        container.appendChild(movieElement);
+    });
+
+    if (topRatedMovie) {
+        document.querySelector('.top-rated-movie img').src = topRatedMovie.img;
+        document.querySelector('.top-rated-movie img').alt = topRatedMovie.title;
+        document.querySelector('.top-rated-badge').textContent = `Top Rated: ${topRatedMovie.title}`;
+        document.querySelector('.top-rated-movie').onclick = () => showDetails(topRatedMovie);
+    }
+}
+
+function showDetails(movie) {
+    const modal = document.getElementById('movie-modal');
+    document.getElementById('modal-title').textContent = movie.title;
+    document.getElementById('modal-synopsis').textContent = movie.synopsis;
+    document.getElementById('modal-rating-value').textContent = movie.rating;
+    document.getElementById('modal-video-source').src = movie.link;
+    document.getElementById('modal-video').load();
+    modal.style.display = 'flex';
+}
+
+document.querySelector('.close').addEventListener('click', () => {
+    document.getElementById('movie-modal').style.display = 'none';
+    document.getElementById('modal-video').pause();
+});
+
+window.onclick = event => {
+    if (event.target == document.getElementById('movie-modal')) {
+        document.getElementById('movie-modal').style.display = 'none';
+        document.getElementById('modal-video').pause();
+    }
+};
+
+function filterMovies(genre) {
+    const filteredMovies = genre === 'all' ? movies : movies.filter(movie => movie.genre.includes(genre));
+    renderMovies(filteredMovies);
+}
+
+function searchMovies(query) {
+    const lowerCaseQuery = query.toLowerCase();
+    const filteredMovies = movies.filter(movie => 
+        movie.title.toLowerCase().includes(lowerCaseQuery)
+    );
+    renderMovies(filteredMovies);
+}
+
+document.getElementById('search-input').addEventListener('input', (event) => {
+    searchMovies(event.target.value);
+});
+
+renderMovies(movies);
+
+    </script>
+
+</body>
+
+</html>

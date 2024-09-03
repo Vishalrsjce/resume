@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends Episodes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #ADD8E6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 10px;
+            color: white;
+            width: 100%;
+        }
+
+        .navbar .welcome {
+            margin-left: 10px;
+        }
+
+        .navbar .hamburger {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar .hamburger img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .hamburger:hover .dropdown-content {
+            display: block;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 60px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #e50914;
+        }
+
+        .description-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .text-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 10px;
+            margin-right: 20px;
+            min-width: 300px;
+        }
+
+        .text-content h1 {
+            font-size: 2em;
+            margin: 0 0 10px 0;
+            color: #e50914;
+        }
+
+        .text-content p {
+            margin: 10px 0;
+        }
+
+        .image-content {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .image-content img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .episode {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #FFF;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            text-align: center;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .episode:hover {
+            transform: scale(1.05);
+        }
+
+        .episode img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .episode .title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #e50914;
+        }
+
+        .episode .synopsis {
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .episode .rating {
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .episode .rating::before {
+            content: "IMDB: ★ ";
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #FFF;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+            text-align: left;
+            color: #000000;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            color: #e50914;
+            margin-top: 20px;
+        }
+
+        .top-rated-episode {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .top-rated-episode img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .top-rated-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #e50914;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .description-container {
+                flex-direction: column;
+            }
+
+            .text-content {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .modal-content {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="welcome">Welcome, guest xyz123</div>
+        <div class="hamburger">
+            <img src="download.png" alt="Menu">
+            <div class="dropdown-content">
+                <a href="profile.html">Profile</a>
+                <a href="logout.html">Logout</a>
+                <a href="home.html">Home</a>
+                <a href="GALLERY.HTML">Stream</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <img src="friends-logo-png-transparent.png" alt="Friends Logo">
+            <h1>Friends Overview and Episodes</h1>
+        </div>
+
+        <div class="description-container">
+            <div class="text-content">
+                <h1>Friends</h1>
+                <p>1994 | Maturity Rating: U/A 13+ | Season 8 | Sitcom</p>
+                <p>Follow the lives of six reckless adults living in Manhattan, as they indulge in adventures which make their lives both troublesome and happening.</p>
+                <p><strong>Starring:</strong> Jennifer Aniston, Courteney Cox, Lisa Kudrow</p>
+                <p><strong>Creators:</strong> David Crane, Marta Kauffman</p>
+            </div>
+            <div class="image-content">
+                <img src="wp6449504.webp" alt="Modern Family Poster">
+            </div>
+        </div>
+
+        <div id="top-rated-container" class="top-rated-episode">
+            <div class="top-rated-badge">Top Rated</div>
+            <img src="friends-logo-png-transparent.png" alt="Top Rated Episode">
+        </div>
+
+        <div id="episodes-container" class="episodes-grid">
+            <!-- Episodes will be dynamically added here -->
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 VR1 Site. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="episode-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Episode Title</h2>
+            <video id="modal-video" controls>
+                <source id="modal-video-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+                <track id="modal-captions" kind="captions" srclang="en" label="English">
+            </video>
+            <p id="modal-synopsis">Episode Synopsis</p>
+            <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
+        </div>
+    </div>
+
+    <script>
+  const episodes = [
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_86817.png',
+                title: "S08E01 - The One After 'I Do'",
+                synopsis: "Monica and Chandler begin their married life and Ross learns Rachel is pregnant.",
+                rating: '8.4/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_970196.png',
+                title: "S08E02 - The One with the Red Sweater",
+                synopsis: "The gang discovers that the red sweater belongs to the father of Rachel's baby.",
+                rating: '8.6/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_103697.png',
+                title: "S08E03 - The One Where Rachel Tells...",
+                synopsis: "Rachel tells Ross she's pregnant with his child.",
+                rating: '8.6/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_863983.png',
+                title: "S08E04 - The One with the Videotape",
+                synopsis: "Ross and Rachel reveal how they ended up getting pregnant.",
+                rating: '8.7/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_1159422.png',
+                title: "S08E05 - The One with Rachel's Date",
+                synopsis: "Phoebe begins dating a guy who works for Monica.",
+                rating: '8.4/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_204786.png',
+                title: "S08E06 - The One with the Halloween Party",
+                synopsis: "Monica and Chandler throw a Halloween party.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_364448.png',
+                title: "S08E07 - The One with the Stain",
+                synopsis: "Chandler hires a maid whom Monica suspects is stealing her clothes.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_893391.png',
+                title: "S08E08 - The One with the Stripper",
+                synopsis: "Rachel's father learns she is pregnant, and Monica hires a stripper for Chandler.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_320910.png',
+                title: "S08E09 - The One with the Rumor",
+                synopsis: "Ross's high school friend visits for Thanksgiving and reveals he started a rumor about Rachel.",
+                rating: '8.9/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_782787.png',
+                title: "S08E10 - The One with Monica's Boots",
+                synopsis: "Monica buys expensive boots that Chandler doesn't like.",
+                rating: '8.2/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_1032346.png',
+                title: "S08E11 - The One with Ross's Step Forward",
+                synopsis: "Ross freaks out when Mona wants to send a joint Christmas card.",
+                rating: '8.3/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_508094.png',
+                title: "S08E12 - The One Where Joey Dates Rachel",
+                synopsis: "Joey asks Rachel on a date as a friend.",
+                rating: '8.4/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_688243.png',
+                title: "S08E13 - The One Where Chandler Takes a Bath",
+                synopsis: "Chandler starts enjoying baths.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_292247.png',
+                title: "S08E14 - The One with the Secret Closet",
+                synopsis: "Chandler discovers a secret closet in their apartment.",
+                rating: '8.4/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_481409.png',
+                title: "S08E15 - The One with the Birthing Video",
+                synopsis: "Phoebe brings Monica and Chandler a birthing video.",
+                rating: '8.6/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_1102713.png',
+                title: "S08E16 - The One Where Joey Tells Rachel",
+                synopsis: "Joey tells Rachel he has feelings for her.",
+                rating: '8.6/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_210119.png',
+                title: "S08E17 - The One with the Tea Leaves",
+                synopsis: "Rachel breaks up with her current boyfriend and reads her tea leaves.",
+                rating: '8.3/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_318675.png',
+                title: "S08E18 - The One in Massapequa",
+                synopsis: "The gang goes to Massapequa for Ross and Monica's parents' anniversary party.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_171983.png',
+                title: "S08E19 - The One with Joey's Interview",
+                synopsis: "Joey gives an interview with Soap Opera Digest.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_642091.png',
+                title: "S08E20 - The One with the Baby Shower",
+                synopsis: "Rachel panics when she realizes she is not ready for the baby.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_606894.png',
+                title: "S08E21 - The One with the Cooking Class",
+                synopsis: "Monica's restaurant gets a bad review, and she confronts the critic.",
+                rating: '8.4/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_198387.png',
+                title: "S08E22 - The One Where Rachel is Late",
+                synopsis: "Rachel is overdue and becomes extremely irritable.",
+                rating: '8.5/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_194120.png',
+                title: "S08E23 - The One Where Rachel Has a Baby: Part 1",
+                synopsis: "Rachel goes into labor, and the gang arrives at the hospital.",
+                rating: '8.8/10',
+                link: "404.mkv"
+            },
+            {
+                season: 'S08',
+                img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S08/videoframe_906520.png',
+                title: "S08E24 - The One Where Rachel Has a Baby: Part 2",
+                synopsis: "Rachel has her baby, and Ross considers proposing to her.",
+                rating: '8.9/10',
+                link: "404.mkv"
+            }
+        ];
+
+
+
+
+        function renderEpisodes() {
+            const container = document.getElementById('episodes-container');
+            let topRatedEpisode = episodes[0];
+
+            container.innerHTML = '';
+
+            episodes.forEach(ep => {
+                const rating = parseFloat(ep.rating.split('/')[0]);
+                if (rating > parseFloat(topRatedEpisode.rating.split('/')[0])) {
+                    topRatedEpisode = ep;
+                }
+
+                const episodeElement = document.createElement('div');
+                episodeElement.classList.add('episode');
+                episodeElement.innerHTML = `
+                    <img src="${ep.img}" alt="${ep.title}">
+                    <div class="title">${ep.title}</div>
+                    <div class="synopsis">${ep.synopsis}</div>
+                    <div class="rating">${ep.rating}</div>
+                `;
+                episodeElement.addEventListener('click', () => showDetails(ep));
+                container.appendChild(episodeElement);
+            });
+
+            if (topRatedEpisode) {
+                document.querySelector('.top-rated-episode img').src = topRatedEpisode.img;
+                document.querySelector('.top-rated-episode img').alt = topRatedEpisode.title;
+                document.querySelector('.top-rated-badge').textContent = `Top Rated: ${topRatedEpisode.title}`;
+                document.querySelector('.top-rated-episode').onclick = () => showDetails(topRatedEpisode);
+            }
+        }
+
+        function showDetails(episode) {
+            const modal = document.getElementById('episode-modal');
+            document.getElementById('modal-title').textContent = episode.title;
+            document.getElementById('modal-synopsis').textContent = episode.synopsis;
+            document.getElementById('modal-rating-value').textContent = episode.rating;
+            document.getElementById('modal-video-source').src = episode.link;
+            document.getElementById('modal-captions').src = episode.link.replace('.mkv', '.vtt'); // Assuming VTT captions are available
+            document.getElementById('modal-video').load();
+            modal.style.display = 'flex';
+        }
+
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('episode-modal').style.display = 'none';
+            document.getElementById('modal-video').pause();
+        });
+
+        window.onclick = event => {
+            if (event.target == document.getElementById('episode-modal')) {
+                document.getElementById('episode-modal').style.display = 'none';
+                document.getElementById('modal-video').pause();
+            }
+        };
+
+        renderEpisodes();
+    </script>
+</body>
+
+</html>
