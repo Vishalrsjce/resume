@@ -144,6 +144,7 @@
     let pipes = [];
     let score = 0;
     let gameOver = false;
+    let cheatEnabled = false;  // Cheat flag
 
     function drawBird() {
         ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
@@ -206,6 +207,7 @@
             pipes[i].x -= 3;
 
             if (
+                !cheatEnabled && // Check the cheat flag
                 bird.x < pipes[i].x + pipes[i].width &&
                 bird.x + bird.width > pipes[i].x &&
                 bird.y < pipes[i].y + pipes[i].height &&
@@ -230,6 +232,11 @@
         requestAnimationFrame(updateGameArea);
     }
 
+    function startGame() {
+        document.getElementById("rulesPopup").style.display = "none";
+        updateGameArea();
+    }
+
     function restartGame() {
         gameOver = false;
         pipes = [];
@@ -240,25 +247,34 @@
         updateGameArea();
     }
 
-    function startGame() {
-        document.getElementById("rulesPopup").style.display = "none";
-        updateGameArea();
-    }
-
     document.addEventListener("keydown", function(event) {
         if (event.key === " ") {
             jumpBird();
         }
     });
 
-    document.addEventListener("touchstart", function() {
+    document.addEventListener("touchstart", function(event) {
         jumpBird();
     });
 
+    window.addEventListener('resize', function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
     window.onload = function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         document.getElementById("rulesPopup").style.display = "block";
     };
+
+    // Console cheat command
+    window.toggleCheat = function() {
+        cheatEnabled = !cheatEnabled;
+        console.log("Cheat mode: " + (cheatEnabled ? "ON" : "OFF"));
+    };
 </script>
+
 
 </body>
 </html>
