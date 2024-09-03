@@ -82,6 +82,7 @@
             background-color: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
             text-align: center;
+            z-index: 10;
         }
     </style>
 </head>
@@ -111,11 +112,11 @@
 
 <div id="rulesPopup">
     <h2>Game Rules</h2>
-    <p>Your goal is to navigate the bird through the pipes without hitting them. Tap the screen or press the spacebar to make the bird jump. Avoid touching the ground or the top of the screen. Good luck!</p>
-    <button onclick="closeRules()">Close</button>
+    <p>- Press the spacebar or tap to make the bird jump.</p>
+    <p>- Avoid the pipes and score points by passing between them.</p>
+    <p>- The game ends if the bird hits a pipe or the ground.</p>
+    <button onclick="startGame()">Start Game</button>
 </div>
-
-<button style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" onclick="showRules()">Rules</button>
 
 <footer>
     <div style="text-align: center; color: blue;">
@@ -239,25 +240,24 @@
         updateGameArea();
     }
 
+    function startGame() {
+        document.getElementById("rulesPopup").style.display = "none";
+        updateGameArea();
+    }
+
     document.addEventListener("keydown", function(event) {
         if (event.key === " ") {
             jumpBird();
         }
     });
 
-    canvas.addEventListener("touchstart", function() {
+    document.addEventListener("touchstart", function() {
         jumpBird();
     });
 
-    function showRules() {
+    window.onload = function() {
         document.getElementById("rulesPopup").style.display = "block";
-    }
-
-    function closeRules() {
-        document.getElementById("rulesPopup").style.display = "none";
-    }
-
-    updateGameArea();
+    };
 </script>
 
 </body>
