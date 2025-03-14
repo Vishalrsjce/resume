@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos-Enhanced Vigenère Cipher</title>
+    <style>
+        /* Same styling as provided */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: #00ff00;
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+        }
+        .output, .steps {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+        }
+        label, button {
+            color: #00ff00;
+        }
+        button {
+            background-color: black;
+            border: 1px solid #00ff00;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00ff00;
+            color: black;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="container">
+        <h2>Chaos-Enhanced Vigenère Cipher</h2>
+        
+        <label for="plaintext">Enter Plaintext:</label>
+        <textarea id="plaintext" rows="3" style="width: 100%;"></textarea>
+        
+        <label for="ciphertext">Enter Ciphertext (for Decryption):</label>
+        <textarea id="ciphertext" rows="3" style="width: 100%;"></textarea>
+
+        <label for="initialKey">Initial Key (k0):</label>
+        <input type="number" id="initialKey" min="0" max="99999" style="width: 100%;" />
+        
+        <label for="rValue">Parameter r (0 to 4):</label>
+        <input type="number" id="rValue" step="0.01" min="0" max="4" style="width: 100%;" />
+
+        <button onclick="encrypt()">Encrypt</button>
+        <button onclick="decrypt()">Decrypt</button>
+
+        <div class="output">
+            <h3>Output:</h3>
+            <p id="output"></p>
+        </div>
+
+        <div class="steps">
+            <h3>Step-by-Step Process</h3>
+            <div id="steps"></div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix effect setup
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff00';
+            ctx.font = `${fontSize}px monospace`;
+
+            drops.forEach((y, i) => {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                const x = i * fontSize;
+                ctx.fillText(text, x, y * fontSize);
+
+                if (y * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            });
+        }
+        setInterval(drawMatrix, 50);
+
+        // Cipher functions
+        function logisticMap(key, r) {
+            return (r * key * (1 - key)) % 1;
+        }
+
+        function generateKeyStream(initialKey, r, length) {
+            let keyStream = [];
+            let key = initialKey / 100000; // Normalize initialKey to be between 0 and 1
+            for (let i = 0; i < length; i++) {
+                key = logisticMap(key, r);
+                keyStream.push(Math.floor(key * 26)); // Scale to 0-25 for alphabet
+            }
+            return keyStream;
+        }
+
+        function textToNumbers(text) {
+            return text.toLowerCase().split('').map(char => {
+                return char >= 'a' && char <= 'z' ? char.charCodeAt(0) - 97 : -1;
+            });
+        }
+
+        function numbersToText(numbers) {
+            return numbers.map(num => {
+                return num >= 0 ? String.fromCharCode(num + 97) : ' ';
+            }).join('');
+        }
+
+        function showSteps(steps) {
+            const stepsDiv = document.getElementById("steps");
+            stepsDiv.innerHTML = steps.join("<br>");
+        }
+
+        function encrypt() {
+            const plaintext = document.getElementById("plaintext").value;
+            const initialKey = parseInt(document.getElementById("initialKey").value);
+            const r = parseFloat(document.getElementById("rValue").value);
+            const steps = [];
+
+            if (isNaN(initialKey) || isNaN(r) || r < 0 || r > 4) {
+                alert("Please enter a valid initial key and r value.");
+                return;
+            }
+
+            const plainNumbers = textToNumbers(plaintext);
+            const keyStream = generateKeyStream(initialKey, r, plainNumbers.length);
+            steps.push(`<strong>Plaintext Numeric:</strong> ${plainNumbers.join(", ")}`);
+            steps.push(`<strong>Key Stream:</strong> ${keyStream.join(", ")}`);
+
+            const encryptedNumbers = plainNumbers.map((num, i) => {
+                return num >= 0 ? (num + keyStream[i]) % 26 : num;
+            });
+            steps.push(`<strong>Encrypted Numeric:</strong> ${encryptedNumbers.join(", ")}`);
+
+            const encryptedText = numbersToText(encryptedNumbers);
+            document.getElementById("output").innerText = `Encrypted Text: ${encryptedText}`;
+            showSteps(steps);
+        }
+
+        function decrypt() {
+            const ciphertext = document.getElementById("ciphertext").value;
+            const initialKey = parseInt(document.getElementById("initialKey").value);
+            const r = parseFloat(document.getElementById("rValue").value);
+            const steps = [];
+
+            if (isNaN(initialKey) || isNaN(r) || r < 0 || r > 4) {
+                alert("Please enter a valid initial key and r value.");
+                return;
+            }
+
+            const cipherNumbers = textToNumbers(ciphertext);
+            const keyStream = generateKeyStream(initialKey, r, cipherNumbers.length);
+            steps.push(`<strong>Ciphertext Numeric:</strong> ${cipherNumbers.join(", ")}`);
+            steps.push(`<strong>Key Stream:</strong> ${keyStream.join(", ")}`);
+
+            const decryptedNumbers = cipherNumbers.map((num, i) => {
+                return num >= 0 ? (num - keyStream[i] + 26) % 26 : num;
+            });
+            steps.push(`<strong>Decrypted Numeric:</strong> ${decryptedNumbers.join(", ")}`);
+
+            const decryptedText = numbersToText(decryptedNumbers);
+            document.getElementById("output").innerText = `Decrypted Text: ${decryptedText}`;
+            showSteps(steps);
+        }
+    </script>
+</body>
+</html>
