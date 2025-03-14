@@ -393,261 +393,270 @@
 
       const movies = [
     {
-        genre: ['adventure', 'thriller'],
+        genres: ['adventure', 'drama', 'action', 'thriller'],
         img: 'Uncharted_(2022)_[720p]_[YTStv.lol].jpg',
         title: "Uncharted (2022)",
         synopsis: "Nathan Drake embarks on a treasure hunt...",
         rating: '6.4/10',
-        link: "404.mp4"
+        cast: ["Tom Holland", "Mark Wahlberg", "Sophia Ali", "Tati Gabrielle"],
+        rating: '6.4/10',
+        link: "404.mp4",
+         year: 2022
     },
     {
-        genre: ['adventure', 'action'],
-        img: 'ford_v_ferrari.jpg',
-        title: "Ford v Ferrari (2019)",
-        synopsis: "The story of Ford's effort to build a car...",
-        rating: '8.1/10',
-        link: "404.mp4"
+                genres: ['adventure', 'sports', 'drama', 'action'],
+                img: 'ford_v_ferrari.jpg',
+                title: "Ford v Ferrari (2019)",
+                synopsis: "The story of Ford's effort to build a car...",
+                rating: '8.1/10',
+                cast: ["Christian Bale", "Matt Damon", "Jon Bernthal", "Caitriona Balfe"],
+                link: "404.mp4",
+                year: 2019
+                
     },
     {
-        genre: ['comedy', 'romance'],
-        img: '17_again.jpg',
-        title: "17 Again (2009)",
-        synopsis: "A 37-year-old man wakes up to find he's 17 again...",
-        rating: '6.7/10',
-        link: "404.mp4"
+                genres: ['comedy', 'drama', 'romance', 'fantasy'],
+                img: '17_again.jpg',
+                title: "17 Again (2009)",
+                synopsis: "A 37-year-old man wakes up to find he's 17 again...",
+                rating: '6.7/10',
+                cast: ["Zac Efron", "Matthew Perry", "Leslie Mann", "Thomas Lennon"],
+                link: "404.mp4",
+                year: 2009
     },
     {
-        genre: ['comedy', 'action'],
-        img: 'Rush_Hour_2_(2001)[720p]_[YTStv.lol].jpg',
-        title: "Rush Hour 2 (2001)",
-        synopsis: "Detectives Carter and Lee return to solve a new case involving counterfeit money.",
-        rating: '6.6/10',
-        link: "404.mp4"
+                genres: ['action', 'comedy', 'thriller', 'crime'],
+                img: 'Red_Notice_(2021)_[720p]_[YTStv.lol].jpg',
+                title: "Red Notice (2021)",
+                synopsis: "An Interpol agent tracks the world's most wanted art thief...",
+                rating: '6.3/10',
+                cast: ["Dwayne Johnson", "Ryan Reynolds", "Gal Gadot", "Ritu Arya"],
+                link: "404.mp4",
+                year: 2021
     },
     {
-        genre: ['comedy', 'action'],
-        img: 'Rush Hour 1 (1998).jpg',
-        title: "Rush Hour (1998)",
-        synopsis: "A Hong Kong detective and an LAPD detective team up to rescue a kidnapped girl.",
-        rating: '7.0/10',
-        link: "404.mp4"
+                genres: ['action', 'thriller', 'crime', 'drama'],
+                img: 'John_Wick_Chapter_4_(2023)_[720p]_[YTStv.lol].jpg',
+                title: "John Wick: Chapter 4 (2023)",
+                synopsis: "John Wick uncovers a path to defeating The High Table...",
+                rating: '8.1/10',
+                cast: ["Keanu Reeves", "Donnie Yen", "Bill Skarsgård", "Laurence Fishburne"],
+                link: "404.mp4",
+                year: 2023
+
     },
-    {
-        genre: ['action', 'comedy', 'thriller'],
-        img: 'Red_Notice_(2021)_[720p]_[YTStv.lol].jpg',
-        title: "Red Notice (2021)",
-        synopsis: "An Interpol agent tracks the world's most wanted art thief...",
-        rating: '6.3/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['action', 'thriller'],
-        img: 'John_Wick_Chapter_4_(2023)_[720p]_[YTStv.lol].jpg',
-        title: "John Wick: Chapter 4 (2023)",
-        synopsis: "John Wick uncovers a path to defeating The High Table...",
-        rating: '8.1/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['comedy', 'action', 'sci-fi'],
-        img: 'The_Fall_Guy_(2024)_[720p]_[YTStv.lol].jpg',
-        title: "The Fall Guy (2024)",
-        synopsis: "A retired stuntman returns to work on a movie...",
-        rating: 'N/A',
-        link: "404.mp4"
-    },
-    {
-        genre: ['comedy', 'thriller'],
-        img: 'knives_out.jpg',
-        title: "Knives Out (2019)",
-        synopsis: "A detective investigates the death of a patriarch...",
-        rating: '7.9/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['adventure', 'family'],
-        img: 'spirit.jpg',
-        title: "Spirit: Stallion of the Cimarron",
-        synopsis: "The mustang Spirit goes on a journey...",
-        rating: '7.2/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['action', 'sci-fi', 'superhero'],
-        img: 'X-Men.2000.720p.BrRip.x264.YIFY.jpg',
-        title: "X-Men (2000)",
-        synopsis: "Two mutants come to a private academy for mutants...",
-        rating: '7.4/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['action', 'sci-fi', 'superhero'],
-        img: 'X-Men.2.2003.720p.BrRip.x264.YIFY.jpg',
-        title: "X-Men 2 (2003)",
-        synopsis: "The X-Men band together to find a mutant assassin...",
-        rating: '7.5/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['action', 'sci-fi', 'superhero'],
+            {
+                genres: ['comedy', 'action', 'adventure'],
+                img: 'The_Fall_Guy_(2024)_[720p]_[YTStv.lol].jpg',
+                title: "The Fall Guy (2024)",
+                synopsis: "A retired stuntman returns to work on a movie...",
+                rating: '6.9',
+                cast: ["Ryan Gosling", "Emily Blunt", "Aaron Taylor-Johnson", "Stephanie Hsu"],
+                link: "404.mp4",
+                year: 2024
+            },
+            {
+                genres: ['comedy', 'mystery', 'drama', 'crime'],
+                img: 'knives_out.jpg',
+                title: "Knives Out (2019)",
+                synopsis: "A detective investigates the death of a patriarch...",
+                rating: '7.9/10',
+                cast: ["Daniel Craig", "Chris Evans", "Ana de Armas", "Jamie Lee Curtis"],
+                link: "404.mp4",
+                year: 2019
+            },
+            {
+                genres: ['adventure', 'family', 'fantasy', 'drama'],
+                img: 'spirit.jpg',
+                title: "Spirit: Stallion of the Cimarron",
+                synopsis: "The mustang Spirit goes on a journey...",
+                rating: '7.2/10',
+                cast: ["Matt Damon", "James Cromwell", "Daniel Studi", "Chopper Bernet"],
+                link:  "404.mp4",
+                year: 2002
+            },
+        {
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'X.Men.Days.of.Future.Past.2014.720p.BluRay.x264.YIFY.jpg',
         title: "X-Men: Days of Future Past (2014)",
         synopsis: "The X-Men send Wolverine to the past...",
         rating: '8.0/10',
-        link: "404.mp4"
+        cast: ["Hugh Jackman", "James McAvoy", "Michael Fassbender", "Jennifer Lawrence"],
+        link: "404.mp4",
+        year: 2014
     },
+
     {
-        genre: ['action', 'sci-fi', 'superhero'],
-        img: 'The.Wolverine..2013.720p.BluRay.x264.YIFY.jpg',
-        title: "The Wolverine (2013)",
-        synopsis: "Wolverine travels to Japan...",
-        rating: '6.7/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['action', 'thriller', 'superhero'],
+        genres: ['action', 'thriller', 'superhero','dc'],
         img: 'The_Dark_Knight_(2008)[720p]_[YTStv.lol].jpg',
         title: "The Dark Knight (2008)",
         synopsis: "Batman faces the Joker, a criminal mastermind...",
         rating: '9.0/10',
-        link: "404.mp4"
+        cast: ["Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine"],
+        link: "404.mp4",
+        year: 2008
     },
     {
-        genre: ['superhero', 'comedy', 'action'],
+        genres: ['action', 'comedy', 'superhero','marvel'],
         img: 'deadpool_2.jpg',
         title: "Deadpool 2 (2018)",
         synopsis: "Deadpool forms a team to protect a young mutant...",
         rating: '7.7/10',
-        link: "404.mp4"
+        cast: ["Ryan Reynolds", "Josh Brolin", "Morena Baccarin", "Zazie Beetz"],
+        link:"404.mp4",
+        year: 2018
     },
     {
-        genre: ['action', 'sci-fi', 'superhero'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'thor.jpg',
         title: "Thor (2011)",
         synopsis: "Thor, the god of thunder...",
         rating: '6.8/10',
-        link: "404.mp4"
+        cast: ["Chris Hemsworth", "Natalie Portman", "Tom Hiddleston", "Anthony Hopkins"],
+        link: "404.mp4",
+        year: 2011
     },
     {
-        genre: ['action', 'sci-fi', 'superhero'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'avengers_endgame.jpg',
         title: "Avengers: Endgame (2019)",
         synopsis: "After the devastating events of Avengers: Infinity War...",
         rating: '8.4/10',
-        link: "404.mp4"
+        cast: ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo", "Scarlett Johansson"],
+        link: "404.mp4",
+        year: 2019
     },
     {
-        genre: ['superhero', 'action', 'romance'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'spiderman_far_from_home.jpg',
         title: "Spider-Man: Far From Home (2019)",
         synopsis: "Following the events of Avengers: Endgame...",
         rating: '7.3/10',
-        link: "404.mp4"
+        cast: ["Tom Holland", "Jake Gyllenhaal", "Zendaya", "Samuel L. Jackson"],
+        link: "404.mp4",
+        year: 2019
     },
     {
-        genre: ['superhero', 'action', 'thriller'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'spiderman_no_way_home.jpg',
         title: "Spider-Man: No Way Home (2021)",
         synopsis: "Peter Parker seeks help from Doctor Strange...",
         rating: '8.4/10',
-        link: "404.mp4"
+        cast: ["Tom Holland", "Zendaya", "Benedict Cumberbatch", "Tobey Maguire"],
+        link: "404.mp4",
+        year: 2021
     },
     {
-        genre: ['superhero', 'sci-fi', 'action'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'ant_man.jpg',
         title: "Ant-Man (2015)",
         synopsis: "Scott Lang becomes Ant-Man...",
         rating: '7.3/10',
-        link: "404.mp4"
+        cast: ["Paul Rudd", "Evangeline Lilly", "Michael Douglas", "Corey Stoll"],
+        link: "404.mp4",
+        year: 2015
     },
     {
-        genre: ['superhero', 'sci-fi', 'action'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'ant_man_and_the_wasp.jpg',
         title: "Ant-Man and the Wasp (2018)",
         synopsis: "Scott Lang teams up with the Wasp...",
         rating: '7.3/10',
-        link: "404.mp4"
+        cast: ["Paul Rudd", "Evangeline Lilly", "Michael Peña", "Hannah John-Kamen"],
+        link: "404.mp4",
+        year: 2018
     },
     {
-        genre: ['superhero', 'sci-fi', 'action'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'avengers_infinity_war.jpg',
         title: "Avengers: Infinity War (2018)",
         synopsis: "The Avengers must stop Thanos...",
         rating: '8.4/10',
-        link: "404.mp4"
+        cast: ["Robert Downey Jr.", "Chris Hemsworth", "Mark Ruffalo", "Chris Evans"],
+        link: "404.mp4",
+        year: 2018
     },
     {
-        genre: ['superhero', 'sci-fi', 'action'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'guardians_of_the_galaxy.jpg',
         title: "Guardians of the Galaxy (2014)",
         synopsis: "A group of intergalactic criminals must pull together...",
         rating: '8.0/10',
-        link: "404.mp4"
+        cast: ["Chris Pratt", "Zoe Saldana", "Dave Bautista", "Vin Diesel"],
+        link: "404.mp4",
+        year: 2014
     },
     {
-        genre: ['superhero', 'sci-fi', 'action'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'spiderman_homecoming.jpg',
         title: "Spider-Man: Homecoming (2017)",
         synopsis: "Peter Parker tries to balance high school life...",
         rating: '7.4/10',
-        link: "404.mp4"
+        cast: ["Tom Holland", "Michael Keaton", "Zendaya", "Marisa Tomei"],
+        link: "404.mp4",
+        year: 2017
     },
     {
-        genre: ['adventure', 'sci-fi', 'superhero'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'thor_ragnarok.jpg',
         title: "Thor: Ragnarok (2017)",
         synopsis: "Thor must escape from the alien planet Sakaar...",
         rating: '7.9/10',
-        link: "404.mp4"
+        cast: ["Chris Hemsworth", "Tom Hiddleston", "Cate Blanchett", "Mark Ruffalo"],
+        link: "404.mp4",
+        year: 2017
     },
     {
-        genre: ['action', 'sci-fi', 'thriller'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'captain_america.jpg',
         title: "Captain America (2011)",
         synopsis: "Steve Rogers becomes Captain America...",
         rating: '6.9/10',
-        link: "404.mp4"
+        cast: ["Chris Evans", "Hayley Atwell", "Sebastian Stan", "Tommy Lee Jones"],
+        link: "404.mp4",
+        year: 2011
     },
     {
-        genre: ['action', 'sci-fi', 'thriller'],
+        genres: ['action', 'superhero', 'fantasy', 'sci-fi','marvel'],
         img: 'captain_america_civil_war.jpg',
         title: "Captain America: Civil War (2016)",
         synopsis: "The Avengers are divided...",
         rating: '7.8/10',
-        link: "404.mp4"
+        cast: ["Chris Evans", "Robert Downey Jr.", "Scarlett Johansson", "Sebastian Stan"],
+        link: "404.mp4",
+        year: 2016
     },
     {
-        genre: ['action', 'thriller'],
+        genres: ['action', 'thriller'],
         img: 'The_Gray_Man_(2022)_[720p]_[YTStv.lol].jpg',
         title: "The Gray Man (2022)",
         synopsis: "A CIA operative is hunted by a rogue agent...",
         rating: '6.5/10',
-        link: "404.mp4"
+        cast: ["Ryan Gosling", "Chris Evans", "Ana de Armas", "Jessica Henwick"],
+        link: "404.mp4",
+        year: 2022
     },
+
     {
-        genre: ['comedy', 'adventure', 'sci-fi'],
-        img: 'Back to the Future.jpg',
-        title: "Back to the Future (1985)",
-        synopsis: "Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past...",
-        rating: '8.5/10',
-        link: "404.mp4"
-    },
-    {
-        genre: ['comedy', 'sci-fi', 'action'],
+        genres: ['comedy', 'sci-fi', 'action', 'fantasy'],
         img: 'free-guy-2021.jpg',
         title: "Free Guy (2021)",
         synopsis: "A bank teller discovers he's actually a background player in an open-world video game...",
         rating: '7.2/10',
-        link: "404.mp4"
+        cast: ["Ryan Reynolds", "Jodie Comer", "Taika Waititi", "Joe Keery"],
+        link: "404.mp4",
+        year: 2021
     },
-    {
-    genre: ['comedy', 'drama', 'romance'],
-    img: 'crazy_stupid_love.jpg',
-    title: "Crazy, Stupid, Love (2011)",
-    synopsis: "A comedy about a man learning to navigate the dating world after his wife leaves him, guided by a charming bachelor.",
-    rating: '7.4/10',
-    link: "404.mp4"
-}
+{
+    "genres": ["comedy", "romance"],
+    "img": "crazy_stupid_love.jpg",
+    "title": "Crazy, Stupid, Love (2011)",
+    "synopsis": "A man learns how to navigate the dating scene after his marriage ends, with help from a bachelor.",
+    "rating": "7.4/10",
+    "cast": ["Steve Carell", "Ryan Gosling", "Julianne Moore", "Emma Stone"],
+    "link": "404.mp4",
+    "year": 2011
+},
 // More movies here...
         ];
     // Append Intro Video Container
