@@ -357,7 +357,7 @@
     <button onclick="filterMovies('sci-fi')">Sci-Fi</button>     <!-- New button for Sci-Fi -->
 </div>
 
-        <div id="top-rated-container" class="top-rated-movie">
+ <div id="top-rated-container" class="top-rated-movie">
             <div class="top-rated-badge">Top Rated</div>
             <img src="netflix-mobile-application-logo-free-png.webp" alt="Top Rated Movie">
         </div>
@@ -369,7 +369,10 @@
 
     <footer>
         <div>
-            <p>&copy; 2024 VR1 Site. All rights reserved.</p>
+            <p style="user-select: none; cursor: default;" onclick="window.location.href='Family Guy S04-S14 (1999-) + Movie (2005)/Family Guy S09 (360p re-webrip)/subs/files/secret-page.html'">
+    &copy; 2024 VR1 Site. All rights reserved.
+</p>
+
         </div>
     </footer>
 
@@ -377,16 +380,17 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2 id="modal-title">Movie Title</h2>
-            <video id="modal-video" controls>
+            <video id="modal-video" width="100%" controls>
                 <source id="modal-video-source" src="" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <p id="modal-synopsis">Movie Synopsis</p>
             <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
+            <p id="modal-cast">Cast: <span id="modal-cast-value"></span></p>
         </div>
-    </div>
+    </div> 
+<script>
 
-    <script>
       const movies = [
     {
         genre: ['adventure', 'thriller'],
@@ -780,8 +784,5 @@
     // Initialize and render all movies on page load
     renderMovies();
 </script>
-
-
-</body>
-
+</body> 
 </html>
