@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos-Enhanced Vigenère Cipher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="container">
+        <h2>Chaos-Enhanced Vigenère Cipher with Rail Fence Transposition</h2>
+        
+        <label for="plaintext">Enter Plaintext:</label>
+        <textarea id="plaintext" rows="3" style="width: 100%;" placeholder="Enter plaintext for encryption"></textarea>
+        
+        <label for="ciphertext">Enter Ciphertext (for Decryption):</label>
+        <textarea id="ciphertext" rows="3" style="width: 100%;" placeholder="Enter ciphertext for decryption"></textarea>
+
+        <label for="initialKey">Initial Key (k0):</label>
+        <input type="number" id="initialKey" min="0" max="99999" style="width: 100%;" placeholder="Initial key (e.g., 12345)" />
+        
+        <label for="rValue">Parameter r (0 to 4):</label>
+        <input type="number" id="rValue" step="0.01" min="0" max="4" style="width: 100%;" placeholder="Chaos parameter r (e.g., 3.9)" />
+
+        <label for="railFenceDepth">Rail Fence Depth (1 to N/2):</label>
+        <input type="number" id="railFenceDepth" min="1" style="width: 100%;" placeholder="Depth for Rail Fence (e.g., 2)" />
+
+        <button onclick="encrypt()">Encrypt</button>
+        <button onclick="decrypt()">Decrypt</button>
+
+        <div class="output">
+            <h3>Output:</h3>
+            <p id="output"></p>
+        </div>
+
+        <div class="steps">
+            <h3>Step-by-Step Process</h3>
+            <div id="steps"></div>
+        </div>
+    </div>
+
+    <noscript>
+        <div style="color: red; text-align: center;">
+            <p>This application requires JavaScript to function. Please enable JavaScript in your browser and reload the page.</p>
+        </div>
+    </noscript>
+
+    <script src="script.js"></script>
+</body>
+</html>
