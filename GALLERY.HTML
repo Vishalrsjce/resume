@@ -191,16 +191,28 @@
         }
 
         .modal-content {
-            background-color: #ffffff;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #FFF;
-            width: 100%;
-            max-width: 800px;
-            border-radius: 10px;
-            text-align: left;
-            color: #000000;
-        }
+    background-color: #ffffff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #FFF;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 10px;
+    text-align: center; /* Center content */
+    color: #000000;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+#modal-video {
+    width: 90%; /* Scales video to fit within the PC frame */
+    max-width: 720px; /* Restricts maximum width */
+    height: auto; /* Maintains aspect ratio */
+    border: 15px solid #333; /* Adds a frame around the video */
+    border-radius: 8px; /* Smooth corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Adds a shadow for a PC screen look */
+    background-color: #000; /* Adds black border inside the frame for authenticity */
+}
+
 
         .close {
             color: #aaa;
@@ -283,12 +295,35 @@
             outline: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
+ #intro-container {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+    }
+
+    #intro-video {
+        width: 90%;
+        max-width: 720px;
+        height: auto;
+        border: 10px solid #333;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        background-color: #000;
+    }
     </style>
 </head>
 
 <body>
     <div class="navbar">
-        <div class="welcome">Welcome, guest xyz123</div>
+        <div class="welcome">Welcome, Vishal R</div>
         <div class="hamburger">
             <img src="download.png" alt="Menu">
             <div class="dropdown-content">
@@ -302,15 +337,14 @@
         </div>
     </div>
     <div class="container">
-  <div class="header">
-    <img src="netflix-mobile-application-logo-free-png.webp" alt="Gallery Logo">
-
-
+        <div class="header">
+            <img src="netflix-mobile-application-logo-free-png.webp" alt="Gallery Logo">
             <h1>Movie Gallery</h1>
         </div>
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search for movies...">
         </div>
+
 
 <div class="filter-buttons">
     <button onclick="filterMovies('all')">All</button>
@@ -610,85 +644,143 @@
     rating: '7.4/10',
     link: "404.mp4"
 }
-];
+// More movies here...
+        ];
+    // Append Intro Video Container
+    const introContainer = document.createElement('div');
+    introContainer.id = "intro-container";
+    introContainer.innerHTML = `
+        <video id="intro-video" autoplay controls>
+            <source src="video.mkv" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    `;
+    document.body.appendChild(introContainer);
 
-function renderMovies(filteredMovies = movies) {
-    // Sort movies alphabetically by title
-    filteredMovies.sort((a, b) => a.title.localeCompare(b.title));
+    const introPlayer = document.getElementById('intro-video');
 
-    const container = document.getElementById('movies-container');
-    let topRatedMovie = filteredMovies[0];
+    // Function to show intro video and then play movie
+    function showDetails(movie) {
+        const modal = document.getElementById('movie-modal');
+        const videoSource = document.getElementById('modal-video-source');
+        const videoPlayer = document.getElementById('modal-video');
 
-    container.innerHTML = '';
+        // Show intro video
+        introContainer.style.display = "flex";
+        introPlayer.play();
 
-    filteredMovies.forEach(movie => {
-        const rating = parseFloat(movie.rating.split('/')[0]);
-        if (rating > parseFloat(topRatedMovie.rating.split('/')[0])) {
-            topRatedMovie = movie;
-        }
+        // When intro ends, transition to movie
+        introPlayer.onended = () => {
+            introContainer.style.display = "none";
+            modal.style.display = "flex";
 
-        const movieElement = document.createElement('div');
-        movieElement.classList.add('movie');
-        movieElement.innerHTML = `
-            <img src="${movie.img}" alt="${movie.title}">
-            <div class="title">${movie.title}</div>
-            <div class="synopsis">${movie.synopsis}</div>
-            <div class="rating">${movie.rating}</div>
-        `;
-        movieElement.addEventListener('click', () => showDetails(movie));
-        container.appendChild(movieElement);
+            // Set and play selected movie
+            videoSource.src = movie.link;
+            videoPlayer.load();
+            videoPlayer.play();
+
+            // Update modal content
+            document.getElementById('modal-title').textContent = movie.title;
+            document.getElementById('modal-synopsis').textContent = movie.synopsis;
+            document.getElementById('modal-rating-value').textContent = movie.rating;
+            document.getElementById('modal-cast-value').textContent = movie.cast.join(', ');
+        };
+    }
+
+    // Close modal and pause movie
+    document.querySelector('.close').addEventListener('click', () => {
+        const modal = document.getElementById('movie-modal');
+        const videoPlayer = document.getElementById('modal-video');
+        modal.style.display = 'none';
+        videoPlayer.pause();
+        videoPlayer.currentTime = 0;
     });
 
-    if (topRatedMovie) {
-        document.querySelector('.top-rated-movie img').src = topRatedMovie.img;
-        document.querySelector('.top-rated-movie img').alt = topRatedMovie.title;
-        document.querySelector('.top-rated-badge').textContent = `Top Rated: ${topRatedMovie.title}`;
-        document.querySelector('.top-rated-movie').onclick = () => showDetails(topRatedMovie);
+    // Close modal when clicking outside of it
+    window.onclick = event => {
+        const modal = document.getElementById('movie-modal');
+        const videoPlayer = document.getElementById('modal-video');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+        }
+    };
+
+    // Render movies in the grid
+    function renderMovies(filteredMovies = movies) {
+        const container = document.getElementById('movies-container');
+        container.innerHTML = '';
+
+        // Sort movies alphabetically by title
+        filteredMovies.sort((a, b) => a.title.localeCompare(b.title));
+
+        // Render movie cards
+        filteredMovies.forEach(movie => {
+            const movieElement = document.createElement('div');
+            movieElement.classList.add('movie');
+            movieElement.innerHTML = `
+                <img src="${movie.img}" alt="${movie.title}" width="100%">
+                <div class="title">${movie.title}</div>
+                <div class="year">Release Year: ${movie.year}</div>
+                <div class="cast">Cast: ${movie.cast.join(', ')}</div>
+                <div class="rating">${movie.rating}</div>
+            `;
+            movieElement.addEventListener('click', () => showDetails(movie));
+            container.appendChild(movieElement);
+        });
+
+        // Update top-rated movie
+        const topRatedMovie = getTopRatedMovie(filteredMovies);
+        if (topRatedMovie) {
+            document.querySelector('.top-rated-movie img').src = topRatedMovie.img;
+            document.querySelector('.top-rated-movie img').alt = topRatedMovie.title;
+            document.querySelector('.top-rated-badge').textContent = `Top Rated: ${topRatedMovie.title}`;
+            document.querySelector('.top-rated-movie').onclick = () => showDetails(topRatedMovie);
+        }
     }
-}
 
-function showDetails(movie) {
-    const modal = document.getElementById('movie-modal');
-    document.getElementById('modal-title').textContent = movie.title;
-    document.getElementById('modal-synopsis').textContent = movie.synopsis;
-    document.getElementById('modal-rating-value').textContent = movie.rating;
-    document.getElementById('modal-video-source').src = movie.link;
-    document.getElementById('modal-video').load();
-    modal.style.display = 'flex';
-}
+    // Get top-rated movie from the list
+    function getTopRatedMovie(movies) {
+        let topRatedMovie = null;
+        let highestRating = 0;
 
-document.querySelector('.close').addEventListener('click', () => {
-    document.getElementById('movie-modal').style.display = 'none';
-    document.getElementById('modal-video').pause();
-});
+        movies.forEach(movie => {
+            if (movie.rating) {
+                const rating = parseFloat(movie.rating.split('/')[0]);
+                if (!isNaN(rating) && rating > highestRating) {
+                    highestRating = rating;
+                    topRatedMovie = movie;
+                }
+            }
+        });
 
-window.onclick = event => {
-    if (event.target == document.getElementById('movie-modal')) {
-        document.getElementById('movie-modal').style.display = 'none';
-        document.getElementById('modal-video').pause();
+        return topRatedMovie;
     }
-};
 
-function filterMovies(genre) {
-    const filteredMovies = genre === 'all' ? movies : movies.filter(movie => movie.genre.includes(genre));
-    renderMovies(filteredMovies);
-}
+    // Filter movies by genre
+    function filterMovies(genre) {
+        const filteredMovies = genre === 'all'
+            ? movies
+            : movies.filter(movie => movie.genres.includes(genre));
+        renderMovies(filteredMovies);
+    }
 
-function searchMovies(query) {
-    const lowerCaseQuery = query.toLowerCase();
-    const filteredMovies = movies.filter(movie => 
-        movie.title.toLowerCase().includes(lowerCaseQuery)
-    );
-    renderMovies(filteredMovies);
-}
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', event => {
+        const searchQuery = event.target.value.toLowerCase();
+        const filteredMovies = movies.filter(movie =>
+            movie.title.toLowerCase().includes(searchQuery) ||
+            movie.synopsis.toLowerCase().includes(searchQuery) ||
+            movie.cast.some(castMember => castMember.toLowerCase().includes(searchQuery))
+        );
+        renderMovies(filteredMovies);
+    });
 
-document.getElementById('search-input').addEventListener('input', (event) => {
-    searchMovies(event.target.value);
-});
+    // Initialize and render all movies on page load
+    renderMovies();
+</script>
 
-renderMovies(movies);
-
-    </script>
 
 </body>
 
