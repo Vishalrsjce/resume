@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stranger Things - All Seasons</title>
+    <style>
+        :root { --primary-red: #e50914; --background-dark: #141414; --card-dark: #181818; --text-light: #fff; --text-grey: #a0a0a0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: var(--background-dark); color: var(--text-light); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0)); padding: 20px 50px; color: white; width: 100%; position: fixed; top: 0; z-index: 1001; transition: background-color 0.4s; }
+        .navbar.scrolled { background-color: var(--background-dark); }
+        .navbar-logo img {
+            height: 35px;
+            width: auto;
+            vertical-align: middle;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .navbar .welcome { font-weight: bold; }
+        .navbar .hamburger { position: relative; display: inline-block; }
+        .navbar .hamburger img { width: 35px; height: 35px; cursor: pointer; border-radius: 4px; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: rgba(0, 0, 0, 0.9); min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border: 1px solid rgba(255,255,255,0.15); }
+        .dropdown-content a { color: var(--text-grey); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9em; }
+        .dropdown-content a:hover { background-color: rgba(255,255,255,0.1); color: var(--text-light); }
+        .hamburger:hover .dropdown-content { display: block; }
+        .hero-container { min-height: 95vh; width: 100%; position: relative; background-image: linear-gradient(to right, rgba(20, 20, 20, 1) 25%, rgba(20, 20, 20, 0.6) 50%, rgba(20, 20, 20, 0) 100%), linear-gradient(to top, var(--background-dark) 5%, rgba(20, 20, 20, 0) 25%), url('stranger-things-poster.jpg'); background-size: cover; background-position: center top; display: flex; flex-direction: column; justify-content: center; padding: 100px 50px 50px 50px; }
+        .hero-text-content { max-width: 55%; z-index: 10; }
+        .hero-text-content .logo { width: 450px; margin-bottom: 20px; }
+        .hero-text-content .meta-info { color: var(--text-grey); margin-bottom: 20px; font-size: 1.1em; }
+        .hero-text-content p { font-size: 1.2em; line-height: 1.5; margin-bottom: 25px; max-width: 600px; }
+        .hero-buttons button { padding: 12px 25px; font-size: 1.1em; border-radius: 5px; border: none; margin-right: 15px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-play { background-color: var(--text-light); color: var(--background-dark); }
+        .btn-play:hover { background-color: rgba(255,255,255,0.75); }
+        .btn-info { background-color: rgba(109,109,110,0.7); color: var(--text-light); }
+        .btn-info:hover { background-color: rgba(109,109,110,0.4); }
+        .main-content { padding: 20px 50px; position: relative; z-index: 12; background-color: var(--background-dark); margin-top: -80px; }
+        .season-selector-row h3 { font-size: 1.6em; font-weight: bold; display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .season-selector, .search-bar { padding: 10px; font-size: 1.1em; border-radius: 5px; border: 1px solid #333; background-color: var(--background-dark); color: var(--text-light); }
+        .filter-controls { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; }
+        .episode { background-color: var(--card-dark); border-radius: 5px; overflow: hidden; transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; cursor: pointer; position: relative; }
+        .episode:hover { transform: scale(1.08); z-index: 20; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+        .episode .image-container { width: 100%; padding-top: 56.25%; position: relative; background-color: #000; }
+        .episode img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4em; color: rgba(255,255,255,0.8); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .episode:hover .play-icon { opacity: 1; }
+        .episode-info { padding: 15px; }
+        .episode .title { font-weight: bold; font-size: 1.1em; color: var(--text-light); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .episode .synopsis { font-size: 0.9em; color: var(--text-grey); line-height: 1.4; height: 3.8em; overflow: hidden; }
+        .episode .rating { font-weight: bold; color: #46d369; margin-top: 10px; font-size: 0.9em; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
+        .modal-content { background-color: var(--card-dark); margin: auto; padding: 0; width: 90%; max-width: 900px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.7); position: relative; overflow: hidden; }
+        .modal-video-container { position: relative; background-color: #000; cursor: pointer; }
+        #modal-video { width: 100%; height: auto; display: block; }
+        .close { color: var(--text-light); position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: bold; background-color: rgba(20,20,20,0.7); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1; z-index: 100; cursor: pointer; transition: background-color 0.2s; }
+        .close:hover, .close:focus { background-color: #333; }
+        .modal-info { padding: 25px 30px; }
+        #modal-title { font-size: 1.8em; margin-bottom: 15px; }
+        #modal-synopsis { color: var(--text-grey); margin-bottom: 15px; line-height: 1.6; }
+        #modal-rating { font-weight: bold; }
+        .video-overlay-controls { position: absolute; top: 0; left: 0; right: 0; bottom: 60px; z-index: 21; }
+        .click-zone { position: absolute; top: 0; height: 100%; z-index: 22; }
+        .click-zone.left { left: 0; width: 30%; }
+        .click-zone.center { left: 30%; width: 40%; }
+        .click-zone.right { right: 0; width: 30%; }
+        .edge-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(20,20,20,0.8); color: #fff; padding: 10px 15px; border-radius: 5px; font-weight: bold; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; z-index: 23; pointer-events: none; }
+        .video-overlay-controls:hover .edge-nav { opacity: 1; pointer-events: auto; }
+        .edge-nav.prev { left: 20px; }
+        .edge-nav.next { right: 20px; }
+        .edge-nav.disabled { opacity: 0 !important; pointer-events: none !important; }
+        #next-episode-prompt { display: none; position: absolute; bottom: 80px; right: 20px; z-index: 100; background-color: rgba(20, 20, 20, 0.9); color: white; border: 1px solid rgba(255, 255, 255, 0.5); padding: 12px 25px; border-radius: 5px; font-size: 1em; cursor: pointer; transition: all 0.3s; }
+        #next-episode-prompt:hover { background-color: var(--primary-red); border-color: var(--primary-red); transform: scale(1.05); }
+        footer { text-align: center; color: var(--text-grey); margin-top: 50px; padding-bottom: 20px; }
+        @media (max-width: 768px) { .navbar { padding: 15px 20px; } .hero-container { padding: 80px 20px 40px 20px; min-height: 80vh; } .hero-text-content { max-width: 95%; } .hero-text-content .logo {width: 300px;} .main-content { padding: 20px; } .episodes-grid { grid-template-columns: 1fr; } .modal-content { width: 95%; } #next-episode-prompt { bottom: 70px; right: 10px; padding: 10px 15px; font-size: 0.9em; } .edge-nav { font-size: 0.9em; padding: 8px 10px; } }
+    </style>
+</head>
+
+<body>
+    <audio id="hover-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3" preload="auto"></audio>
+
+    <div class="navbar" id="navbar">
+        <a href="netflix.html" class="navbar-logo"><img src="netflix-mobile-application-logo-free-png.webp" alt="Site Logo"></a>
+        <div class="navbar-right">
+            <div class="welcome">Welcome, Vishal R</div>
+            <div class="hamburger">
+                <img src="download.png" alt="Menu">
+                <div class="dropdown-content">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                    <a href="home.html">Home</a>
+                    <a href="GALLERY.HTML">Stream</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-container">
+        <div class="hero-text-content">
+            <img src="stranger-things-logo.png" alt="Stranger Things Logo" class="logo">
+            <div class="meta-info">2016 | Maturity Rating: U/A 16+ | 4 Seasons | Sci-Fi Horror</div>
+            <p>When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.</p>
+            <div class="hero-buttons">
+                <button class="btn-play">▶ Play</button>
+                <button class="btn-info">ⓘ More Info</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="season-selector-row">
+            <h3>Episodes</h3>
+            <div class="filter-controls">
+                <select id="season-select" class="season-selector">
+                    <option value="all">All Seasons</option>
+                    <option value="S01" selected>Season 1</option>
+                    <option value="S02">Season 2</option>
+                    <option value="S03">Season 3</option>
+                    <option value="S04">Season 4</option>
+                </select>
+                <input type="text" id="search-bar" class="search-bar" placeholder="Search episodes...">
+            </div>
+        </div>
+        <div id="episodes-container" class="episodes-grid">
+            <!-- Episodes will be dynamically added here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 VR1 Site. All rights reserved.</p>
+    </footer>
+
+    <div id="episode-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <div class="modal-video-container">
+                <video id="modal-video" controls>
+                    <source id="modal-video-source" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay-controls">
+                    <div class="click-zone left"></div>
+                    <div class="click-zone center"></div>
+                    <div class="click-zone right"></div>
+                    <div class="edge-nav prev" id="prev-episode-btn">« Previous Episode</div>
+                    <div class="edge-nav next" id="next-episode-btn">Next Episode »</div>
+                </div>
+                <button id="next-episode-prompt">Play Next Episode</button>
+            </div>
+            <div class="modal-info">
+                <h2 id="modal-title">Episode Title</h2>
+                <p id="modal-synopsis">Episode Synopsis</p>
+                <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA ---
+            const allEpisodes = [
+                { season: 'S01', img: 'Stranger.Things.S01.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/stranger-things-s01e08.jpg', title: 'S01E08 - The Upside Down', synopsis: 'Joyce and Hopper are taken in for questioning. Nancy and Jonathan prepare to fight the monster.', rating: '9.0/10', link: 'Stranger.Things.S01.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/Stranger.Things.S01E08.720p.BluRay.x264-GalaxyTV.mkv' },
+                { season: 'S02', img: 'Stranger.Things.S02.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/stranger-things-s02e06.jpg', title: 'S02E06 - The Mind Flayer', synopsis: 'An unlikely hero steps forward when a deadly development puts the Hawkins lab on lockdown, trapping Will and several others inside.', rating: '8.8/10', link: 'Stranger.Things.S02.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/Stranger.Things.S02E06.720p.BluRay.x264-GalaxyTV.mkv' },
+                { season: 'S02', img: 'Stranger.Things.S02.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/stranger-things-s02e08.jpg', title: 'S02E08 - The Spy', synopsis: 'Will’s connection to a shadowy evil grows stronger, but no one’s quite sure how to stop it.', rating: '9.2/10', link: 'Stranger.Things.S02.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/Stranger.Things.S02E06.720p.BluRay.x264-GalaxyTV.mkv' },
+                { season: 'S02', img: 'Stranger.Things.S02.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/stranger-things-s02e09.jpg', title: 'S02E09 - The Gate', synopsis: 'Eleven makes plans to finish what she started while the survivors turn up the heat on the monstrous force that’s holding Will hostage.', rating: '9.3/10', link: 'Stranger.Things.S02.COMPLETE.720p.BluRay.x264-GalaxyTV[TGx]/Stranger.Things.S02E09.720p.BluRay.x264-GalaxyTV.mkv' },
+                { season: 'S03', img: 'Stranger.Things.S03.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/stranger-things-s03e05.jpg', title: 'S03E05 - The Flayed', synopsis: 'The Mind Flayer’s plan is set into motion as Hopper and Joyce uncover the truth behind the lab’s new experiment.', rating: '8.7/10', link: 'Stranger.Things.S03.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/Stranger.Things.S03E05.720p.NF.WEBRip.x264-GalaxyTV.mkv' },
+                { season: 'S04', img: 'Stranger.Things.S04.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/stranger-things-s04e04.jpg', title: 'S04E04 - Dear Billy', synopsis: 'Max is in grave danger... and running out of time.', rating: '9.4/10', link: 'Stranger.Things.S04.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/Stranger.Things.S04E04.720p.NF.WEBRip.x264-GalaxyTV.mkv' },
+                { season: 'S04', img: 'Stranger.Things.S04.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/stranger-things-s04e06.jpg', title: 'S04E06 - The Dive', synopsis: 'Behind the Iron Curtain, a risky rescue mission gets underway.', rating: '8.7/10', link: 'Stranger.Things.S04.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/Stranger.Things.S04E06.REPACK.720p.NF.WEBRip.x264-GalaxyTV.mkv' },
+                { season: 'S04', img: 'Stranger.Things.S04.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/stranger-things-s04e07.jpg', title: 'S04E07 - The Massacre at Hawkins Lab', synopsis: 'As Hopper braces to battle a monster, Dustin dissects Vecna’s motives — and decodes a message from beyond.', rating: '9.1/10', link: 'Stranger.Things.S04.COMPLETE.720p.NF.WEBRip.x264-GalaxyTV[TGx]/Stranger.Things.S04E07.720p.NF.WEBRip.x264-GalaxyTV.mkv' }
+            ];
+            
+            // --- STATE & ELEMENTS ---
+            let currentFilteredEpisodes = [];
+            let currentEpisodeIndex = -1;
+
+            const navbar = document.getElementById('navbar');
+            const container = document.getElementById('episodes-container');
+            const searchBar = document.getElementById('search-bar');
+            const seasonSelect = document.getElementById('season-select');
+            const hoverSound = document.getElementById('hover-sound');
+            
+            // Modal Elements
+            const modal = document.getElementById('episode-modal');
+            const modalVideo = document.getElementById('modal-video');
+            const modalVideoSource = document.getElementById('modal-video-source');
+            const modalCloseBtn = document.querySelector('.close');
+            const nextEpisodePrompt = document.getElementById('next-episode-prompt');
+
+            // Video Overlay and Navigation
+            const videoOverlay = document.querySelector('.video-overlay-controls');
+            const centerClickZone = videoOverlay.querySelector('.click-zone.center');
+            const leftClickZone = videoOverlay.querySelector('.click-zone.left');
+            const rightClickZone = videoOverlay.querySelector('.click-zone.right');
+            const prevEpisodeBtn = document.getElementById('prev-episode-btn');
+            const nextEpisodeBtn = document.getElementById('next-episode-btn');
+
+            
+            // --- FUNCTIONS ---
+            function renderEpisodes() {
+                const filterText = searchBar.value.toLowerCase();
+                const selectedSeason = seasonSelect.value;
+                
+                container.innerHTML = ''; 
+
+                currentFilteredEpisodes = allEpisodes.filter(ep => {
+                    const matchesSeason = (selectedSeason === 'all' || ep.season === selectedSeason);
+                    const matchesSearch = (ep.title.toLowerCase().includes(filterText) || ep.synopsis.toLowerCase().includes(filterText));
+                    return matchesSeason && matchesSearch;
+                });
+
+                if (currentFilteredEpisodes.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-grey);">No episodes found matching your criteria.</p>';
+                    return;
+                }
+                
+                currentFilteredEpisodes.forEach((ep, index) => {
+                    const episodeElement = document.createElement('div');
+                    episodeElement.classList.add('episode');
+                    episodeElement.dataset.index = index;
+
+                    episodeElement.innerHTML = `
+                        <div class="image-container">
+                            <img src="${ep.img}" alt="${ep.title}" loading="lazy" onerror="this.onerror=null;this.src='stranger-things-logo.png';">
+                            <div class="play-icon">▶</div>
+                        </div>
+                        <div class="episode-info">
+                            <div class="title">${ep.title}</div>
+                            <div class="synopsis">${ep.synopsis}</div>
+                            <div class="rating">IMDB: ★ ${ep.rating}</div>
+                        </div>
+                    `;
+                    
+                    episodeElement.addEventListener('click', () => showDetails(index));
+                    episodeElement.addEventListener('mouseenter', () => {
+                        hoverSound.currentTime = 0;
+                        hoverSound.play().catch(e => {});
+                    });
+                    
+                    container.appendChild(episodeElement);
+                });
+            }
+
+            function showDetails(index) {
+                if (index < 0 || index >= currentFilteredEpisodes.length) return;
+                
+                currentEpisodeIndex = index;
+                const episode = currentFilteredEpisodes[index];
+
+                document.getElementById('modal-title').textContent = episode.title;
+                document.getElementById('modal-synopsis').textContent = episode.synopsis;
+                document.getElementById('modal-rating-value').textContent = episode.rating;
+                
+                modalVideoSource.src = encodeURI(episode.link);
+                modalVideo.load();
+                modalVideo.play().catch(e => console.error("Video play failed:", e));
+                
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                
+                updateNavButtons();
+            }
+
+            function updateNavButtons() {
+                prevEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex <= 0);
+                nextEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex >= currentFilteredEpisodes.length - 1);
+            }
+
+            function closeModal() {
+                modal.style.display = 'none';
+                modalVideo.pause();
+                modalVideoSource.src = "";
+                document.body.style.overflow = 'auto';
+                nextEpisodePrompt.style.display = 'none';
+            }
+
+            // --- EVENT LISTENERS ---
+            searchBar.addEventListener('input', renderEpisodes);
+            seasonSelect.addEventListener('change', renderEpisodes);
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', event => {
+                if (event.target == modal) closeModal();
+            });
+            window.addEventListener('keydown', event => {
+                if (event.key === 'Escape' && modal.style.display === 'flex') closeModal();
+            });
+
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 50);
+            });
+
+            centerClickZone.addEventListener('click', () => modalVideo.paused ? modalVideo.play() : modalVideo.pause());
+            leftClickZone.addEventListener('click', () => modalVideo.currentTime -= 10);
+            rightClickZone.addEventListener('click', () => modalVideo.currentTime += 10);
+            
+            prevEpisodeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentEpisodeIndex > 0) showDetails(currentEpisodeIndex - 1);
+            });
+
+            nextEpisodeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1);
+            });
+
+            modalVideo.addEventListener('timeupdate', () => {
+                const timeLeft = modalVideo.duration - modalVideo.currentTime;
+                if (timeLeft < 30 && timeLeft > 0 && currentEpisodeIndex < currentFilteredEpisodes.length - 1) {
+                    nextEpisodePrompt.style.display = 'block';
+                } else {
+                    nextEpisodePrompt.style.display = 'none';
+                }
+            });
+
+            modalVideo.addEventListener('ended', () => {
+                if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) {
+                    showDetails(currentEpisodeIndex + 1);
+                } else {
+                    closeModal();
+                }
+            });
+
+            nextEpisodePrompt.addEventListener('click', () => {
+                if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1);
+            });
+
+            document.querySelector('.btn-play').addEventListener('click', () => {
+                renderEpisodes();
+                if (currentFilteredEpisodes.length > 0) showDetails(0);
+            });
+
+            // --- INITIAL RENDER ---
+            seasonSelect.value = 'S01'; // Default to season 1 on load
+            renderEpisodes();
+        });
+    </script>
+</body>
+
+</html>

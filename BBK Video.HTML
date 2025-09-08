@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Spider-Man - All Seasons</title>
+    <title>BB Ki Vines & CarryMinati - All Videos</title>
     <style>
         :root {
             --primary-red: #e50914;
@@ -34,30 +34,10 @@
         .dropdown-content a { color: var(--text-dark); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9em; }
         .dropdown-content a:hover { background-color: #e9e9e9; }
         .hamburger:hover .dropdown-content { display: block; }
-
-        .hero-container { 
-            min-height: 95vh; 
-            width: 100%; 
-            position: relative; 
-            background-image: linear-gradient(to right, rgba(244, 244, 244, 1) 25%, rgba(244, 244, 244, 0.7) 50%, rgba(244, 244, 244, 0) 100%), 
-                              linear-gradient(to top, var(--background-light) 5%, rgba(244, 244, 244, 0) 25%), 
-                              url('ultimate-spiderman-poster.jpg'); 
-            background-size: cover; 
-            background-position: center top; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            padding: 100px 50px 50px 50px; 
-        }
-
+        .hero-container { min-height: 95vh; width: 100%; position: relative; background-image: linear-gradient(to right, rgba(244, 244, 244, 1) 25%, rgba(244, 244, 244, 0.7) 50%, rgba(244, 244, 244, 0) 100%), linear-gradient(to top, var(--background-light) 5%, rgba(244, 244, 244, 0) 25%), url('BBK Video/LANDSCAPE_PIC.JPG'); background-size: cover; background-position: center top; display: flex; flex-direction: column; justify-content: center; padding: 100px 50px 50px 50px; }
         .hero-text-content { max-width: 55%; z-index: 10; }
-
-        .hero-text-content .logo { 
-            width: 300px;
-            margin-bottom: 20px; 
-        }
-
-        .hero-text-content h1 { font-size: 3.5em; margin-bottom: 15px; }
+        .hero-text-content .logo { width: 150px; margin-bottom: 20px; border-radius: 50%; border: 4px solid white; box-shadow: 0 0 20px rgba(0,0,0,0.3); }
+        .hero-text-content h1 { font-size: 3em; margin-bottom: 15px; }
         .hero-text-content .meta-info { color: var(--text-secondary); margin-bottom: 20px; font-size: 1.1em; font-weight: bold; }
         .hero-text-content p { font-size: 1.2em; line-height: 1.5; margin-bottom: 25px; max-width: 600px; }
         .hero-buttons button { padding: 12px 25px; font-size: 1.1em; border-radius: 5px; border: none; margin-right: 15px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
@@ -110,7 +90,7 @@
 <body>
     <audio id="hover-sound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
     <div class="navbar" id="navbar">
-        <a href="netflix.html" class="navbar-logo"><img src="netflix-mobile-application-logo-free-png.webp" alt="Site Logo"></a>
+        <a href="netflix.html" class="navbar-logo"><img src="netflix-mobile-application-logo-free-png.webp" alt="VR1FLIX Logo"></a>
         <div class="navbar-right">
             <div class="welcome">Welcome, Vishal R</div>
             <div class="hamburger">
@@ -127,26 +107,26 @@
     </div>
     <div class="hero-container">
         <div class="hero-text-content">
-            <img src="ultimate-spiderman-logo.png" alt="Ultimate Spider-Man Logo" class="logo">
-            <h1>Ultimate Spider-Man</h1>
-            <div class="meta-info">2012 | U/A 7+ | 4 Seasons | Animated Series</div>
-            <p>Follow young Peter Parker as he trains to become the Ultimate Spider-Man while juggling the pressures of high school.</p>
+            <img src="BBK Video/PROFILE.JPG" alt="BB Ki Vines & CarryMinati Logo" class="logo">
+            <h1>BB Ki Vines & CarryMinati</h1>
+            <div class="meta-info">2024 | Comedy | Various Episodes</div>
+            <p>Enjoy the humorous, witty, and relatable sketches by two of India's biggest comedy icons, BB Ki Vines and CarryMinati.</p>
             <div class="hero-buttons">
-                <button class="btn-play">▶ Play First Episode</button>
+                <button class="btn-play">▶ Play First Video</button>
                 <button class="btn-info">ⓘ More Info</button>
             </div>
         </div>
     </div>
     <div class="main-content">
         <div class="filter-row">
-            <h3>All Episodes</h3>
+            <h3>All Videos</h3>
             <div class="filter-controls">
                 <select id="season-select" class="season-selector">
-                    <option value="all">All Seasons</option>
+                    <option value="all">All</option>
                     <option value="S01">Season 1</option>
                     <option value="S02">Season 2</option>
                 </select>
-                <input type="text" id="search-bar" class="search-bar" placeholder="Search episodes...">
+                <input type="text" id="search-bar" class="search-bar" placeholder="Search videos...">
             </div>
         </div>
         <div id="episodes-container" class="episodes-grid"></div>
@@ -164,18 +144,39 @@
                     <div class="edge-nav prev" id="prev-episode-btn">« Previous</div>
                     <div class="edge-nav next" id="next-episode-btn">Next »</div>
                 </div>
-                <button id="next-episode-prompt">Play Next Episode</button>
+                <button id="next-episode-prompt">Play Next Video</button>
             </div>
             <div class="modal-info">
                 <h2 id="modal-title">Episode Title</h2>
                 <p id="modal-synopsis">Episode Synopsis</p>
-                <p id="modal-rating">IMDB: ★ <span id="modal-rating-value"></span></p>
+                <p id="modal-rating">Rating: <span id="modal-rating-value"></span></p>
             </div>
         </div>
     </div>
     <script>        document.addEventListener('DOMContentLoaded', () => {
-            const allEpisodes = [{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e01.jpg","title":"S01E01 - Great Power","synopsis":"Peter Parker begins his journey as Spider-Man, learning that with great power comes great responsibility.","rating":"7.9/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E01.Great.Power.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e02.jpg","title":"S01E02 - Great Responsibility","synopsis":"Spider-Man faces his first challenges as a hero, discovering the weight of his new responsibilities.","rating":"7.8/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E02.Great.Responsibility.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e03.jpg","title":"S01E03 - Doomed","synopsis":"Spider-Man battles Doctor Doom, one of his greatest enemies, testing his newfound powers.","rating":"8.0/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E03.Doomed.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e04.jpg","title":"S01E04 - Venom","synopsis":"Peter Parker faces a dark force as the symbiote Venom takes over his body.","rating":"8.1/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E04.Venom.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e06.jpg","title":"S01E06 - Why I Hate the Gym","synopsis":"Spider-Man struggles with balancing his superhero duties and high school gym class.","rating":"7.7/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E06.Why.I.Hate.the.Gym.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e08.jpg","title":"S01E08 - Back in Black","synopsis":"Spider-Man returns in his black suit, confronting new challenges with a darker edge.","rating":"8.2/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E08.Back.in.Black.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e09.jpg","title":"S01E09 - Field Trip","synopsis":"A school field trip goes awry when Peter Parker must step in as Spider-Man to save the day.","rating":"7.9/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E09.Field.Trip.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e10.jpg","title":"S01E10 - Freaky","synopsis":"Spider-Man encounters a new villain who turns the tables on him in unexpected ways.","rating":"8.0/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E10.Freaky.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e12.jpg","title":"S01E12 - Me Time","synopsis":"Spider-Man takes a break from hero duties, but trouble finds him even during downtime.","rating":"7.6/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E12.Me.Time.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e21.jpg","title":"S01E21 - I Am Spider-Man","synopsis":"Peter Parker must reconcile his life as Spider-Man with the demands of his personal life.","rating":"8.1/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E21.I.Am.Spider-Man.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e23.jpg","title":"S01E23 - Not a Toy","synopsis":"Spider-Man learns a lesson about responsibility when a powerful artifact falls into the wrong hands.","rating":"8.3/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E23.Not.a.Toy.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e24.jpg","title":"S01E24 - Attack of the Beetle","synopsis":"Spider-Man must thwart the Beetle, a formidable enemy with a personal vendetta.","rating":"8.2/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E24.Attack.of.the.Beetle.WEB-DL.x264-FUM.mp4"},{"season":"S02","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/ultimate-spiderman-s02e09.jpg","title":"S02E09 - House Arrest","synopsis":"Spider-Man faces challenges on the home front as his enemies close in.","rating":"8.0/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/Ultimate.Spiderman.S02E09.House.Arrest.WEB-DL.x264-FUM.mp4"},{"season":"S02","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/ultimate-spiderman-s02e17.jpg","title":"S02E17 - Guardians of the Galaxy","synopsis":"Spider-Man teams up with the Guardians of the Galaxy to face a cosmic threat.","rating":"8.5/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/Ultimate.Spiderman.S02E17.Guardians.of.the.Galaxy.WEB-DL.x264-FUM.mp4"}];
-
+            const allEpisodes = [
+                { season: 'S01', img: 'BBK Video/WhatsApp ki Taakat_ _ What the Bunk _ BB Ki Vines(720P_HD).mp4.JPG', title: 'WhatsApp ki Taakat | What the Bunk', synopsis: 'A funny take on the power of WhatsApp and modern communication.', rating: '8.7/10', link: 'BBK Video/WhatsApp ki Taakat_ _ What the Bunk _ BB Ki Vines(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/99 Rupay mei 200 calls _ Ghaplebaaz ko Pakdo _ BB Ki Vines(720P_HD).mp4.JPG', title: '99 Rupay mei 200 calls | Ghaplebaaz ko Pakdo', synopsis: 'A hilarious story about making 200 calls for just 99 rupees.', rating: '8.5/10', link: 'BBK Video/99 Rupay mei 200 calls _ Ghaplebaaz ko Pakdo _ BB Ki Vines(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/800 ka kaccha kaun pehenta hai__ _ Faaltu Kharcha _ BB Ki Vines(720P_HD).mp4.JPG', title: '800 ka Kaccha kaun pehenta hai? | Faaltu Kharcha', synopsis: 'A funny discussion on unnecessary expenses.', rating: '8.8/10', link: 'BBK Video/800 ka kaccha kaun pehenta hai__ _ Faaltu Kharcha _ BB Ki Vines(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BIG BOSS BIG BOSS BIG BOSS PART 2 _ CARRYMINATI(480P).mp4.JPG', title: 'BIG BOSS PART 2 | CarryMinati', synopsis: 'CarryMinati’s hilarious take on the popular TV show Bigg Boss.', rating: '9.0/10', link: 'BBK Video/BIG BOSS BIG BOSS BIG BOSS PART 2 _ CARRYMINATI(480P).mp4' },
+                { season: 'S01', img: 'BBK Video/SOCIAL MEDIA CULTURE _ CARRYMINATI(480P).mp4.JPG', title: 'Social Media Culture | CarryMinati', synopsis: 'CarryMinati dives into the absurdities of social media culture.', rating: '8.9/10', link: 'BBK Video/SOCIAL MEDIA CULTURE _ CARRYMINATI(480P).mp4' },
+                { season: 'S01', img: 'BBK Video/Arrey kaun Bhuvan_ _ Memory Loss _ BB Ki Vines(720P_HD).mp4.JPG', title: 'Arrey kaun Bhuvan | Memory Loss', synopsis: 'A humorous skit where Bhuvan suffers from memory loss.', rating: '8.6/10', link: 'BBK Video/Arrey kaun Bhuvan_ _ Memory Loss _ BB Ki Vines(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB and Bancho join Sameer_s business _ Career Tension _ BB Ki Vines(720P_HD).mp4.JPG', title: 'BB and Bancho Join Sameer’s Business | Career Tension', synopsis: "BB and Bancho try to enter Sameer's business with hilarious results.", rating: '8.8/10', link: 'BBK Video/BB and Bancho join Sameer_s business _ Career Tension _ BB Ki Vines(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Alvida Dost _(720P_HD).mp4.JPG', title: 'Alvida Dost', synopsis: 'A touching yet funny portrayal of saying goodbye to a friend.', rating: '8.9/10', link: 'BBK Video/BB Ki Vines- _ Alvida Dost _(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Badass Santa _(480P).mp4.JPG', title: 'Badass Santa', synopsis: 'A comical take on Santa Claus with a badass twist.', rating: '9.0/10', link: 'BBK Video/BB Ki Vines- _ Badass Santa _(480P).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Badass Santa- Part 2 _(720P_HD).mp4.JPG', title: 'Badass Santa - Part 2', synopsis: 'The sequel to the hilarious "Badass Santa" episode.', rating: '9.1/10', link: 'BBK Video/BB Ki Vines- _ Badass Santa- Part 2 _(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Bancho Ka Break-up _(720P_HD)(480P).mp4.JPG', title: 'Bancho Ka Break-up', synopsis: "A funny yet emotional sketch about Bancho's breakup.", rating: '8.7/10', link: 'BBK Video/BB Ki Vines- _ Bancho Ka Break-up _(720P_HD)(480P).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Detective Mangloo _(720P_HD).mp4.JPG', title: 'Detective Mangloo', synopsis: 'Detective Mangloo investigates a mystery with hilarious consequences.', rating: '9.0/10', link: 'BBK Video/BB Ki Vines- _ Detective Mangloo _(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Ghar Kalesh _(720P_HD).mp4.JPG', title: 'Ghar Kalesh', synopsis: 'A comic portrayal of family disputes in a hilarious setting.', rating: '8.8/10', link: 'BBK Video/BB Ki Vines- _ Ghar Kalesh _(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Jijaji Ko Dhoondo _(720P_HD).mp4.JPG', title: 'Jijaji Ko Dhoondo', synopsis: 'The hunt for Jijaji leads to funny and unexpected moments.', rating: '8.9/10', link: 'BBK Video/BB Ki Vines- _ Jijaji Ko Dhoondo _(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ Lockdown Queen _(720P_HD).mp4.JPG', title: 'Lockdown Queen', synopsis: 'A comedic sketch revolving around the queen of the lockdown.', rating: '9.1/10', link: 'BBK Video/BB Ki Vines- _ Lockdown Queen _(720P_HD).mp4' },
+                { season: 'S01', img: 'BBK Video/BB Ki Vines- _ ManglooSutra _(720P_HD).mp4.JPG', title: 'ManglooSutra', synopsis: 'Detective Mangloo is back with a new case in this hilarious episode.', rating: '9.0/10', link: 'BBK Video/BB Ki Vines- _ ManglooSutra _(720P_HD).mp4' },
+                { season: 'S02', img: 'BBK Video/BB Ki Vines- _ Valentine_s Week Hutiyapa _(720P_HD).mp4.JPG', title: "Valentine's Week Hutiyapa", synopsis: "Valentine's week chaos unfolds in classic BB Ki Vines style.", rating: '8.5/10', link: 'BBK Video/BB Ki Vines- _ Valentine_s Week Hutiyapa _(720P_HD).mp4' },
+                { season: 'S02', img: "BBK Video/BB_s Superpower _ Mann ki Baat _ BB Ki Vines(720P_HD).mp4.JPG", title: "BB's Superpower - Mann ki Baat", synopsis: 'BB shares his unique take on superpowers and mind games.', rating: '8.7/10', link: "BBK Video/BB_s Superpower _ Mann ki Baat _ BB Ki Vines(720P_HD).mp4" },
+                { season: 'S02', img: 'BBK Video/Body ka strongest hissa kya hai_ _ Angry Masterji 14 _ BB Ki Vines(720P_HD).mp4.JPG', title: 'Body ka Strongest Hissa - Angry Masterji 14', synopsis: 'Masterji teaches the kids about the strongest part of the body.', rating: '9.1/10', link: 'BBK Video/Body ka strongest hissa kya hai_ _ Angry Masterji 14 _ BB Ki Vines(720P_HD).mp4' },
+                { season: 'S02', img: 'BBK Video/Bubbly sir is hopeless dad__ _ Angry Masterji- Part 12 _ BB Ki Vines(720P_HD).mp4.JPG', title: 'Bubbly Sir is Hopeless Dad - Angry Masterji 12', synopsis: 'Bubbly Sir faces hilarious challenges as a dad under Angry Masterji’s watch.', rating: '8.8/10', link: 'BBK Video/Bubbly sir is hopeless dad__ _ Angry Masterji- Part 12 _ BB Ki Vines(720P_HD).mp4' },
+                { season: 'S02', img: 'BBK Video/Bubbly Sir Ki Lockdown Life_ _ Angry Masterji 15 _ BB Ki Vines(720P_HD).mp4.JPG', title: 'Bubbly Sir Ki Lockdown Life - Angry Masterji 15', synopsis: 'Bubbly Sir deals with the lockdown under Angry Masterji’s guidance.', rating: '8.9/10', link: 'BBK Video/Bubbly Sir Ki Lockdown Life_ _ Angry Masterji 15 _ BB Ki Vines(720P_HD).mp4' }
+            ];
             let currentFilteredEpisodes = [], currentEpisodeIndex = -1;
             const elements = {
                 navbar: document.getElementById('navbar'),
@@ -188,6 +189,7 @@
                 modalVideoSource: document.getElementById('modal-video-source'),
                 modalCloseBtn: document.querySelector('.close'),
                 nextEpisodePrompt: document.getElementById('next-episode-prompt'),
+                videoOverlay: document.getElementById('video-overlay-controls'),
                 centerClickZone: document.querySelector('.click-zone.center'),
                 leftClickZone: document.querySelector('.click-zone.left'),
                 rightClickZone: document.querySelector('.click-zone.right'),
@@ -200,14 +202,14 @@
                 elements.container.innerHTML = '';
                 currentFilteredEpisodes = allEpisodes.filter(ep => (selectedSeason === 'all' || ep.season === selectedSeason) && (ep.title.toLowerCase().includes(filterText) || ep.synopsis.toLowerCase().includes(filterText)));
                 if (currentFilteredEpisodes.length === 0) {
-                    elements.container.innerHTML = '<p>No episodes found matching your criteria.</p>';
+                    elements.container.innerHTML = '<p>No videos found matching your criteria.</p>';
                     return;
                 }
                 currentFilteredEpisodes.forEach((ep, index) => {
                     const episodeElement = document.createElement('div');
                     episodeElement.className = 'episode';
                     episodeElement.dataset.index = index;
-                    episodeElement.innerHTML = `<div class="image-container"><img src="${ep.img}" alt="${ep.title}" loading="lazy" onerror="this.onerror=null;this.src='ultimate-spiderman-logo.png';"><div class="play-icon">▶</div></div><div class="episode-info"><div class="title">${ep.title}</div><div class="synopsis">${ep.synopsis}</div><div class="rating">IMDB: ★ ${ep.rating}</div></div>`;
+                    episodeElement.innerHTML = `<div class="image-container"><img src="${ep.img}" alt="${ep.title}" loading="lazy"><div class="play-icon">▶</div></div><div class="episode-info"><div class="title">${ep.title}</div><div class="synopsis">${ep.synopsis}</div><div class="rating">Rating: ${ep.rating}</div></div>`;
                     episodeElement.addEventListener('click', () => showDetails(index));
                     episodeElement.addEventListener('mouseenter', () => { elements.hoverSound.currentTime = 0; elements.hoverSound.play().catch(e => {}); });
                     elements.container.appendChild(episodeElement);

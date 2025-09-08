@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR1 Site - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-page">
+    <audio id="hover-sound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
+
+    <header class="navbar" id="navbar">
+        <div class="navbar-left">
+            <a href="netflix.html" class="navbar-logo"><img src="netflix-mobile-application-logo-free-png.webp" alt="VR1FLIX Logo"></a>
+            <nav class="navbar-links">
+                <a href="netflix.html">Home</a>
+                <a href="#" onclick="showAll('series'); return false;">TV Shows</a>
+                <a href="#" onclick="showAll('movies'); return false;">Movies</a>
+            </nav>
+        </div>
+        <div class="navbar-right">
+            <input type="text" id="search-input" placeholder="Search title, genre, cast...">
+            <div class="hamburger">
+                <img src="download.png" alt="Menu">
+                <div class="dropdown-content">
+                    <div class="welcome-text">Welcome, Vishal R</div>
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                    <a href="home.html">Home</a>
+                    <a href="GALLERY.HTML">Stream</a>
+                    <a href="about.html">About</a>
+                    <!-- CHANGED: Added the missing link to switch to the light theme -->
+                    <a href="netflix-light.html">Turn on light theme</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="hero-section" class="hero-container">
+        <!-- Slideshow content will be dynamically injected -->
+    </div>
+
+    <div id="main-content" class="main-container">
+        <!-- Movie/Series carousels or grid view will be injected here -->
+    </div>
+
+    <footer>
+        <p>© 2024 VR1 Site. All rights reserved.</p>
+    </footer>
+
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn">×</span>
+            <h2 id="modal-title">Movie Title</h2>
+            <div class="modal-video-container">
+                <video id="modal-video" width="100%" controls>
+                    <source id="modal-video-source" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="modal-info-scrollable">
+                <p id="modal-synopsis">Movie Synopsis</p>
+                <p><strong>Rating:</strong> <span id="modal-rating-value"></span></p>
+                <p><strong>Cast:</strong> <span id="modal-cast-value"></span></p>
+
+                <div id="recommendations-section" class="category-row">
+                    <h2 class="category-title">You Might Also Like</h2>
+                    <div class="carousel-container">
+                        <button class="carousel-arrow arrow-left">‹</button>
+                        <div id="recommendations-carousel" class="movies-carousel">
+                            <!-- Recommendation cards will be injected here -->
+                        </div>
+                        <button class="carousel-arrow arrow-right">›</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        // --- DOM ELEMENTS & STATE ---
+        const mainContent = document.getElementById('main-content');
+        const heroSection = document.getElementById('hero-section');
+        const modal = document.getElementById('movie-modal');
+        const closeModalButton = document.querySelector('.close-modal-btn');
+        const searchInput = document.getElementById('search-input');
+        const hoverSound = document.getElementById('hover-sound');
+        const navbar = document.getElementById('navbar');
+        const videoPlayer = document.getElementById('modal-video');
+        const videoContainer = document.querySelector('.modal-video-container');
+        let heroInterval;
+
+        // --- CORE LOGIC ---
+        function buildHomePage(filteredMovies = null) {
+            if (heroInterval) clearInterval(heroInterval);
+            heroSection.style.display = 'flex';
+            mainContent.innerHTML = '';
+            const sourceMovies = filteredMovies || allMovies;
+
+            if (filteredMovies) {
+                heroSection.style.display = 'none';
+                if (sourceMovies.length > 0) createCategoryRow("Search Results", sourceMovies, false);
+                else mainContent.innerHTML = '<h2 class="category-title">No results found for your query.</h2>';
+            } else {
+                initializeHeroSlideshow();
+                const latestYear = Math.max(...allMovies.map(m => m.year || 0));
+                if (latestYear > 0) createCategoryRow(`New Releases - ${latestYear}`, allMovies.filter(m => m.year === latestYear), false);
+                createCategoryRow("Trending Now", [...sourceMovies].sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating)).slice(0, 10), true);
+                createCategoryRow("TV Series", allSeries, false, true);
+
+                const allGenres = new Set(allMovies.flatMap(m => m.genres));
+                const genreBlacklist = ['pg-13', 'r-rated', 'kids'];
+                genreBlacklist.forEach(g => allGenres.delete(g));
+                
+                const sortedGenres = Array.from(allGenres).sort();
+                sortedGenres.forEach(genre => {
+                    const categoryMovies = sourceMovies.filter(m => m.genres.includes(genre));
+                    if (categoryMovies.length > 5) createCategoryRow(genre.charAt(0).toUpperCase() + genre.slice(1) + " Movies", categoryMovies, false);
+                });
+            }
+            attachArrowListeners();
+            attachCardListeners();
+        }
+
+        function showAll(type) {
+            if (heroInterval) clearInterval(heroInterval);
+            heroSection.style.display = 'none';
+            mainContent.innerHTML = '';
+            const items = (type === 'series') ? allSeries : allMovies;
+            const title = (type === 'series') ? 'All TV Shows' : 'All Movies';
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'full-grid-container';
+            gridContainer.innerHTML = `<div class="grid-header"><h1 class="grid-title">${title}</h1><button class="back-btn" onclick="buildHomePage()">← Back to Home</button></div><div class="movies-grid gallery-view">${items.map(item => createCardHTML(item, 0, false, type === 'series')).join('')}</div>`;
+            if (type === 'series') gridContainer.querySelector('.movies-grid').classList.add('series-grid-view');
+            mainContent.appendChild(gridContainer);
+            attachCardListeners();
+        }
+        
+        function initializeHeroSlideshow() {
+            const heroContent = [...allMovies, ...allSeries];
+            for (let i = heroContent.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[heroContent[i], heroContent[j]] = [heroContent[j], heroContent[i]]; }
+            let currentIndex = 0;
+            const updateSlide = () => {
+                const item = heroContent[currentIndex];
+                const contentWrapper = heroSection.querySelector('.hero-content');
+                const showNewSlide = () => {
+                    heroSection.innerHTML = `<div class="hero-background" style="background-image: url('${item.img}')"></div><div class="hero-content"><h1 class="hero-title">${item.title}</h1><p class="hero-synopsis">${item.synopsis || ''}</p><div class="hero-buttons"><button class="hero-btn-play" data-item='${JSON.stringify(item)}'>▶ Play</button></div></div>`;
+                    heroSection.querySelector('.hero-btn-play').addEventListener('click', (e) => {
+                        const itemData = JSON.parse(e.currentTarget.dataset.item);
+                        if (itemData.link.endsWith('.html')) window.location.href = itemData.link; else showDetails(itemData);
+                    });
+                };
+                if (contentWrapper) { contentWrapper.classList.add('fade-out'); setTimeout(showNewSlide, 500); }
+                else showNewSlide();
+                currentIndex = (currentIndex + 1) % heroContent.length;
+            };
+            updateSlide(); heroInterval = setInterval(updateSlide, 7000);
+        }
+
+        function createCategoryRow(title, itemsInRow, isTrending, isSeries = false) {
+            const row = document.createElement('div');
+            row.className = 'category-row';
+            row.innerHTML = `<h2 class="category-title">${title}</h2><div class="carousel-container"><button class="carousel-arrow arrow-left">‹</button><div class="movies-carousel">${itemsInRow.map((item, index) => createCardHTML(item, index + 1, isTrending, isSeries)).join('')}</div><button class="carousel-arrow arrow-right">›</button></div>`;
+            mainContent.appendChild(row);
+        }
+
+        function createCardHTML(item, rank, isTrending, isSeries) {
+            const posterHTML = `<img src="${item.img}" alt="${item.title}" onerror="this.onerror=null;this.src='friends-logo-png-transparent.png';" loading="lazy">`;
+            
+            // UPDATED: Handle series by creating a div with a data-link attribute
+            if (isSeries) {
+                return `<div class="movie-card" data-link="${item.link}">${posterHTML}</div>`;
+            }
+            
+            const cardClass = isTrending ? 'movie-card trending-card' : 'movie-card';
+            const dataTitle = `data-title="${item.title.replace(/"/g, "'")}"`;
+            if (isTrending) return `<div class="${cardClass}" ${dataTitle}><span class="rank-number">${rank}</span><div class="movie-poster">${posterHTML}</div></div>`;
+            return `<div class="${cardClass}" ${dataTitle}>${posterHTML}</div>`;
+        }
+
+        // --- EVENT LISTENERS ---
+        function attachCardListeners(scope = document) {
+            scope.querySelectorAll('.movie-card').forEach(card => {
+                card.addEventListener('mouseenter', () => { hoverSound.currentTime = 0; hoverSound.play().catch(e => {}); });
+                
+                // UPDATED: Handle clicks based on data attributes for movies and series
+                if (card.dataset.title) { // It's a movie card
+                    card.addEventListener('click', (e) => {
+                        const movieData = allMovies.find(m => m.title.replace(/"/g, "'") === e.currentTarget.dataset.title);
+                        if (movieData) showDetails(movieData);
+                    });
+                } else if (card.dataset.link) { // It's a series card
+                    card.addEventListener('click', (e) => {
+                        window.location.href = e.currentTarget.dataset.link;
+                    });
+                }
+            });
+        }
+
+        function attachArrowListeners(scope = document) {
+            scope.querySelectorAll('.carousel-arrow').forEach(arrow => {
+                arrow.addEventListener('mouseenter', () => hoverSound.play().catch(e => {}));
+                arrow.addEventListener('click', (e) => {
+                    const carousel = e.target.parentElement.querySelector('.movies-carousel');
+                    const scrollAmount = carousel.clientWidth * 0.9;
+                    const isRight = e.target.classList.contains('arrow-right');
+                    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                    if (isRight && carousel.scrollLeft >= maxScroll - 1) carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                    else if (!isRight && carousel.scrollLeft <= 0) carousel.scrollTo({ left: maxScroll, behavior: 'smooth' });
+                    else carousel.scrollLeft += isRight ? scrollAmount : -scrollAmount;
+                });
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length > 1) buildHomePage(allMovies.filter(m => m.title.toLowerCase().includes(query) || m.synopsis.toLowerCase().includes(query) || m.genres.some(g => g.toLowerCase().includes(query)) || m.cast.some(c => c.toLowerCase().includes(query))));
+            else if (query.length === 0) buildHomePage();
+        });
+
+        window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+
+        // --- MODAL & PLAYER LOGIC ---
+        function showDetails(movie) {
+            modal.style.display = "flex";
+            document.body.style.overflow = 'hidden';
+            document.getElementById('modal-title').textContent = movie.title;
+            document.getElementById('modal-synopsis').textContent = movie.synopsis;
+            document.getElementById('modal-rating-value').textContent = movie.rating;
+            document.getElementById('modal-cast-value').textContent = movie.cast.join(', ');
+            displayRecommendations(movie);
+            document.getElementById('modal-video-source').src = movie.link;
+            videoPlayer.load();
+            videoPlayer.play().catch(e => {});
+        }
+
+        function displayRecommendations(currentMovie) {
+            const recsCarousel = document.getElementById('recommendations-carousel');
+            recsCarousel.innerHTML = '';
+            const recommendations = allMovies.filter(m => m.title !== currentMovie.title && m.genres.some(g => currentMovie.genres.includes(g)))
+                .sort((a, b) => b.genres.filter(g => currentMovie.genres.includes(g)).length - a.genres.filter(g => currentMovie.genres.includes(g)).length).slice(0, 12);
+            
+            recsCarousel.innerHTML = recommendations.map(rec => createCardHTML(rec, 0, false, false)).join('');
+            
+            attachCardListeners(recsCarousel);
+        }
+
+        function closeModal() {
+            modal.style.display = 'none'; document.body.style.overflow = 'auto'; videoPlayer.pause();
+            videoPlayer.querySelector('source').src = ""; document.getElementById('recommendations-carousel').innerHTML = '';
+        }
+
+        function attachModalListeners() {
+            closeModalButton.onclick = closeModal;
+            window.onclick = e => (e.target == modal) && closeModal();
+            window.addEventListener('keydown', e => (modal.style.display === 'flex' && e.key === 'Escape') && closeModal());
+            videoContainer.addEventListener('click', e => {
+                if (e.target.id === 'modal-video') {
+                    const rect = videoPlayer.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    if (clickX < rect.width * 0.3) videoPlayer.currentTime -= 10;
+                    else if (clickX > rect.width * 0.7) videoPlayer.currentTime += 10;
+                }
+            });
+            videoPlayer.addEventListener('ended', () => {
+                const infoScroller = document.querySelector('.modal-info-scrollable');
+                if (infoScroller) infoScroller.scrollTo({ top: infoScroller.scrollHeight, behavior: 'smooth' });
+            });
+            attachArrowListeners(modal);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            buildHomePage();
+            attachModalListeners();
+        });
+    </script>
+</body>
+</html>

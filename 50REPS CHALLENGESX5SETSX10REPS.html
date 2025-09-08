@@ -3,52 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercise Stopwatch</title>
+    <title>50 Reps Challenge</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            background-color: #1f1f1f; /* Dark background */
-            color: #fff; /* Text color */
-            padding: 20px;
+            background-color: #1f1f1f;
+            color: #fff;
             margin: 0;
-            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
+        .main-container { 
+            max-width: 500px; 
+            margin: auto;
+            padding: 20px;
+        }
+        #exercise-gif {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid #3498db;
+            margin-bottom: 15px;
+            background-color: #fff;
+        }
+        h2 { margin-top: 0; margin-bottom: 10px; }
         #exercise-name {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #3498db; /* Blue text for exercise name */
-        }
-        .stopwatch {
-            font-size: 32px;
-            margin-bottom: 15px;
-            color: #2ecc71; /* Green text for stopwatch */
-        }
-        #total-stopwatch {
-            font-size: 24px;
-            margin-bottom: 30px;
-            color: #e74c3c; /* Red text for total stopwatch */
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #3498db;
         }
         #region {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 15px;
-            color: #ecf0f1; /* Light text color for region display */
+            color: #ecf0f1;
         }
+        .timers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        .timer-box { background-color: #2c3e50; padding: 10px; border-radius: 5px; }
+        .timer-box-label { font-size: 12px; color: #95a5a6; }
+        .stopwatch { color: #2ecc71; }
+        #total-stopwatch { color: #e74c3c; }
+        #rest-stopwatch { color: #f1c40f; }
+        #worked-stopwatch { color: #9b59b6; }
+        
         button {
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 12px 24px;
+            font-size: 16px;
             cursor: pointer;
-            background-color: #3498db; /* Blue button background */
-            color: #fff; /* White button text */
+            background-color: #3498db;
+            color: #fff;
             border: none;
             border-radius: 5px;
             margin: 5px;
             transition: background-color 0.3s ease;
         }
-        button:hover {
-            background-color: #2980b9; /* Darker blue on hover */
-        }
-      /* Navbar styles */
+        button#start-pause-button.pause { background-color: #f39c12; }
+        button#reset-button { background-color: #c0392b; }
+        button:hover { filter: brightness(1.1); }
+        button:disabled { background-color: #555; cursor: not-allowed; filter: brightness(1); }
+
+        .hidden { display: none; }
+        #workout-summary { background-color: #2c3e50; padding: 20px; border-radius: 10px; }
+
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -56,49 +82,40 @@
             padding: 10px;
             color: white;
         }
-        .navbar .welcome {
-            margin-left: 10px;
+        .navbar .welcome { margin-left: 10px; }
+        .navbar .hamburger { position: relative; display: inline-block; }
+        .navbar .hamburger img { width: 30px; height: 30px; cursor: pointer; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; }
+        .dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; }
+        .dropdown-content a:hover { background-color: #f1f1f1; }
+        .hamburger:hover .dropdown-content { display: block; }
+
+        #animation-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 100;
         }
-        .navbar .hamburger {
-            position: relative;
-            display: inline-block;
+        .glitter {
+            position: absolute; width: 10px; height: 10px; background-color: red;
+            opacity: 0; animation: glitter-fall 2s ease-out forwards;
         }
-        .navbar .hamburger img {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
+        .popper {
+            position: absolute; width: 80px; height: 80px; opacity: 0;
+            animation: popper-float 2.5s ease-out forwards;
         }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+        @keyframes glitter-fall {
+            from { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-        .hamburger:hover .dropdown-content {
-            display: block;
-        }
-        footer {
-           font-weight: bold;
-            text-decoration: none;
+        @keyframes popper-float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="welcome">Welcome, guest xyz123</div>
+    <div class="welcome">Welcome, Vishal R</div>
     <div class="hamburger">
         <img src="download.png" alt="Menu">
         <div class="dropdown-content">
@@ -110,105 +127,238 @@
         </div>
     </div>
 </div>
-<p>Note: Perform each exercise for 50REPS CHALLENGESX5SETSX10REPS.</p>
+<div class="main-container">
+    <div id="workout-interface">
+        <h2>50 Reps Challenge <br> (5 Sets x 10 Reps)</h2>
+        <img id="exercise-gif" src="WORKOUTS/burpee-1457045324.gif" alt="Workout GIF">
+        <div id="exercise-name">Dumbbell Burpees</div>
+        <div id="region">Region: Full Body</div>
+        <div class="timers-grid">
+            <div class="timer-box"><span class="timer-box-label">Exercise Time</span><div id="exercise-stopwatch" class="stopwatch">00:00</div></div>
+            <div class="timer-box"><span class="timer-box-label">Total Time</span><div id="total-stopwatch">00:00</div></div>
+            <div class="timer-box"><span class="timer-box-label">Rest Time</span><div id="rest-stopwatch" class="stopwatch">00:00</div></div>
+            <div class="timer-box"><span class="timer-box-label">Time Worked</span><div id="worked-stopwatch" class="stopwatch">00:00</div></div>
+        </div>
+        <button id="start-pause-button" onclick="togglePauseResume()">Start</button>
+        <button id="next-button" onclick="nextExercise()">Next Exercise</button>
+        <button id="reset-button" onclick="resetProgram()">Reset</button>
+    </div>
+    
+    <div id="workout-summary" class="hidden">
+        <h2>Workout Complete!</h2>
+        <canvas id="summaryChart" width="400" height="200"></canvas>
+        <h3>Final Stats:</h3>
+        <p>Total Time: <span id="summary-total"></span></p>
+        <p>Time Worked: <span id="summary-worked"></span></p>
+        <p>Total Rest: <span id="summary-rest"></span></p>
+        <p>Est. Calories Burned: <b id="summary-calories" style="color:#2ecc71;"></b></p>
+        <h3>Great job! Keep pushing your limits!</h3>
+        <button onclick="window.location.reload()">Do it Again!</button>
+        <button onclick="window.location.href='workout_app.html'">Back to Matrix</button>
+    </div>
+</div>
 
-<div id="exercise-name">Exercise: <span id="current-exercise">50 Reps Challenge x5 Sets x10 Reps</span></div>
-<div id="region">Region: Full Body</div>
-<div id="exercise-stopwatch" class="stopwatch">00:00</div>
-<div id="total-stopwatch">Total Time: 00:00</div>
-<button id="start-button" onclick="startProgram()">Start</button>
-<button id="stop-button" onclick="stopProgram()">Stop</button>
-<button id="next-button" onclick="nextExercise()">Next</button>
+<div id="animation-container"></div>
+
+<audio id="bell-sound" src="TIMER/bell-98033.mp3" preload="auto"></audio>
+<audio id="timer-sound" src="TIMER/kitchen-timer-87485.mp3" preload="auto" loop></audio>
+<audio id="fanfare-sound" src="TIMER/brass-fanfare-with-timpani-and-winchimes-reverberated-146260.mp3" preload="auto"></audio>
 
 <script>
-    let exerciseStopwatchInterval;
-    let totalStopwatchInterval;
-    let exerciseSeconds = 0;
-    let totalSeconds = 0;
+    let exerciseTimer, totalTimer, restTimer;
+    let exerciseSeconds = 0, totalSeconds = 0, restSeconds = 0, totalRestSeconds = 0;
     let currentExerciseIndex = 0;
-    let programRunning = false;
+    let workoutState = 'stopped';
+
+    const bellSound = document.getElementById('bell-sound');
+    const timerSound = document.getElementById('timer-sound');
+    const fanfareSound = document.getElementById('fanfare-sound');
+    
     const exercises = [
-        { name: "50 Reps Challenge x5 Sets x10 Reps", region: "Full Body" },
-        { name: "Dumbbell Burpees", region: "Full Body" },
-        { name: "Dumbbell Squat Curl & Overhead Press", region: "Full Body" },
-        { name: "Reverse Lunge & Curl", region: "Legs, Biceps" },
-        { name: "Dumbbell Bicep Curl", region: "Biceps" },
-        { name: "Dumbbell Shoulder Press", region: "Shoulders" }
+        { name: "Dumbbell Burpees", region: "Full Body", gif: "WORKOUTS/burpee-1457045324.gif" },
+        { name: "Dumbbell Squat Curl & Overhead Press", region: "Full Body", gif: "WORKOUTS/Squat-Into-Overhead-Press.gif" },
+        { name: "Reverse Lunge & Curl", region: "Legs, Biceps", gif: "WORKOUTS/Alternating-Squat-Reverse-Lunge.gif" },
+        { name: "Dumbbell Bicep Curl", region: "Biceps", gif: "WORKOUTS/bicep-curl.gif" },
+        { name: "Dumbbell Shoulder Press", region: "Shoulders", gif: "WORKOUTS/shoulder-press-seated-shoulder-press.gif" }
     ];
 
-    function updateExercise() {
-        document.getElementById("current-exercise").innerText = exercises[currentExerciseIndex].name;
+    const startPauseButton = document.getElementById('start-pause-button');
+    const resetButton = document.getElementById('reset-button');
+    const nextButton = document.getElementById('next-button');
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    function updateDisplay() {
+        document.getElementById("exercise-stopwatch").innerText = formatTime(exerciseSeconds);
+        document.getElementById("total-stopwatch").innerText = formatTime(totalSeconds);
+        document.getElementById("rest-stopwatch").innerText = formatTime(restSeconds);
+        const workedSeconds = totalSeconds - (totalRestSeconds + restSeconds);
+        document.getElementById("worked-stopwatch").innerText = formatTime(workedSeconds < 0 ? 0 : workedSeconds);
+    }
+
+    function updateExerciseUI() {
+        document.getElementById("exercise-gif").src = exercises[currentExerciseIndex].gif;
+        document.getElementById("exercise-name").innerText = exercises[currentExerciseIndex].name;
         document.getElementById("region").innerText = `Region: ${exercises[currentExerciseIndex].region}`;
+        
+        if (currentExerciseIndex === exercises.length - 1) {
+            nextButton.innerText = 'Finish';
+        } else {
+            nextButton.innerText = 'Next Exercise';
+        }
     }
-
-    function startExerciseStopwatch() {
-        exerciseStopwatchInterval = setInterval(function () {
-            exerciseSeconds++;
-            const minutes = Math.floor(exerciseSeconds / 60);
-            const remainingSeconds = exerciseSeconds % 60;
-            document.getElementById("exercise-stopwatch").innerText = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }, 1000);
-    }
-
-    function startTotalStopwatch() {
-        totalStopwatchInterval = setInterval(function () {
-            totalSeconds++;
-            const minutes = Math.floor(totalSeconds / 60);
-            const remainingSeconds = totalSeconds % 60;
-            document.getElementById("total-stopwatch").innerText = `Total Time: ${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }, 1000);
-    }
-
-    function stopExerciseStopwatch() {
-        clearInterval(exerciseStopwatchInterval);
-        exerciseSeconds = 0;
-    }
-
-    function stopTotalStopwatch() {
-        clearInterval(totalStopwatchInterval);
-        totalSeconds = 0;
-    }
-
-    function startProgram() {
-        if (!programRunning) {
-            programRunning = true;
-            startExerciseStopwatch();
-            startTotalStopwatch();
+    
+    function togglePauseResume() {
+        bellSound.play();
+        if (workoutState === 'running') { // PAUSE
+            workoutState = 'paused';
+            clearInterval(exerciseTimer);
+            timerSound.pause();
+            restTimer = setInterval(() => { restSeconds++; updateDisplay(); }, 1000);
+            startPauseButton.innerText = 'Resume';
+            startPauseButton.classList.add('pause');
+        } else { // START or RESUME
+            workoutState = 'running';
+            if(restTimer) {
+                clearInterval(restTimer);
+                totalRestSeconds += restSeconds;
+                restSeconds = 0;
+            }
+            startPauseButton.innerText = 'Pause';
+            startPauseButton.classList.remove('pause');
+            resetButton.disabled = false;
+            nextButton.disabled = false;
+            
+            if(!totalTimer) totalTimer = setInterval(() => { totalSeconds++; updateDisplay(); }, 1000);
+            exerciseTimer = setInterval(() => { exerciseSeconds++; updateDisplay(); }, 1000);
+            timerSound.play();
         }
     }
 
-    function stopProgram() {
-        if (programRunning) {
-            programRunning = false;
-            stopExerciseStopwatch();
-            stopTotalStopwatch();
-        }
+    function resetProgram() {
+        if(workoutState === 'stopped') return;
+        bellSound.play();
+        timerSound.pause();
+        workoutState = 'stopped';
+        
+        clearInterval(exerciseTimer);
+        clearInterval(totalTimer);
+        clearInterval(restTimer);
+
+        exerciseSeconds = 0; totalSeconds = 0; restSeconds = 0; totalRestSeconds = 0;
+        currentExerciseIndex = 0;
+        
+        updateDisplay();
+        updateExerciseUI();
+        
+        startPauseButton.innerText = 'Start';
+        startPauseButton.classList.remove('pause');
+        resetButton.disabled = true;
+        nextButton.disabled = true;
     }
 
     function nextExercise() {
-        if (programRunning) {
-            stopExerciseStopwatch();
-            currentExerciseIndex = (currentExerciseIndex + 1) % exercises.length;
+        if (workoutState === 'stopped') return;
+        if (currentExerciseIndex >= exercises.length - 1) {
+            finishWorkout();
+            return;
+        }
+        
+        if(workoutState === 'paused') {
+            totalRestSeconds += restSeconds;
+            restSeconds = 0;
+        }
 
-            // Check if one set is completed
-            if (currentExerciseIndex === 0) {
-                stopTotalStopwatch();
-            }
+        bellSound.play();
+        timerSound.pause();
+        
+        clearInterval(exerciseTimer);
+        exerciseSeconds = 0;
+        workoutState = 'paused';
+        
+        restTimer = setInterval(() => { restSeconds++; updateDisplay(); }, 1000);
+        
+        currentExerciseIndex++;
+        updateExerciseUI();
+        startPauseButton.innerText = 'Resume';
+        startPauseButton.classList.add('pause');
+    }
 
-            updateExercise();
-            document.getElementById("exercise-stopwatch").innerText = "00:00";
-            startExerciseStopwatch();
+    function finishWorkout() {
+        if (workoutState === 'stopped') return;
+        timerSound.pause();
+        fanfareSound.play();
+        runConfettiAnimation();
+        
+        clearInterval(totalTimer); totalTimer = null;
+        clearInterval(exerciseTimer); exerciseTimer = null;
+        clearInterval(restTimer); restTimer = null;
+        if (workoutState === 'paused') totalRestSeconds += restSeconds;
+        workoutState = 'stopped';
+        
+        setTimeout(() => {
+            showWorkoutSummary();
+        }, 2000);
+    }
+    
+    function showWorkoutSummary() {
+        document.getElementById('workout-interface').classList.add('hidden');
+        document.getElementById('workout-summary').classList.remove('hidden');
 
-            // Start or reset total stopwatch
-            if (currentExerciseIndex === 0) {
-                stopTotalStopwatch();
-                startTotalStopwatch();
-            }
+        const timeWorked = totalSeconds - totalRestSeconds;
+        const estCalories = (8.0 * 3.5 * 70 / 200) * (timeWorked / 60);
+
+        document.getElementById('summary-total').innerText = formatTime(totalSeconds);
+        document.getElementById('summary-worked').innerText = formatTime(timeWorked);
+        document.getElementById('summary-rest').innerText = formatTime(totalRestSeconds);
+        document.getElementById('summary-calories').innerText = `${estCalories.toFixed(1)} kcal (estimated)`;
+        
+        new Chart(document.getElementById('summaryChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Time Worked', 'Total Rest'],
+                datasets: [{
+                    data: [timeWorked, totalRestSeconds],
+                    backgroundColor: ['#2ecc71', '#f1c40f'],
+                    borderColor: ['#27ae60', '#f39c12'],
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'top', labels: { color: '#fff' } } } }
+        });
+    }
+
+    function runConfettiAnimation() {
+        const container = document.getElementById('animation-container');
+        for (let i = 0; i < 50; i++) {
+            const glitter = document.createElement('div');
+            glitter.className = 'glitter';
+            glitter.style.left = `${Math.random() * 100}vw`;
+            glitter.style.top = `${Math.random() * 100}vh`;
+            glitter.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            glitter.style.animationDelay = `${Math.random() * 1}s`;
+            container.appendChild(glitter);
+            glitter.addEventListener('animationend', () => glitter.remove());
+        }
+        for (let i = 0; i < 10; i++) {
+            const popper = document.createElement('img');
+            popper.src = 'WORKOUTS/pngimg.com - party_popper_PNG7.png';
+            popper.className = 'popper';
+            popper.style.left = `${Math.random() * 100}vw`;
+            popper.style.animationDelay = `${Math.random() * 1}s`;
+            container.appendChild(popper);
+            popper.addEventListener('animationend', () => popper.remove());
         }
     }
 
-    // Initial setup
-    updateExercise();
+    updateExerciseUI();
+    resetButton.disabled = true;
+    nextButton.disabled = true;
+
 </script>
 
 </body>

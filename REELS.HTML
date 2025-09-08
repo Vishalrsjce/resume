@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reels Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --navbar-height: 60px;
+            --background-dark: #000;
+            --text-light: #fff;
+            --primary-accent: #E1306C;
+            --button-bg: rgba(255, 255, 255, 0.15);
+            --background-light: #f0f8ff;
+            --text-dark: #333;
+            --accent-blue: #0077b6;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            overflow: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #141414; padding: 0 15px; height: var(--navbar-height); color: white; position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; box-sizing: border-box; }
+        .navbar-logo img { height: 40px; }
+        .navbar-right { display: flex; align-items: center; gap: 20px; }
+        .navbar .welcome { font-size: 0.9rem; padding-right: 15px; }
+       
+        /* --- Category Selector Screen --- */
+        #category-selector { display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100vh - var(--navbar-height)); margin-top: var(--navbar-height); padding: 20px; box-sizing: border-box; transition: opacity 0.3s ease-in-out; background: linear-gradient(to bottom, #e0f7fa, #ffffff); color: var(--text-dark); }
+        #category-selector h1 { font-size: 2.5rem; margin-bottom: 40px; color: var(--accent-blue); text-shadow: 0 0 10px rgba(0, 119, 182, 0.2); }
+        #category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; width: 100%; max-width: 800px; }
+        .category-item { cursor: pointer; text-align: center; border-radius: 12px; overflow: hidden; position: relative; transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid rgba(0, 0, 0, 0.1); }
+        .category-item:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 119, 182, 0.5); }
+        .category-item img { width: 100%; height: 150px; object-fit: cover; display: block; }
+        .category-item .category-name { background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); position: absolute; bottom: 0; left: 0; right: 0; padding: 10px; font-weight: bold; text-transform: capitalize; color: var(--text-light); }
+
+        /* --- Reels Viewer Screen --- */
+        #reels-viewer { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--background-dark); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.3s ease-in-out, visibility 0.3s; }
+        #reels-viewer.active { visibility: visible; opacity: 1; z-index: 2500; }
+        #reels-container { width: 100%; height: 100%; max-width: 450px; background: #111; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-snap-stop: always; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        #reels-container::-webkit-scrollbar { display: none; }
+        .reel-item { width: 100%; height: 100%; scroll-snap-align: start; position: relative; display: flex; align-items: center; justify-content: center; }
+        .reel-item video { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+
+        /* --- Redesigned UI Overlay --- */
+        .reel-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px 15px; box-sizing: border-box; pointer-events: none; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 40%); }
+        #back-button { position: absolute; top: 20px; left: 20px; font-size: 1.5rem; color: var(--text-light); cursor: pointer; z-index: 1100; pointer-events: all; text-shadow: 0 0 5px rgba(0,0,0,0.7); background: rgba(0,0,0,0.4); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;}
+        #reel-counter { position: absolute; top: 20px; left: 70px; background: rgba(0, 0, 0, 0.6); color: white; padding: 8px 15px; border-radius: 20px; font-size: 1rem; font-weight: bold; z-index: 1100; pointer-events: none;}
+        .reel-bottom-ui { width: 100%; display: flex; align-items: flex-end; gap: 15px; }
+        .reel-info-left { flex-grow: 1; pointer-events: all; }
+        .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .user-info img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--text-light); object-fit: cover;}
+        .user-info .username { font-weight: bold; font-size: 1.1rem; }
+        .follow-btn { padding: 8px 16px; border: 1.5px solid var(--text-light); background: transparent; color: var(--text-light); border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.2s, color 0.2s; pointer-events: all; }
+        .follow-btn.followed { background: rgba(255, 255, 255, 0.9); color: #000; border-color: transparent; }
+        .video-description { line-height: 1.4; font-size: 1rem; margin-bottom: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        .engagement-stats { font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .comment-section { padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; font-style: italic; color: rgba(255, 255, 255, 0.7); }
+        .reel-actions-right { display: flex; flex-direction: column; gap: 28px; align-items: center; pointer-events: all; position: relative; }
+        .action-btn { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: var(--text-light); }
+        .action-btn i { font-size: 2.2rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); transition: transform 0.2s, color 0.2s; }
+        .action-btn span { font-size: 0.9rem; margin-top: 6px; font-weight: 500; }
+        .action-btn.active i { color: var(--primary-accent); transform: scale(1.1); }
+        .action-btn.save-btn.active i { color: var(--text-light); }
+
+        /* --- Volume Slider Styling --- */
+        .volume-control-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; }
+        .volume-icon { font-size: 1.4rem; padding: 8px; background: rgba(0,0,0,0.4); border-radius: 50%; cursor: pointer; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+        .volume-slider { -webkit-appearance: none; appearance: none; width: 80px; height: 5px; background: rgba(255, 255, 255, 0.3); border-radius: 5px; position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%) rotate(-90deg); transform-origin: center; cursor: pointer; opacity: 0; transition: opacity 0.2s ease-in-out; pointer-events: none; }
+        .volume-control-wrapper:hover .volume-slider { opacity: 1; pointer-events: all; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 15px; height: 15px; background: #fff; border-radius: 50%; }
+        .volume-slider::-moz-range-thumb { width: 15px; height: 15px; background: #fff; border-radius: 50%; }
+
+
+        /* --- End of Feed Message Styling --- */
+        .end-of-feed-message { width: 100%; height: 100%; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: #1a1a1a; padding: 20px; box-sizing: border-box; }
+        .end-of-feed-message h2 { font-size: 1.8rem; color: #fff; margin-bottom: 10px; }
+        .end-of-feed-message p { color: #aaa; margin-bottom: 25px; }
+        .end-of-feed-message button { padding: 12px 25px; font-size: 1rem; cursor: pointer; background-color: var(--accent-blue); color: #fff; border: none; border-radius: 8px; transition: background-color 0.2s; pointer-events: all; }
+        .end-of-feed-message button:hover { filter: brightness(1.15); }
+
+    </style>
+</head>
+<body>
+    
+    <div class="navbar">
+        <a href="netflix.html" class="navbar-logo"><img src="netflix-mobile-application-logo-free-png.webp" alt="VR1FLIX Logo"></a>
+        <div class="navbar-right">
+            <div class="welcome">Welcome, Vishal R</div>
+        </div>
+    </div>
+    
+    <audio id="hover-sound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
+
+    <div id="category-selector">
+        <h1>Select a Category</h1>
+        <div id="category-grid"></div>
+    </div>
+
+    <div id="reels-viewer">
+        <div id="back-button"><i class="fas fa-arrow-left"></i></div>
+        <div id="reel-counter"></div>
+        <div id="reels-container"></div>
+    </div>
+
+    <script>
+        const reelsData = {
+            "advertisements": { image: "reels/advertisements.jpg", videos: ["Wick-edly entertaining.mp4", "Care for a drink.mp4", "Don’t walk… run.mp4", "Feel the heat..mp4", "finaldestinationmovie.mp4", "I’m surprise how good movie it is.mp4", "Just saw it and it was amazing.mp4", "Marvel Studio.mp4", "Pedal to the metal..mp4", "See what everyone is talking about.mp4", "She’s got you surrounded.mp4", "The new avengers and bob are better.mp4", "View at your own risk.mp4"] },
+            "aura": { image: "reels/aura.jpg", videos: ["Very Bad Man.mp4", "Bro face.mp4", "Hate the character but respect for the actor.mp4", "I’m on dads side.mp4", "Level of confidence.mp4", "Matt, Matthew.mp4", "Mommy behaviour.mp4", "Passing the legend Max Verstappen.mp4", "RDJ never disappoints.mp4", "respect this man.mp4", "Running in the movies since 1981.mp4", "satisfaction - benny banassi.mp4", "Sending myself.mp4", "So they actually performed these stunts pretty cool..mp4", "that's why they are 6 times world champions.mp4", "the_ramcharan.mp4", "These are worldwar 1 soldiers reincarnate.mp4", "Tom Cruise and his new ideas to die.mp4", "Venom never really left bro.mp4"] },
+            "comedy": { image: "reels/comedy.jpeg", videos: [
+                "A night at Roxbury ..... One of the finest.mp4", "A woman was passionately singing on stage_ and after every line she sang_ one of her band members added a perfectly timed whistle. The unexpected whistles m(.mp4", "Abercrombie_Fitch be like😂 (tag 3 friends_)(MP4).mp4", "Absolute Cinema._._._.__davinci _davinciresolve _scuderiaferrari _redbullracing _formula1 _maxverstappen _charlesleclerc _jeddah_(MP4).mp4", "after he saw the results.mp4", "Alright Jeez😂(MP4).mp4", "animal core _._.__animals _pet _hopecore _funny _fyp _foryou _dog _cat _humour _hashtag(MP4).mp4", "Beijing with Love (1994).mp4", "best movie memes.mp4", "Bo Burnham_s _A World on Fire__ featured in his 2013 special what._ is a comedic micro-song that lasts only a few seconds. It humorously consists of Burnham(.mp4", "Bro accidentally destroyed Israil.mp4", "Bro cooked her.mp4", "Bro crushed it and won at life 🧘‍♂️❣️_ _viral _fyp _lifestyle _lovely _couples _workout _instamood _viralvideo _everyone _trending _help _reels(.mp4", "Bro found his perfect match ❤️😂__Follow Us 👉 _clarity_vortex For More Content Like This 🔥__Credits _ Respective Owner ___clarityvortex _clarity(.mp4", "Bro had a serious conversation after waking up again 😂😂_•_•_Like what you see_ Follow us -_ __quality_content_❤️_Don_t miss out on our daily s(.mp4", "Bro has every voice on his roster.mp4", "Bro is all grown up but still have the same attitude.mp4", "Bro knows everything..mp4", "Bro Literally have a girl_ car _ homies and a skill so early☠️ _ _reels(MP4).mp4", "Bro made a Movie intro on Accident.mp4", "Bro made the right choice.mp4", "Bro understands financial literacy .mp4", "Bro watch aot first.mp4", "Bro 🤦🏻‍♂️__bmw _bmwm _bmwm5 _bmwmpower _bmwmotorrad _bmwm2 _e60 _f90 _bmwlove _bmwlovers _bmwgram _bmwinsta _bmwnation _bmwclub _relatable _fyp (.mp4", "Bro’s too innocent.mp4", "Cam the drummer. I wasn_t expecting this 😂 _modernfamily _camerontucker _series _fyp(MP4).mp4", "Can you relate_ 🙄🤭_She makes the rules_ I_m just happy to tag along. __canyourelate _HerRulesMyHeart _LoveWins _CoupleHumour _vchandarealty _Relations(.mp4", "Can_t stop watching this video_ 😂🎶 Who knew I Want It That Way could sound this legendary_ even with their heads buried in the sand_ 🤯🏖️ Pure (.mp4", "Captain America Iconic Death Walk _ Edit😎 _shorts _viral _trend _captainamerica _steverogers(720P_60FPS).mp4", "Check our bio 😲✨(MP4).mp4", "Children sometimes prefer their moms over their dads due to the unique emotional and physical connection that typically develops in early childhood. In many(.mp4", "COME ON boys.mp4", "Comment _Editing_ For Edit Presets_._._Age Of Ultron Edit _ Presets In My Bio_._.__aftereffects _edits _editing _editingpresets _ıronman _ageofultron _fyp(M.mp4", "COMMISSION ACCOMPLISHED. 😂😂😂_Follow _modernfamilyshowaddict if you love MODERN FAMILY❤_-_-_-_-__modernfamily _arielwinter _sarahhyland _sofiaverg(.mp4", "Connection _ Persuasion. Every Time. 🤝_She knew the product._He knew how to connect._That_s the moment sales turned into trust_and trust turned into mone(.mp4", "Coolest Introvert.mp4", "Cutieee _fy _viral _comedy _funnyvideos _dogs(MP4).mp4", "Day 4(MP4).mp4", "Day 35____viral _explore _trending _reels(MP4).mp4", "Disclaimer_ This is a fictional story_parody and not based on real events. Any resemblance to actual events or individuals is purely coincidental.___viralsa(.mp4", "DIUFw3gPSDP(MP4).mp4", "DJe8mVfTcn_(MP4).mp4", "DLZ7bxGioOr(MP4).mp4", "DM FOR COLLAB__viral__reel__funny__music__english__amrica__isreal__iran__usa(MP4).mp4", "Dm for paid collaboration_sponsorship_._share with your friends and loved ones_._Follow _kihis_stm for more such contents(MP4).mp4", "Do you know how hard it is to actually dance like this 🤣__Like this content_ Follow us for more _memezar ❤️(MP4).mp4", "Do you remember this_ 🤔__BMW has created a captivating advertisement that humorously explores the concept of teleportation_ contrasting it with the thril(.mp4", "doing the job with perfect energy.mp4", "Dr doom is cooked. _avengersdoomsday _thor _loki _drdoom(MP4).mp4", "Dude this is amazing 🤩_Follow (me) _shady.entertainment_ for more content like this 🤍🖤(MP4).mp4", "Ending is unexpected 😂 __memes __arabic _explore _funny(MP4).mp4", "Enjoy family guy _ follow _griffin.clipz for more _-_-_-__familyguy _familyguyclips _familyguyvideo _familyguymemes(MP4).mp4", "Enjoy family Guy_ follow (Us) _griffin.clipz for more _-_-_-__familyguy _familyguyclips _stewiegriffin _familyguyvideos(MP4).mp4", "enjoy family guy_ follow _griffin.clipz for more _-_-_-__familyguy _familyguyclips _familyguyvideo _familyguyfox(MP4).mp4", "Enjoy family guy_ follow _griffin.clipz for more_-_-_-__familyguy _familyguyclips _familyguyvideo _familyguyfox(MP4).mp4", "Equal rights, equal fights.mp4", "f1(MP4).mp4", "Face tilt got me😂😂__- 𝘛𝘢𝘨𝘴___meme _funny _explore _featured _explorepage(MP4).mp4", "Family guy mentality  _trending _core _reels _memes _hopecore _hardcore _funny _mentality(MP4).mp4", "Fav couple ♥️_._._._._._._._._._._._._._._.__modernfamily _reels _gloria _manny _sofiavergara _juliebowen _tyburrell _sarahhyland _phildunphy _jaypritch(.mp4", "Find someone that looks at you the way I look at my food 😂(MP4).mp4", "Flamingo Berry Breeze__•_Add 1 cup strawberries___•_2 tbsp flamingo nectar syrup (rose syrup)___•_1 tsp lemon juice from a sun-parrot citrus___•_1 c(.mp4", "folded like a deck of cards.mp4", "Follow (us) _IGHT for the best posts and reels 💜 __💜_ Researchers from Eötvös University_ Ericsson Research_ and MIT traced the viral explosion of _(.mp4", "Follow (us) _MarvelMovies for more_ 🦸‍♂️❤️__Tom Holland was spot on 🎯___marvel _mcu _entertainment _marvelmovies _reels _movies(MP4).mp4", "Follow _FUCKBOYPROBLEM.S for more 😂💚__like a vacuum 😂(MP4).mp4", "Follow _funnybrothaa ⁉️ __Vasilisa Kaganovskaya and Maxim Nekrasov formed their ice dance partnership in 2023. They officially debuted as a team at the (.mp4", "Follow _grinhumour for more(MP4).mp4", "Follow _paintedbyfilm for more____Modern Family – Alex _ Haley___At first glance_ Alex and Haley couldn_t be more different. One_s the book-smart perfecti(.mp4", "Follow for daily hamster ringtone🐹📱_._._._.__fy _memes _funny(MP4).mp4", "FOLLOW if you want Max Verstappen to win the world championship 5 times in a row 🔥__Follow _grandprxf1 for more amazing F1 content._._._._.__f1 _f12021 _(.mp4", "Follow Me For __love.worlds__.__.___trending _explore _reels _search _highlights _viralreels _trendingreels _comedy _couple _funny _flowers _foryou _bestie (.mp4", "Forgot to update the day(MP4).mp4", "Frrrrrrrrrrr __roshaneey _reels _fyp(MP4).mp4", "Gal Gadot has had several memorable appearances on _The Tonight Show Starring Jimmy Fallon__ often charming audiences with her humor and candidness. One ins(.mp4", "GAME OVER 💀_reels _cars _trendreels _trend(MP4).mp4", "gen Z doctor 😭😭_._._._DRAMA - Resident Playbook(MP4).mp4", "Great 😃(MP4).mp4", "Hahah Darkhumor is popping off these days. Ita too funny. I want money give me money_(MP4).mp4", "Haley_s ego 🙆🏻‍♀️🔥_Follow _modernfamilyshowfeeds if you love MODERN FAMILY❤_-_Season 6_ Episode 7 _Queer Eyes_ Full Hearts_ _-_-__modernfa_1.mp4", "Haley_s ego 🙆🏻‍♀️🔥_Follow _modernfamilyshowfeeds if you love MODERN FAMILY❤_-_Season 6_ Episode 7 _Queer Eyes_ Full Hearts_ _-_-__modernfam(.mp4", "He deserve it.mp4", "he learnt English from the hood 😭(MP4).mp4", "He sat down to eat_ but washing the plate later_ No thanks. So he came up with a clever twist_just cover it with a sheet and eat stress-free. 🧠🍽️__N(.mp4", "He used scarcity by accident to make the sale.mp4", "HE_S A REALTOR__🎥 tv show_ modern family__Told from the perspective of an unseen documentary filmmaker_ the series offers an honest_ often-hilarious pers(.mp4", "Her attitude is so cool___Follow (us) _frustratedbillions to learn something NEW everyday 🧠💫___marketingagency _media _ads _adsonreels(MP4).mp4", "Her face said _Yeah, sorry bout that.mp4", "His action was another level_👀😂🤣_._._._._📌 CREDITS GOES TO THE ORIGINAL ORDER_._._Drama-_I Am a Running Mate__Country_ South Korea_Type_ Drama_E(.mp4", "How i be every morning 😂_.__mondaymorning _frustrated _talentedmusicians _funny _lovesongs _songs _comedy _memes _talentartists _basicallymusic(MP4).mp4", "How problem come looking for us whenever I am with bro_ 😉😅 ___memes _meme _trending _viral _friends _bro _boys _funny _relatable(MP4).mp4", "https___www.instagram.com_s_aGlnaGxpZ2h0OjE4MDMzMzkzNjE0MzU3MTMy_story_media_id_3637837439150015834_64660441622_igsh_MTZjd2g0Mjd2dnl0Ng__(MP4).mp4", "https___www.instagram.com_s_aGlnaGxpZ2h0OjE4MDQ5NjI3NzkwNjAxNDI0_story_media_id_3638619646663768077_64660441622_igsh_MWZqbHpkZ3plODVvbQ__(MP4).mp4", "I have 11400 real heroes and if you also want to join the real heroes then you can follow us because a hero always wants happiness for others😍❤️_Men (.mp4", "I miss those old days when we were younger 😭(MP4).mp4", "I pay you back.mp4", "I thought it was police.mp4", "I_m cooked 🍳 🔥 _memes _trending _explore _viral _funnymemes _funny _trendingreels _viralreels(MP4).mp4", "Iconic 😂__In one of his classic Carwow reviews_ Matt Watson says_ _I want to show you something really_ really beautiful__ while standing beside the Jeep(.mp4", "If I was in a Horror Film😂(MP4).mp4", "In 1981_ Diego Maradona and Pelé shared an unforgettable moment during a television show. The two football legends amazed fans with their unique styles and(.mp4", "In a humorous group therapy session_ several people sat in a circle_ each sharing their personal phobias. One man calmly admitted_ _I have a phobia of the w(.mp4", "In a prank video_ an officer parked his car right beside a toll booth as part of a setup. When a woman drove up and tried to open the toll gate_ it wouldn_t(.mp4", "In his mind_ it was just a _cute_ gesture. A biscuit tossed_ a calm approach_ maybe a guaranteed selfie. What he forgot is that the bear in front of him wei(.mp4", "Innocent Phil._Follow _modernfamilyshowfeeds if you love MODERN FAMILY❤_-_Season 03_ Episode 23 _Tableau Vivant__-_-__modernfamily _arielwinter _sarahhyla(.mp4", "Is this true about divorce lawyers_🙄___lawyer _attorney _lawfirm __lawyerhumor _attorneyhumor __lawyermemes _divorcelawyer(MP4).mp4", "It never gets old 😂😂(MP4).mp4", "It_s wild how fast perspective can flip when something you want or need enters the picture. One minute you_re like_ _Ugh_ I can_t stand that guy__ and the n(.mp4", "Just Norris_•_•_•_Follow ___f1daily if you love F1_•_•_Creds_ __•_•__lewishamilton _maxverstappen _georgerussell _charlesleclerc _carlossainz (.mp4", "Justice for dog.mp4", "kidies.mp4", "Konten kreator luar negeri emang slalu aja aja ada 🗿 __🎥DM ___komedi _story _random _kocak _dagelan _jakartakeras _jiancare _herbalcina _lawak _meme _(.mp4", "Leaving Sonic home alone.mp4", "Like this content_ Follow (us) _humorture for daily bangers 😂📲__Being down bad isn_t just a phrase_it_s practically a lifestyle at this point. It_s wh(.mp4", "Like this content_ Follow _FYF0950 for more contents like this 💚 __Lmao 🤣 ___wholesome _comedy _celebrity _tomholland _meme _funny _viral _explore _re(.mp4", "looks like hard work to me 🤣__( via _angelbenitez05 )___motorsports _racing _porsche(MP4).mp4", "MAGIC(MP4).mp4", "Marvel cast on crack _marvelcast _robertdowneyjr _chrishemsworth _avengers _marvel(MP4).mp4", "Masterful technique transforms fruit gathering into art.__A skilled worker performs a mesmerizing maneuver that seems almost effortless. With a swift extens(.mp4", "Me getting a snack at 3AM😂(MP4).mp4", "ME SAW WHO IN AMONG US__(720P_HD).mp4", "Me when I tell my friends I_m busy😂(MP4).mp4", "Meme 130__•_•_•_•_FOLLOW FOR MORE ____•_•_•_•_•_•_•_•_•_•_•_•_•_•_•__hitexplorepage _explorepage _explorereels _memezv(.mp4", "Mention 🤣😂🤣😂__reelsinstagram😍 _reels _explorepage(MP4).mp4", "mfs when they hear this in spiderman no way home. TikTok meme(360P).mp4", "Movie Name_ Vacation (2015)_Genre_ Comedy _ Road Trip Adventure__Summary__In this reboot_sequel of the classic National Lampoon_s Vacation films_ Rusty Gris(.mp4", "Name of this series.mp4", "Never skip video with ocean background.mp4", "Nice try though 😂😂😂__Best phone cases for car guys_ _avioracases(MP4).mp4", "Nissan ad shows 👿😍__drifting184 don_t forget to follow__cars _car _instagood _instagram shorts reels _viralreels _viralinstagram _supra _bmw ferrari t(.mp4", "No husbands were harmed(MP4).mp4", "Not Like Us x Dr. Doofenshmirtz 🔥__This Kendrick Lamar x Phineas _ Ferb mashup hits different(MP4).mp4", "O gente eu não esperava por esse final 🫣😹😹😹___explore _reels _dorameiras _viral _chinese _chinesedrama _china _meme _memes _memepage _memechina(.mp4", "Obuna bo_ling😂✅✈️_«Мальчик_ который обуздал ветер» _ мемуары Уильяма Камквамбы_ малавийс(.mp4", "Only I can relate.mp4", "ᴿᵉᵃᵈʸ ᵗᵒ ᵇᵘᶦˡᵈ ᵗʰᵉ ᶠᵒᵘⁿᵈᵃᵗᶦᵒⁿ ᵒᶠ ʸᵒᵘʳ ᵃᶜᵗᶦⁿᵍ ᶜʳᵃᶠᵗ___ᴶᵒᶦⁿ ᵘˢ (M.mp4", "Relationship Goals💁🏻‍♀️ (tag 3 friends_)(MP4).mp4", "Repeat 3 times _Ed edited it_ 🥸 __✅ send this to someone who_s learning English(MP4).mp4", "Respect the classics. Honour the forefathers. The future depends on it.__🚀Follow for more_ _goldeneravault__Credit_ Comedy Inc___goldeneravault _memes _c(.mp4", "Rip Bro 😆_._._.__reaction _relatable _meme _funny _comedy _reels _viral _reel _fyp _explore(MP4).mp4", "Rizz ✨ _.__rizz _love _flirt _fypage _MoodAF _lolzone _romantic _memesdaily _gigglegully _ViralMeme _Humor(MP4).mp4", "Rizz__roshaneey _reels _fyp(MP4).mp4", "Ronaldo 2008 ☠️❤️_Cristiano Ronaldo_ o homem das grandes decisões_ volta a fazer história_ Num momento de pura genialidade_ o craque português re(.mp4", "Run💀_._._._._Follow for more._._._._._.__f1_fomula1_f1edits_f1memes_ferrari_charlesleclerc_lewishamilton_maxverstappen_fyp_reel_viral_f1troll_funny_xyzbc(.mp4", "Samsudin original charger 🤣(MP4).mp4", "Scared with Toys just Prank_ _prank _funnyreels _funnyvideos _funnymoments _scary _fun(MP4).mp4", "Share this if you don_t want to fail ☠️___Mickey17(MP4).mp4", "Share your partner 🤣❤️🎀(MP4).mp4", "She showed her dad prom dress and this was his reaction🤌♥️__Follow _millionairesformula for more motivational quotes and inspirational inspirational (.mp4", "She turned ‘i have a shooting star tattoo’ into a scientific contribution.mp4", "She_s so cute ❤️__LIKE if you laughed 🤭_COMMENT if you relate (｡◕‿◕｡)_TAG that one friend who needs this🏷___viral _foryou _explorepage _(.mp4", "Simply lovely 🔥___maxverstappen _redbullracing _f1(MP4).mp4", "Sometimes a hero 🙂_Sometimes a villain 🥲(MP4).mp4", "Sometimes life hands us the sweetest little plot twists right on the roadside 🚔💙 In this video_ a young woman finds herself getting pulled over_only t(.mp4", "Stewie would_ve clicked the link in bio already _ don_t be like Meg. 🤫_Family Guy always drops the truth_ especially in this scene.___LinkInBio _CartoonR(.mp4", "subs please.mp4", "Tag your bros__Follow _limousine.pvt.ltd for more.___funtimes _virelreels _people_infinity _funnyreelsvideo _funfunfun _sweetmoment _broş _friendforever _f(.mp4", "Tashan ka ye jasan hai.mp4", "Technique to ruin someone.mp4", "Temple Run Mod Apk.mp4", "That girl thought we couldn_t see out from inside ___reels _explore _explorepage _girl _boy _girls _boys _woman _man _women _men _window _life _lifestyle _s(.mp4", "that one bro and I__The Boys is a gritty_ irreverent superhero television series developed by Eric Kripke_ based on the comic book by Garth Ennis and Darick(.mp4", "That one frd in every squad💀💀__mlbb _reel _mobilelegend(MP4).mp4", "That suspension system must be expensive 😂__Best phone cases for car guys_ _avioracases _High quality LED car posters_ _theveloframes(MP4).mp4", "That was a little too fast 😂😂__Via_-_modernfamillyshow__Follow (us) _modernfamily.moments for more____Mf701__T05(MP4).mp4", "The both captains were best friends.mp4", "The cop was like did he really.mp4", "THE DEADWALK 🗿 __ _shorts(720P_HD).mp4", "The Detour is an American comedy television series created by Jason Jones and Samantha Bee. It aired on TBS from 2016 to 2019 and ran for four seasons. The (.mp4", "The famous chicken leg recipe that has garnered millions of views___Ingredients__chicken legs_ 6 pc_beer_ 0.5 l (17 pt)_flour_ 300 g (11 oz)_starch_ 100 g ((.mp4", "The Greatest Chase that was never Real.mp4", "The marriage just started and he can’t wait to have his hands on her.mp4", "The music, the slow motion and Manny.mp4", "The power of having connections 😭__Credit to Warner Bros. Television_ Blackie and Blondie Productions_ and creators Eileen Heisler _ DeAnn Heline for The(.mp4", "The Rock trying to speak Chinese _Day 601 🪨(MP4).mp4", "Their reactions ___ 😂😂__whatswrongwithsecretarykim _kdrama(MP4).mp4", "Their reactions 🤣_Follow _modernfamilyshowaddict if you love MODERN FAMILY❤_-_-_-_-__modernfamily _arielwinter _sarahhyland _sofiavergara _juliebowen _(.mp4", "There once was a water gun_ not just any water gun_ but a _Blasto-Matic 5000__ designed with more nozzles than a kraken has tentacles and a pressure gauge t(.mp4", "They didn_t cheat because you weren_t good enough_they cheated because they never deserved you in the first place 💔📲. They wanted loyalty while living(.mp4", "They thought it was just a valet_ until their car disappeared. In one of the most jaw-dropping car prank trends ever caught on camera_ pranksters are now st(.mp4", "Thinking is a bad move for her.mp4", "This commercial will not leave anyone indifferent 😱___marketing _advertising _branding _business(MP4).mp4", "This Duo 🥹♥️_._._._._._._._._._._._._._._.__modernfamily _reels _gloria _manny _sofiavergara _juliebowen _tyburrell _sarahhyland _phildunphy _jayprit(.mp4", "This is gold_ 😂__Follow _musicmomentsinhistory _._. _._._.__remix _liveperformance _funny _comedy _funnymemes _music _talent _talentedmusicians(MP4).mp4", "This is so wholesome_ 🥺❤️_Follow _moviestvclips for daily shows_movie posts 🥀💕_From the show_ Modern Family (2009-2020) 🎬🍿_Genre_ Sitcom_(.mp4", "This is the greatest _Phone a Friend_ in the history of Who Wants to Be a Millionaire.__Contestant John Carpenter reached the _1 million question without us(.mp4", "This one is just pure gold... Every.Time..mp4", "Tom Holland Reacts to memes pt 20 _funny _memes _meme _funnymemes _comedy _lol _dankmemes _memesdaily _fun _love _humor _follow _funnyvideos _instagram _vir(.mp4", "Tonight I go cry cry 😭 _._._._.__sad _song _english _memes _explore _relatable _share _trending _fyp _viral _love _couple _dankmemes(MP4).mp4", "Try Not To Laugh Challenge _1151_._._.__trynottolaugh _funny _funnyvideo _meme _funnyreels _laugh _dontlaugh _trytonotlaugh _z1zone1(MP4).mp4", "Try Not to Laugh Challenge 1019 🤣__ifyoulaughyoulose _dontlaughchallenge _ifyoulaughyourgoingtohell _trynottolaugh _trynottolaughchallenge__dontlaugh__fu(.mp4", "Try Not to Laugh Challenge 1081 🤣__ifyoulaughyoulose _dontlaughchallenge _ifyoulaughyourgoingtohell _trynottolaugh _trynottolaughchallenge__dontlaugh__fu(.mp4", "Try Not to Laugh Challenge 1131 🤣__ifyoulaughyoulose _dontlaughchallenge _ifyoulaughyourgoingtohell _trynottolaugh _trynottolaughchallenge__dontlaugh__fu(.mp4", "Try Not to Laugh Challenge 😂🤣__ifyoulaughyouloose __dontlaughchallenge__ifyoulaughyourgoingtohell__trynottolaugh__trynottolaughchallenge__dontlaugh__f(.mp4", "Ultimate Christian DelGrosso Vine Compilation 2016   Funny Christian DelGrosso Vines All Time(360P).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DIghI8FJMxQ_(MP4).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DIQDjtUNx0P_(MP4).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DJmPINLPTi4_(MP4).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DK9vnDrOCNk_(MP4).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DKR0vbiiTXj_(MP4).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DKtZ4eVyV-u_(MP4).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DKUoh9OvYg1_(MP4).mp4", "Unconfirmed_download_https___www.instagram.com_reel_DKwPz4MvwSo_(MP4).mp4", "Very Very Crazy People_ 😭🤣__All rights belong to their respective owners_ ___robertdowneyjr _chrisevans _chrishemsworth _scarlettjohansson _jeremyrenn(.mp4", "Via_-_classic.sitcoms__Follow (us) _modernfamily.moments for more____Mf702__T05(MP4).mp4", "Via_-_simplymomlife_xoxo.__Follow (us) _modernfamily.moments for more_____themodernfamily _modernfamily _modernfamilyedit _modernfamilyedits _modernfamilyme(.mp4", "Volkswagen commercial 💀 _viral _shorts _cars _luxurycars _cartok(MP4).mp4", "Watch till the end😂😂😂 __DN_ The sound of your herat(MP4).mp4", "We all experienced this as a kid..mp4", "We're BROKE.mp4", "What did I just watch_ _losing _airbag _privileges _bro _pulled _an _uno _reverse _funny _memes _funnymemes(MP4).mp4", "What it’s like having siblings.mp4", "When dentist is your best friend.mp4", "when i get into touble.mp4", "When Live means more than you think 🤣_._._._._._ Follow For More Laughs »»__mashgala_edits _._._._.__funny _friends _live _reporter _reels _viral _meme(.mp4", "When she tries to flirt.mp4", "when superheroes use their power with ease..mp4", "When they_re about to cry at your speech_ but instead they laugh 😂 __[💝] _Follow__ _kdrama_anneyong___🚫 ___DON_T REPOST___ 🚫 _➡️_IF REPOST_ (.mp4", "When you can_t make it to the party😂(MP4).mp4", "When you don_t text back😳 w_ _amandacerny _loulou_gonzalez _katjaglieson _johannes.r.bartl (tag 3 friends_)(MP4).mp4", "When you_re lazy AF😂(MP4).mp4", "When you_re lazy AF😂(MP4)_1.mp4", "Where would the Dunphy_s be without Alex_ _ModernFamily _HaleyDunphy _AlexDunphy _Shorts(MP4).mp4", "Why chris Hemsworths hates his daughter....Follow us for more♥️(MP4).mp4", "Why is this song not on Spotify___Follow (us) _modernfamily.moments for more____Mf206__T05(MP4).mp4", "WiFi free(MP4).mp4", "WIt for it 😂😂(MP4).mp4", "Would you pay for it____kawaiitorisushi _sushitime _sushi🍣 _sushibar _sushilovers _sushirestaurant _sushiroll _ilovesushi _sushidelivery _sushilover _sus(.mp4", "Xavier's hidden son.mp4", "YEAHHHH THAT’S MY SON.mp4", "You were just not what she wanted_ ❤️_Follow _uncanny01l for more 🌟 _explorepage _fyp _foryou _trendingreels _love _explore _relatablememes _couples (.mp4", "You Won_t Believe It.. 😭🤣(MP4).mp4", "You yelled at my teacher for calling me special.mp4", "แล้วเหตุใดทำไมไม่บอกว่าจะซื้อไอติมมา 🤧😂😅💕✨__ตลก _ฮา _fyp(MP4).mp4", "𝚂𝚑𝚎𝚕𝚍𝚘𝚗 𝚖𝚎𝚗𝚝𝚊𝚕𝚒𝚝𝚢.. _sheldonmentality(MP4).mp4", "🇵🇹🐐 Cristiano Ronaldo_ Writing History at 40.__They said he was too old._They said it was over.__But last night_ he proved them wrong once again.__1.mp4", "🇵🇹🐐 Cristiano Ronaldo_ Writing History at 40.__They said he was too old._They said it was over.__But last night_ he proved them wrong once again.__2.mp4", "🇵🇹🐐 Cristiano Ronaldo_ Writing History at 40.__They said he was too old._They said it was over.__But last night_ he proved them wrong once again._A(.mp4", "🎬A quirky K‑drama (12 episodes_ aired Aug–Sep 2022) about five everyday folks_each chasing financial security_who join a mysterious _stock meeting._ (.mp4", "🏎️🏁___f1 _hanszimmer _bradpitt _reelsofinstagram _insta _maxverstappen _carlos _hollywood _trend _lewishamilton _kerrycondon _cars(MP4).mp4", "👀👀_.__success_resolve(MP4).mp4", "💀_._𝒇𝒓𝒊𝒆𝒏𝒅𝒔_ 𝑰_𝒎 𝒅𝒆𝒆𝒑𝒍𝒚 𝒉𝒐𝒏𝒐𝒓𝒆𝒅 𝒕𝒐 𝒂𝒏𝒏𝒐𝒖𝒏𝒄𝒆 𝒕𝒉𝒂_1.mp4", "💀🗿_New is loading...👀_recently paid homage to his idol Neymar by debuting a striking platinum blonde hairstyle ahead of the Copa del Rey final agai(.mp4", "😂__(via _britanickcomedy) __ A honeymoon is a traditional post-wedding trip taken by newlyweds to celebrate their marriage and spend quality time togethe(.mp4", "😂__Gustavo _Gus_ Fring_ portrayed by Giancarlo Esposito in _Breaking Bad__ is one of television_s most compelling and enigmatic villains_ introduced in t(.mp4", "😂😂(MP4).mp4", "😂😂_._Fallow 👉🏻_girlyypo_._._ _rubifatimaa  _girlyypo _meme _explore _fyp _memepage _fypシ _instadaily _memepage _fypage _viralvideos _minions _(.mp4", "😂😂_._Fallow 👉🏻_girlyypo_._._ _rubifatimaa _meme _explore _fyp _memepage _fypシ _instadaily _memepage _fypage _viralvideos _minions _funnyvideos(.mp4", "😂😂_._𝒇𝒓𝒊𝒆𝒏𝒅𝒔_ 𝑰_𝒎 𝒅𝒆𝒆𝒑𝒍𝒚 𝒉𝒐𝒏𝒐𝒓𝒆𝒅 𝒕𝒐 𝒂𝒏𝒏𝒐𝒖𝒏𝒄𝒆 𝒕𝒉_1.mp4", "😂😂😂__viralreels _viral _trendingreels _sitcomedit _sitcoms _theoffice _modernfamily _tvshow _american _b99(MP4).mp4", "😂🤣😂🤣___explorepage _explore _trendingreels _foryou _relatable _trending _fyp _memes(MP4).mp4", "😅😂😂he said _anyways_😂😂😂___imaginedragons _richest _richkids _doctor _lawyers _engineer _musician _motivational _inspirational(MP4).mp4", "😐__Tobey Maguire rose to fame as the earnest_ relatable face of Spider-Man in Sam Raimi_s early 2000s trilogy_ defining the superhero genre for a generat(.mp4", "😤 What_s ONE Thing You Really Hate in a Guy___Be honest_ we all got that one trait that_s an instant ick 🚩_👇Drop yours below____4am.goal _ where re(.mp4", "🚨⚠️ _ Some books entertain you _ this one might just change you. This month_ mid-way through_ it arrives _ the story you didn_t know you needed. A jo(.mp4", "🤣😂(MP4).mp4", "🤣🤣_._𝒇𝒓𝒊𝒆𝒏𝒅𝒔_ 𝑰_𝒎 𝒅𝒆𝒆𝒑𝒍𝒚 𝒉𝒐𝒏𝒐𝒓𝒆𝒅 𝒕𝒐 𝒂𝒏𝒏𝒐𝒖𝒏𝒄𝒆 𝒕𝒉𝐨.mp4", "🤣🤣___meme _funk _humor(MP4).mp4", "🦇__The Dark Knight_ directed by Christopher Nolan_ is a gripping cinematic masterpiece that elevates the superhero genre through its intense storytelling(.mp4", "‎ _via_ tt_jonas_official(MP4).mp4", "__.__memes _memesdaily _explorepage _trending _instagood _humor _usa _vibes _fyp _foryou(MP4).mp4", "__.__reelsinstagram_viral_explore_repost_foryou_deezlyeditz_sigma_type_viral_trending_fyp_instagram_nice_edit_coldest_love_art_family_explore_boxing_footbal(.mp4", "_china _chinatown _chinesedrama _world _africa _viralvideos _funnyvideos _comedy _british _memesdaily _memes _london _germany🇩🇪 _views _comedy(MP4).mp4", "_From action to emotion_Hollywood_ unfiltered._ _Follow❤️ _the.entertainment.centre(MP4).mp4", "_fyp _funny _capcut _anwar _funnyvideos _longervideos _getthisviral _blowthisup(MP4).mp4", "_fyp(MP4).mp4", "_meme.ig was voted _best meme account on Instagram_ 😂__Via_ _lebrons.memepage(MP4).mp4", "_Our Instagram family has just reached 1_000 members 🌹🥹_15 YEAR OLD PREGNANT _.__viral(MP4).mp4", "_reels _meme _fun _lol _boys _moments _savage _fyp _viral _foryou _viral(MP4).mp4", "_So what do you do for a living____I_m a professional rock paper scissors player___Like this content_ Follow us for more _memezar ❤️ ___memezar _tv(MP4).mp4", "_🤣🤣🤣🤣 __funnyvideos(MP4).mp4", "❗(MP4).mp4", "2 step verification.mp4", "99 problems but a baby ain’t one.mp4", "A female reporter was giving a live report in the middle of a wild storm_ struggling to keep her balance against the powerful wind. In the background_ two m(.mp4"
+            ] },
+            "f1": { image: "reels/f1.jpg", videos: ["Oh he’s flipping his go-kart off.mp4", "10 second penalty 15 second advantage.mp4", "Bro got the best POV of the overtake.mp4", "Carte Blanq, Maxx Power.mp4", "F1 drivers could face points deduction for swearing.mp4", "F1TheMovie.mp4", "How did they manage to replace real cars with apx cars.mp4", "I hope he wins in Silverstone this year so lando doesn’t.mp4", "Max Verstappen Mentality.mp4", "INCHEDENT.mp4"] },
+            "fitnesss": { image: "reels/fitnesss.jpg", videos: ["The donald Blake reference.mp4", "Ch1123.mp4", "He is My fitness idol.mp4", "Human to God.mp4", "Lewis Hamilton Was Brutally Bullied By Max Verstappen.mp4", "Love his nostril flare.mp4", "Man of Steel is peak Henry Cavill dedication.mp4", "Mn10.mp4", "Only marvel character who's always in shape.mp4", "_chriss.eavns_.mp4", "_steverogersedit(MP4).mp4", "Song_ Saint_s Bones .mp4", "Bradley(.mp4", "Cbum .mp4", "cbum edi.mp4", "Cbum up.mp4", "cbumedit .mp4", "Chris Bumstead  _gymedit(MP4).mp4", "Chris Bumstead _ Ice Bath.mp4", "Chris Bumstead bodybuilder .mp4", "Chris Bumstead calling you a _skinny bitch_ .webm", "Classic .mp4", "CUPOM MAX_ MAX10QUIETUDE.mp4", "DADDY_S HOME.Cbum .mp4", "editz.mp4","Got bigger fish .mp4", "gymedit _gymmotivation _cbum.mp4", "gymedit _motivation.mp4", "gymt.mp4", "motivation _reels.mp4", "needed to see him more in the deadpool movie .mp4"] },
+            "kannada": { image: "reels/kannada.png", videos: ["Sole maklu.mp4", "It’s very difficult to impress mothers.mp4","North Karnataka kids(360P).mp4", "ondu vimal kathe_uttara .mp4", "Uttar karnataka kid ni swag _kannada(360P).mp4","Kannada Comedy.mp4", "Kid scolding .mp4", "Uttar karnataka Baigula.mp4", "Uttar karnataka boys.mp4"] },
+            "random": { image: "reels/random.webp", videos: ["You pick up a call expecting a normal conversation, but instead, it’s JOHN CENA.mp4", "but Brian, this is a Mac.mp4", "Did he finish the marathon.mp4", "Dont cry bro, you were going to pay our bills..mp4", "Having Batman at my wedding.mp4", "If Subway Surfers Was In The Hood.mp4", "It would be perfect if a sitcom laughter is added.mp4", "It's my first language.mp4", "margaretqualley.mp4", "Oh waoow acha reaction h.mp4", "R we being robbed.mp4", "Remi Gaillard.mp4", "So expensive.mp4", "Spiderman after marriage.mp4", "that’s why my family is blocked.mp4", "They know they are dead when pilot announced his name.mp4", "My honest reaction.mp4", "This is why NASA uses Linux.mp4", "Well, he actually was there.mp4", "When a Plumber Emergency Turns Into a Hilarious Dreamy Coffee Talk.mp4", "M.mp4", "ChatGPT crushed me again 😭(720P_60FPS).mp4", "Use this sound.mp4", "Shake It To The Max _ Girl_s Dance Video _ Watsapp Lyrics Dance Status _ _dance _shakeittothemax(720P_60FPS).mp4", "SAY HI.mp4", "HOW.mp4", "LIFE CHANGES.mp4", "High On Brownies Funny 911 Call - goop boop .mp4", "Look at my ping meme(480P).mp4", "_maxverstappen _landonorris(MP4).mp4", "DMYMY9uvbvV(MP4).mp4", "Du du du du Max Verstappen ___xyzbca _follow _relatable _ferrari _raceweekend _lewishamilton _redbullracing _funnymeme _ferrarif1 _f1community _maxverstappe(.mp4", "DU DU DU DU 😂😂😂😂___f1 _f1racing _f1driver _f1meme _f1memes _f1reels(MP4).mp4", "Every guy_s thoughts at the gym(MP4).mp4", "Follow for more_ _youngsheldon _comedy _ranking _funnyvideos _funnymoments(MP4).mp4", "He gave it his all 😂__Credit_ _justinthescott(MP4).mp4", "He wasted no time.__Follow _grinhumour for more(MP4).mp4", "His Biceps Were Too Big____In one version_ his biceps were so pumped during filming that he actually ripped his shirt at the seams._They had to reshoot the (.mp4", "It_s an experience. OTT can never match this.🙌__._.__...__f1 _f1movie _bradpitt _imax __4dx _f1zrindonesia _f1racing _f1movie(MP4).mp4", "Madmax _f1reel _f1 _f1memes _redbullracing _redbull _maxverstappen(MP4).mp4", "Max Being Max 😂_._._.__f1memes _f1 _formula1 _maxverstappen(MP4).mp4", "Max embracing Mexico_ 🇲🇽(MP4).mp4", "max verstappen is too funny sometimes ☠️(MP4).mp4", "max verstappen or lando norris ⁉️ (_george.brussell)(MP4).mp4", "Max Verstappen took victory at the Monaco Grand Prix on Sunday despite starting and finishing the race in a pair of dinosaur slippers.__The mix-up reportedl(.mp4", "Newborn stimulation_ a part of neonatal resuscitation_ is a gentle technique used by doctors or nurses immediately after birth if a baby isn_t breathing or (.mp4", "Peter came in clutch _comedystewie(MP4).mp4", "Red Bull under the microscope 🔬.__Follow for more content _f1programs ___formula1 _reels _race _speed _cars _shorts _racing _f1 _motorsport _maxverstappe(.mp4", "She is so iconic ✨__Like this content_ Follow us for more _memezar ❤️ ___memezar _celebrity(MP4).mp4", "Spiderman Brand new day is here🔥___edit _spidermanbrandnewday _spiderman _peterparker _spiderman2 _spidermannowayhome _aftereffects _bullymaguire _spider(.mp4", "Spidey has been spotted in Glasgow🕷️🎬(MP4).mp4", "The Boston accent is in full effect here 😂___ted _movie _movies _moviescenes _movieclips _film _reels _fyp(MP4).mp4", "The first theme for a Bond movie was ... the iconic James Bond theme. Composer Monty Norman actually plagiarized himself_ taking the key elements of a song (.mp4", "Top notch ___bostonphotographer _boston _photographer _sonyalpha(MP4).mp4", "Verstappen_s Thunderstormm Lap ____verstappen _redbullracing _saopaulo(MP4).mp4", "VID_20250505_213303_926.mp4", "VID_20250812_032352_306.mp4", "VID_20250812_032401_720.mp4", "WE ARE SO BACK 🔥 __Production for Spider-Man 4 has kicked off in Glasgow_ and locals have already been treated to some web-slinging excitement. __Passers(.mp4", "We men are too simple 😮‍💨__Black Pink x tu du tu du Max Verstappen 😈__._._.__reels _likes _f1 _blackpink _maxverstappen _contentcreator _like4lik(.mp4", "While the world sleeps_ in a remote outpost near the icy edge of civilization_ elite coders operate in silence _ tuxedoed_ cold-resistant_ and focused. Thes(.mp4", "Who else saves their movie stubs_ Here_s my Marvel theater stubs. (I_ve lost a few.)___mcu _moviestub _movies _marvelmovies _letsallgotothemovies(MP4).mp4", "You know what that is_ ___maxverstappen1 is the 4 time _f1 world champion 🏎️🏆__You know what_ Let_s make it different this time_ I_ve no idea just d(.mp4", "𝗥𝗲𝗮𝗰𝘁𝗶𝗼𝗻 ☠️ _ _maxverstappen _formulaone(MP4).mp4", "🎬 Enough (2002) is a psychological thriller starring Jennifer Lopez as Slim_ a woman trapped in an abusive marriage who decides to take matters into her (.mp4"] },
+            "rcipie": { image: "reels/rcipie.jpg", videos: ["Virat Kohli’s super healthy meals.mp4", "Healthy shake for weight gain.mp4", "MAHENDRA SINGH DHONI'S favourite BUTTER CHICKEN Recipe .mp4", "Air Fryer Chicken Breast 😌__💥My 3 Air Fryer E-books are linked in my linktree 🙌. ___chefwithpalette ___airfryer _airfryerrecipes _chicken _chickenr(.mp4", "EASY MEALS after WORK_ Sumac Chicken Rice Bowl _ 62g Protein_ 720 Calories 👉🏽 Comment _Recipe_ and I_ll instantly send you the link to my website whic(.mp4", "High Protein Butter Chicken Burritos_🔥🥘🌯__57g of Protein_ Easy High Protein Burrito Meal Prep 😋__Comment _Cookbook_ and I_ll DM you a link to my(.mp4", "High Protein Cheesy Garlic Chicken Rolls_ 🔥🧀🍗__ONLY 335 calories_ 37g Protein_ Easy High Protein Meal Prep __Checkout the High Protein Cookbook wit(.mp4", "High Protein Spicy Grilled Chicken Wraps_ Only 347 Calories🍗🌯🔥__A timeless classic recipe_ so much flavour for how easy it is to make_Macros per Wr(.mp4","CHATGPT.mp4",
+"Daddy.mp4",
+"Day 115.mp4",
+"DMf9ZVwsqJn(MP4).mp4",
+"Eyes.mp4",
+"Funniest formula 1 moments.mp4",
+"General Hux Speech.mp4",
+"Iron man.mp4",
+"Like this content.mp4",
+"Max Being Max.mp4",
+"maxverstappen _landonorris.mp4",
+"maxverstappen1 _blackpink.mp4",
+"silenced the haters as usual.mp4",
+"So annoying but yet so helpful.mp4",
+"starwarsmeme.mp4",
+"Super Max.mp4",
+"Tag bro.mp4",
+"Thats my boy.mp4",
+"the craziest Met gala entry.mp4",
+"The dance floor.mp4",
+"Who me.mp4",
+"🎬Movie Name- Ride Along 2.mp4",] }
+        };
+
+        const categorySelector = document.getElementById('category-selector');
+        const categoryGrid = document.getElementById('category-grid');
+        const reelsViewer = document.getElementById('reels-viewer');
+        const reelsContainer = document.getElementById('reels-container');
+        const backButton = document.getElementById('back-button');
+        const reelCounter = document.getElementById('reel-counter');
+        const hoverSound = document.getElementById('hover-sound');
+        
+        let observer;
+        let currentVolume = 1.0;
+        let isMuted = false;
+
+        const playHoverSound = () => { hoverSound.currentTime = 0; hoverSound.play(); };
+        const formatNumber = num => (num >= 1_000_000 ? `${(num / 1_000_000).toFixed(1)}M` : num >= 1000 ? `${(num / 1000).toFixed(1)}K` : num);
+        const generateRandomStats = () => ({ likes: formatNumber(5000 + Math.random() * 95000), views: formatNumber(10_000_000 + Math.random() * 90_000_000) });
+        const shuffleArray = array => array.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value);
+
+        function initializeCategorySelector() {
+            categoryGrid.innerHTML = '';
+            Object.keys(reelsData).forEach(category => {
+                const item = reelsData[category];
+                const categoryEl = document.createElement('div');
+                categoryEl.className = 'category-item';
+                categoryEl.dataset.category = category;
+                categoryEl.innerHTML = `<img src="${item.image.replace(/\\/g, '/')}" alt="${category}"><div class="category-name">${category}</div>`;
+                categoryEl.addEventListener('click', () => showReels(category));
+                categoryEl.addEventListener('mouseenter', playHoverSound);
+                categoryGrid.appendChild(categoryEl);
+            });
+        }
+        
+        function showReels(category) {
+            const categoryData = reelsData[category];
+            let orderedVideos;
+            const specialVideo = "Ultimate Christian DelGrosso Vine Compilation 2016   Funny Christian DelGrosso Vines All Time(360P).mp4";
+
+            if (category === 'comedy' && categoryData.videos.includes(specialVideo)) {
+                const videosCopy = [...categoryData.videos];
+                const specialVideoIndex = videosCopy.findIndex(v => v === specialVideo);
+                if (specialVideoIndex > -1) {
+                    videosCopy.splice(specialVideoIndex, 1);
+                }
+                const shuffledOtherVideos = shuffleArray(videosCopy);
+                orderedVideos = [specialVideo, ...shuffledOtherVideos];
+            } else {
+                orderedVideos = shuffleArray(categoryData.videos);
+            }
+
+            const totalReels = orderedVideos.length;
+            
+            reelsContainer.innerHTML = ''; 
+            reelsContainer.scrollTop = 0;
+            
+            orderedVideos.forEach(videoFile => {
+                const stats = generateRandomStats();
+                const description = videoFile.replace(/\.mp4/i, '').replace(/_/g, ' ');
+                const videoPath = `reels/${category}/${videoFile}`.replace(/\\/g, '/');
+                const userAvatar = categoryData.image.replace(/\\/g, '/');
+                const username = `@${category}`;
+                const reelItem = document.createElement('div');
+                reelItem.className = 'reel-item';
+                reelItem.innerHTML = `
+                    <video src="${videoPath}" loop muted playsinline></video>
+                    <div class="reel-overlay">
+                        <div class="reel-bottom-ui">
+                            <div class="reel-info-left">
+                                <div class="user-info">
+                                    <img src="${userAvatar}" alt="User Avatar">
+                                    <span class="username">${username}</span>
+                                    <button class="follow-btn">Follow</button>
+                                </div>
+                                <p class="video-description">${description}</p>
+                                <p class="engagement-stats"><i class="fas fa-eye"></i> ${stats.views} views</p>
+                                <div class="comment-section">No comments yet. Be the first to comment!</div>
+                            </div>
+                            <div class="reel-actions-right">
+                                <div class="volume-control-wrapper">
+                                    <div class="volume-icon"><i class="fas fa-volume-xmark"></i></div>
+                                    <input type="range" class="volume-slider" min="0" max="1" step="0.01" value="${currentVolume}">
+                                </div>
+                                <div class="action-btn like-btn"><i class="fas fa-heart"></i><span>${stats.likes}</span></div>
+                                <div class="action-btn"><i class="fas fa-comment-dots"></i><span>Comment</span></div>
+                                <div class="action-btn"><i class="fas fa-paper-plane"></i><span>Share</span></div>
+                                <div class="action-btn save-btn"><i class="far fa-bookmark"></i><span>Save</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                reelsContainer.appendChild(reelItem);
+            });
+            
+            const endMessage = document.createElement('div');
+            endMessage.className = 'end-of-feed-message';
+            endMessage.innerHTML = `
+                <h2>Looks like you've reached the end!</h2>
+                <p>Enjoyed this category? You can watch them again or pick another.</p>
+                <button>Back to Categories</button>
+            `;
+            endMessage.querySelector('button').addEventListener('click', showCategorySelector);
+            reelsContainer.appendChild(endMessage);
+
+            reelsViewer.classList.add('active');
+            setupReelInteractions();
+            manageVideoPlayback(totalReels);
+        }
+
+        function showCategorySelector() {
+            if (observer) observer.disconnect();
+            reelsContainer.querySelectorAll('video').forEach(v => v.pause());
+            reelsViewer.classList.remove('active');
+        }
+
+        function updateVolumeUI(reelItem, volume, muted) {
+            const slider = reelItem.querySelector('.volume-slider');
+            const icon = reelItem.querySelector('.volume-icon i');
+            if (!slider || !icon) return;
+            
+            slider.value = muted ? 0 : volume;
+            if (muted || volume === 0) {
+                icon.className = 'fas fa-volume-xmark';
+            } else if (volume < 0.5) {
+                icon.className = 'fas fa-volume-low';
+            } else {
+                icon.className = 'fas fa-volume-high';
+            }
+        }
+
+        function setupReelInteractions() {
+            reelsContainer.querySelectorAll('.reel-item').forEach(item => {
+                const video = item.querySelector('video');
+                const volumeIcon = item.querySelector('.volume-icon');
+                const volumeSlider = item.querySelector('.volume-slider');
+                const likeBtn = item.querySelector('.like-btn');
+                const saveBtn = item.querySelector('.save-btn');
+                const followBtn = item.querySelector('.follow-btn');
+                
+                [volumeIcon, likeBtn, saveBtn, followBtn, ...item.querySelectorAll('.action-btn:not(.volume-control-wrapper)')].forEach(btn => {
+                    if(btn) btn.addEventListener('mouseenter', playHoverSound);
+                });
+
+                video.addEventListener('click', () => video.paused ? video.play() : video.pause());
+
+                volumeIcon.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    isMuted = !isMuted;
+                    video.muted = isMuted;
+                    if (!isMuted && currentVolume === 0) {
+                        currentVolume = 0.5; // Unmute to a default volume if it was 0
+                        video.volume = currentVolume;
+                    }
+                    updateVolumeUI(item, currentVolume, isMuted);
+                    playHoverSound();
+                });
+
+                volumeSlider.addEventListener('input', (e) => {
+                    e.stopPropagation();
+                    currentVolume = parseFloat(e.target.value);
+                    isMuted = currentVolume === 0;
+                    video.volume = currentVolume;
+                    video.muted = isMuted;
+                    updateVolumeUI(item, currentVolume, isMuted);
+                });
+
+                followBtn.addEventListener('click', (e) => { e.stopPropagation(); followBtn.classList.toggle('followed'); followBtn.innerText = followBtn.classList.contains('followed') ? 'Following' : 'Follow'; playHoverSound(); });
+                likeBtn.addEventListener('click', () => { likeBtn.classList.toggle('active'); playHoverSound(); });
+                saveBtn.addEventListener('click', () => { saveBtn.classList.toggle('active'); saveBtn.querySelector('i').classList.toggle('far'); saveBtn.querySelector('i').classList.toggle('fas'); playHoverSound(); });
+            });
+        }
+
+        function manageVideoPlayback(totalReels) {
+            const options = { root: reelsContainer, threshold: 0.75 };
+            const videoElements = reelsContainer.querySelectorAll('video');
+
+            if (totalReels > 0) {
+                reelCounter.textContent = `1 / ${totalReels}`;
+            } else {
+                reelCounter.textContent = '';
+            }
+
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    if (!video) return;
+
+                    const reelItem = video.closest('.reel-item');
+                    if (entry.isIntersecting) {
+                        video.volume = currentVolume;
+                        video.muted = isMuted;
+                        updateVolumeUI(reelItem, currentVolume, isMuted);
+                        video.play().catch(e => {});
+
+                        const videoIndex = Array.from(videoElements).indexOf(video);
+                        if (videoIndex !== -1) {
+                            reelCounter.textContent = `${videoIndex + 1} / ${totalReels}`;
+                        }
+                    } else {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                });
+            }, options);
+            videoElements.forEach(video => observer.observe(video));
+        }
+
+        backButton.addEventListener('click', showCategorySelector);
+        document.addEventListener('DOMContentLoaded', initializeCategorySelector);
+    </script>
+</body>
+</html>

@@ -8,24 +8,18 @@
         body {
             margin: 0;
             overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #333;
         }
 
         canvas {
             display: block;
-        }
-
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            background-color: #f1f1f1;
-            padding: 10px;
-        }
-
-        .footer-logo {
-            width: 20%;
-            height: auto;
+            background-image: url('war-battlefield.png');
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 52px; /* Height of navbar */
+            left: 0;
         }
 
         .navbar {
@@ -34,6 +28,10 @@
             background-color: #333;
             padding: 10px;
             color: white;
+            position: fixed;
+            top: 0;
+            width: calc(100% - 20px);
+            z-index: 20;
         }
         .navbar .welcome {
             margin-left: 10px;
@@ -68,27 +66,108 @@
         .hamburger:hover .dropdown-content {
             display: block;
         }
+        
+        .popup-container {
+            position: fixed;
+            top: 52px; 
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none;
+        }
 
         .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            z-index: 10;
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
             text-align: center;
+            pointer-events: auto;
         }
         .hidden {
             display: none;
+        }
+
+        #setupPopup {
+            background-image: url('war-battlefield-illustration.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 15px;
+            width: auto;
+            max-width: 600px;
+            border: 3px solid #fff;
+            position: relative;
+        }
+        #setupPopup h2, #setupPopup h3 {
+             text-shadow: 2px 2px 4px #000000;
+        }
+        .player-setup-container { display: flex; gap: 15px; margin-bottom: 15px; justify-content: center; }
+        .player-setup { 
+            border: 2px solid rgba(255, 255, 255, 0.7); 
+            padding: 10px; 
+            border-radius: 8px; 
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+        .player-setup-container input { display: block; margin: 10px auto; padding: 8px; font-size: 16px; text-align: center; }
+        .player-setup-container img { width: 70px; height: 70px; border-radius: 5px; border: 2px solid #555; object-fit: cover; }
+        .player-setup-container button { margin-top: 10px; padding: 8px 12px; cursor: pointer; }
+        #startGameBtn { font-size: 1.2em; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        .instructions { 
+            margin-top: 15px; 
+            text-align: left; 
+            background-color: rgba(0, 0, 0, 0.6); 
+            padding: 10px; 
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            text-shadow: 1px 1px 3px #000;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            color: #ffdddd;
+        }
+
+        #iconSelectionPopup { max-height: 80vh; overflow-y: auto; }
+        .icon-category { margin-bottom: 15px; }
+        .icon-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .icon-choice-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .icon-choice-container:hover {
+            transform: scale(1.1);
+        }
+        .icon-choice { 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 5px; 
+            border: 2px solid transparent; 
+            object-fit: cover; 
         }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="welcome">Welcome, guest xyz123</div>
+    <div class="welcome">Welcome, Vishal R</div>
     <div class="hamburger">
         <img src="download.png" alt="Menu">
         <div class="dropdown-content">
@@ -101,153 +180,276 @@
     </div>
 </div>
 
-    <div id="instructionPopup" class="popup">
-        <h2>Game Instructions</h2>
-        <p>Player 1: Use W/S to move, Space to shoot</p>
-        <p>Player 2: Use Arrow Up/Down to move, Enter to shoot</p>
-        <button onclick="startGame()">Start Game</button>
+<div class="popup-container">
+    <div id="setupPopup" class="popup">
+        <a href="home.html" class="close-btn">&times;</a>
+        <h2>Player Setup</h2>
+        <div class="player-setup-container">
+            <div class="player-setup">
+                <h3>Player 1</h3>
+                <img id="p1-icon-preview" src="output.png" alt="Player 1 Icon">
+                <input type="text" id="p1-name" value="Vishal R">
+                <button onclick="openIconSelector(0)">Change Icon</button>
+            </div>
+            <div class="player-setup">
+                <h3>Player 2</h3>
+                <img id="p2-icon-preview" src="PROFILES/anonymous/images.jpeg" alt="Player 2 Icon">
+                <input type="text" id="p2-name" value="Riansh Y">
+                <button onclick="openIconSelector(1)">Change Icon</button>
+            </div>
+        </div>
+        <div class="instructions">
+            <b>Controls:</b>
+            <p>Player 1: Use W/S to move, Spacebar to shoot</p>
+            <p>Player 2: Use Arrow Up/Down to move, Enter to shoot</p>
+        </div>
+        <br>
+        <button id="startGameBtn" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="iconSelectionPopup" class="popup hidden">
+        <h3>Choose an Icon</h3>
+        <div id="icon-choices-container"></div>
+        <button onclick="closeIconSelector()" style="margin-top:15px;">Cancel</button>
     </div>
 
     <div id="gameOverPopup" class="popup hidden">
         <h2 id="winnerText"></h2>
         <button onclick="resetGame()">Play Again</button>
     </div>
+</div>
 
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <canvas id="gameCanvas"></canvas>
+    <audio id="hoverSound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight - 52;
 
-        const handImages = {
-            blue: new Image(),
-            red: new Image()
+        // --- SOUNDS ---
+        const shootSound1 = new Audio('scifi-gun-shoot-1-266417.mp3');
+        const shootSound2 = new Audio('scifi-gun-shoot-2-266418.mp3');
+        const hitSound = new Audio('ouch-43811.mp3');
+        const gameOverSound = new Audio('game-over-arcade-6435.mp3');
+        const hoverSound = document.getElementById('hoverSound');
+        const heartIcon = '❤️';
+
+        // --- PROFILE/ICON DATA ---
+        const ICON_CATEGORIES = {
+            "Standard": ["output.png", "netflix-profile-pictures-1000-x-1000-2fg93funipvqfs9i.webp", "netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg", "netflix-profile-pictures-w3lqr61qe57e9yt8.jpg"],
+            "anonymous": ["PROFILES/anonymous/vector-penguin-face_505913-4663.avif", "PROFILES/anonymous/a4c65f709d4c0cb1b4329c12beb9cd78.jpg", "PROFILES/anonymous/images (1).jpeg", "PROFILES/anonymous/images.jpeg"],
+            "common": ["PROFILES/common/netflix-profile-pictures-1000-x-1000-88wkdmjrorckekha.jpg", "KIDS.png", "PROFILES/common/images.png"],
+            "Squid Game": ["PROFILES/Squid Game/images (11).jpeg", "PROFILES/Squid Game/640189ab3f97e1114a7338fe98a43f4a (1).jpg", "PROFILES/Squid Game/images (2).jpeg", "PROFILES/Squid Game/images (3).jpeg"],
+            "Stranger Things": ["PROFILES/Stranger Things/tumblr_pu4yqjdjuu1tn6b73o3_r1_400.png", "PROFILES/Stranger Things/55ba30e8f83d0064ee7669dc203ad1d5.jpg"],
+            "Wednesday": ["PROFILES/Wednesday/f5d6766723f648e00cc732fd6b7b4e60.jpg"]
         };
-        handImages.blue.src = "pointing-gun.png";
-        handImages.red.src = "pointing-gun-1632373_1280.webp";
 
+        const keys = {};
+        let activePlayerIconSelect = 0;
+        let gameActive = false;
+        
         const players = [
-            {
-                x: 50,
-                y: canvas.height / 2,
-                width: 100,
-                height: 100,
-                color: "blue",
-                speed: 5,
-                bullets: []
-            },
-            {
-                x: canvas.width - 150,
-                y: canvas.height / 2,
-                width: 100,
-                height: 100,
-                color: "red",
-                speed: 5,
-                bullets: []
-            }
+            { x: 100, y: canvas.height / 2, width: 80, height: 80, color: "blue", speed: 10, bullets: [], health: 100, name: "Vishal R", iconSrc: "output.png", icon: new Image() },
+            { x: canvas.width - 180, y: canvas.height / 2, width: 80, height: 80, color: "red", speed: 10, bullets: [], health: 100, name: "Riansh Y", iconSrc: "PROFILES/anonymous/images.jpeg", icon: new Image() }
         ];
 
         let winner = null;
 
-        function drawPlayer(player) {
-            ctx.drawImage(handImages[player.color], player.x, player.y, player.width, player.height);
+        function playHoverSound() {
+            hoverSound.currentTime = 0;
+            hoverSound.play().catch(e => {});
+        }
+        
+        function drawPlayer(player) { ctx.drawImage(player.icon, player.x, player.y, player.width, player.height); }
+        
+        function drawHealth() {
+            ctx.font = "bold 22px Arial";
+            ctx.shadowColor = 'black';
+            ctx.shadowBlur = 4;
+            ctx.fillStyle = "white";
+            ctx.fillText(`${players[0].name} ${heartIcon}`, 20, 30);
+            ctx.fillStyle = "#555";
+            ctx.fillRect(20, 40, 200, 20);
+            ctx.fillStyle = "green";
+            ctx.fillRect(20, 40, players[0].health * 2, 20);
+            ctx.fillStyle = "white";
+            ctx.fillText(`${players[1].name} ${heartIcon}`, canvas.width - ctx.measureText(`${players[1].name} ${heartIcon}`).width - 20, 30);
+            ctx.fillStyle = "#555";
+            ctx.fillRect(canvas.width - 220, 40, 200, 20);
+            ctx.fillStyle = "green";
+            ctx.fillRect(canvas.width - 220, 40, players[1].health * 2, 20);
+            ctx.shadowBlur = 0;
         }
 
         function drawBullets(player) {
-            ctx.fillStyle = player.color;
-            for (const bullet of player.bullets) {
-                ctx.fillRect(bullet.x, bullet.y, 10, 5);
+            ctx.fillStyle = player.color === 'blue' ? '#ff4500' : '#00bfff';
+            ctx.shadowColor = player.color === 'blue' ? 'yellow' : 'cyan';
+            ctx.shadowBlur = 10;
+            for (const bullet of player.bullets) { ctx.fillRect(bullet.x, bullet.y, 15, 5); }
+            ctx.shadowBlur = 0;
+        }
+        
+        function updatePlayerPositions() {
+            if (keys['w']) players[0].y -= players[0].speed;
+            if (keys['s']) players[0].y += players[0].speed;
+            if (keys['arrowup']) players[1].y -= players[1].speed;
+            if (keys['arrowdown']) players[1].y += players[1].speed;
+            for (const player of players) {
+                if (player.y < 0) player.y = 0;
+                if (player.y > canvas.height - player.height) player.y = canvas.height - player.height;
             }
         }
 
         function moveBullets(player) {
             for (let i = player.bullets.length - 1; i >= 0; i--) {
-                player.bullets[i].x += player === players[0] ? 5 : -5;
-                if (player.bullets[i].x > canvas.width || player.bullets[i].x < 0) {
-                    player.bullets.splice(i, 1);
-                }
+                player.bullets[i].x += player === players[0] ? 10 : -10;
+                if (player.bullets[i].x > canvas.width || player.bullets[i].x < 0) player.bullets.splice(i, 1);
             }
         }
 
         function checkCollision() {
-            for (const player of players) {
-                for (let i = 0; i < player.bullets.length; i++) {
-                    const opponent = players.find(p => p !== player);
-                    if (
-                        player.bullets[i].x < opponent.x + opponent.width &&
-                        player.bullets[i].x + 10 > opponent.x &&
-                        player.bullets[i].y < opponent.y + opponent.height &&
-                        player.bullets[i].y + 5 > opponent.y
-                    ) {
-                        winner = player;
+            for (const shootingPlayer of players) {
+                const opponent = players.find(p => p !== shootingPlayer);
+                for (let i = shootingPlayer.bullets.length - 1; i >= 0; i--) {
+                    const bullet = shootingPlayer.bullets[i];
+                    if (bullet.x < opponent.x + opponent.width && bullet.x + 10 > opponent.x && bullet.y < opponent.y + opponent.height && bullet.y + 5 > opponent.y) {
+                        opponent.health -= 15;
+                        hitSound.currentTime = 0;
+                        hitSound.play();
+                        shootingPlayer.bullets.splice(i, 1);
+                        if (opponent.health <= 0) {
+                            opponent.health = 0;
+                            winner = shootingPlayer;
+                        }
                     }
                 }
             }
         }
 
         function shoot(player) {
-            player.bullets.push({
-                x: player.x + (player === players[0] ? player.width : 0),
-                y: player.y + player.height / 2 - 2.5
-            });
+            player.bullets.push({ x: player.x + (player === players[0] ? player.width : -15), y: player.y + player.height / 2 - 2.5 });
+            if (player === players[0]) {
+                shootSound1.currentTime = 0; shootSound1.play();
+            } else {
+                shootSound2.currentTime = 0; shootSound2.play();
+            }
         }
 
         function gameLoop() {
+            if (!gameActive) return;
+            updatePlayerPositions();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             for (const player of players) {
                 drawPlayer(player);
                 drawBullets(player);
                 moveBullets(player);
             }
-
+            drawHealth();
             checkCollision();
-
             if (winner) {
-                document.getElementById('winnerText').textContent = `${winner.color.toUpperCase()} Player Wins!`;
+                gameActive = false;
+                gameOverSound.play();
+                document.getElementById('winnerText').textContent = `${winner.name} Wins!`;
                 document.getElementById('gameOverPopup').classList.remove('hidden');
             } else {
                 requestAnimationFrame(gameLoop);
             }
         }
+        
+        function saveGameSetup() {
+            const setup = { p1: { name: players[0].name, icon: players[0].iconSrc }, p2: { name: players[1].name, icon: players[1].iconSrc } };
+            localStorage.setItem('2PlayerGameSetup', JSON.stringify(setup));
+        }
+
+        function loadGameSetup() {
+            const savedSetup = localStorage.getItem('2PlayerGameSetup');
+            if (savedSetup) {
+                const setup = JSON.parse(savedSetup);
+                players[0].name = setup.p1.name;
+                players[0].iconSrc = setup.p1.icon;
+                players[1].name = setup.p2.name;
+                players[1].iconSrc = setup.p2.icon;
+                document.getElementById('p1-name').value = setup.p1.name;
+                document.getElementById('p1-icon-preview').src = setup.p1.icon;
+                document.getElementById('p2-name').value = setup.p2.name;
+                document.getElementById('p2-icon-preview').src = setup.p2.icon;
+            }
+        }
 
         function startGame() {
-            document.getElementById('instructionPopup').classList.add('hidden');
+            players[0].name = document.getElementById('p1-name').value;
+            players[1].name = document.getElementById('p2-name').value;
+            players[0].iconSrc = document.getElementById('p1-icon-preview').src;
+            players[1].iconSrc = document.getElementById('p2-icon-preview').src;
+            players[0].icon.src = players[0].iconSrc;
+            players[1].icon.src = players[1].iconSrc;
+            saveGameSetup();
+            document.getElementById('setupPopup').classList.add('hidden');
+            gameActive = true;
             gameLoop();
         }
 
         function resetGame() {
             winner = null;
+            gameActive = false;
             for (const player of players) {
                 player.bullets = [];
                 player.y = canvas.height / 2;
+                player.health = 100;
             }
             document.getElementById('gameOverPopup').classList.add('hidden');
-            gameLoop();
+            document.getElementById('setupPopup').classList.remove('hidden');
         }
 
-        document.addEventListener("keydown", (event) => {
-            if (event.key === "W") {
-                players[0].y -= players[0].speed;
-            } else if (event.key === "S") {
-                players[0].y += players[0].speed;
-            } else if (event.key === " ") {
-                shoot(players[0]);
+        function openIconSelector(playerIndex) {
+            activePlayerIconSelect = playerIndex;
+            const container = document.getElementById('icon-choices-container');
+            container.innerHTML = '';
+            for (const category in ICON_CATEGORIES) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'icon-category';
+                categoryDiv.innerHTML = `<h4>${category}</h4>`;
+                const iconGrid = document.createElement('div');
+                iconGrid.className = 'icon-grid';
+                ICON_CATEGORIES[category].forEach(iconPath => {
+                    const item = document.createElement('div');
+                    item.className = 'icon-choice-container';
+                    item.onclick = () => selectIcon(iconPath);
+                    item.addEventListener('mouseenter', playHoverSound);
+                    item.innerHTML = `<img src="${iconPath}" class="icon-choice">`;
+                    iconGrid.appendChild(item);
+                });
+                categoryDiv.appendChild(iconGrid);
+                container.appendChild(categoryDiv);
             }
+            document.getElementById('iconSelectionPopup').classList.remove('hidden');
+            document.getElementById('setupPopup').classList.add('hidden');
+        }
 
-            if (event.key === "ArrowUp") {
-                players[1].y -= players[1].speed;
-            } else if (event.key === "ArrowDown") {
-                players[1].y += players[1].speed;
-            } else if (event.key === "Enter") {
-                shoot(players[1]);
+        function selectIcon(iconPath) {
+            const previewId = activePlayerIconSelect === 0 ? 'p1-icon-preview' : 'p2-icon-preview';
+            document.getElementById(previewId).src = iconPath;
+            closeIconSelector();
+        }
+
+        function closeIconSelector() {
+            document.getElementById('iconSelectionPopup').classList.add('hidden');
+            document.getElementById('setupPopup').classList.remove('hidden');
+        }
+
+        document.addEventListener("DOMContentLoaded", loadGameSetup);
+
+        document.addEventListener('keydown', (event) => {
+            keys[event.key.toLowerCase()] = true;
+            if (gameActive) {
+                if (event.key === ' ') shoot(players[0]);
+                else if (event.key === 'Enter') shoot(players[1]);
             }
         });
+
+        document.addEventListener('keyup', (event) => { keys[event.key.toLowerCase()] = false; });
     </script>
-
-    <footer>
-        <img src="LOGO-px7pZaNH5.png" alt="Logo" class="footer-logo">
-    </footer>
-
 </body>
 </html>

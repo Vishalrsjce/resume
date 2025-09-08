@@ -5,43 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chris Hemsworth's Workout Gallery</title>
     <style>
+        /* General Reset */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin: 20px auto;
-            max-width: 1200px;
-        }
-        .grid-item {
-            text-align: center;
-        }
-        .grid-item img {
-            max-width: 100%;
-            height: auto;
-        }
-        .grid-item a {
-            text-decoration: none;
+            background-color: #f4f4f9;
             color: #333;
         }
-     /* Navbar styles */
+
+        /* Navbar Styles */
         .navbar {
             display: flex;
             justify-content: space-between;
-            background-color: #333;
-            padding: 10px;
+            align-items: center;
+            background-color: #444;
+            padding: 10px 20px;
             color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         .navbar .welcome {
-            margin-left: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
         }
         .navbar .hamburger {
             position: relative;
-            display: inline-block;
         }
         .navbar .hamburger img {
             width: 30px;
@@ -52,146 +40,211 @@
             display: none;
             position: absolute;
             right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            top: 40px;
+            background-color: white;
+            min-width: 200px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
         .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
             display: block;
+            color: #333;
+            padding: 12px;
+            text-decoration: none;
+            font-weight: bold;
         }
         .dropdown-content a:hover {
-            background-color: #f1f1f1;
+            background-color: #f4f4f9;
         }
         .hamburger:hover .dropdown-content {
             display: block;
         }
-        footer {
-           font-weight: bold;
+
+        /* Grid Container */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 items per row */
+            gap: 15px; /* Space between items */
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        .grid-item {
+            text-align: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .grid-item img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .grid-item a {
+            display: block;
+            padding: 15px;
+            font-size: 1em;
+            font-weight: bold;
             text-decoration: none;
+            color: #e50914;
+            background-color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .grid-item a:hover {
+            background-color: #e50914;
+            color: white;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: #444;
+            color: white;
+            margin-top: 30px;
+        }
+        footer a {
+            color: #e50914;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-<div class="navbar">
-    <div class="welcome">Welcome, guest xyz123</div>
-    <div class="hamburger">
-        <img src="download.png" alt="Menu">
-        <div class="dropdown-content">
-            <a href="profile.html">Profile</a>
-            <a href="logout.html">Logout</a>
-            <a href="home.html">Home</a>
-            <a href="GALLERY.HTML">Stream</a>
-            <a href="about.html">About</a>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="welcome">Welcome, Vishal R</div>
+        <div class="hamburger">
+            <img src="download.png" alt="Menu">
+            <div class="dropdown-content">
+                <a href="profile.html">Profile</a>
+                <a href="logout.html">Logout</a>
+                <a href="home.html">Home</a>
+                <a href="GALLERY.HTML">Stream</a>
+                <a href="about.html">About</a>
+            </div>
         </div>
     </div>
-</div>    <div class="grid-container">
-    <div class="grid-item">
-        <img src="chrishemsworth\317314616_1207292350199571_8762622274209304435_n.jpg" alt="Image 11">
-        <br>
-        <a href="404.mp4">50 REP CHALLENGE</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\317376327_154099427361591_839873737384328521_n.jpg" alt="Image 12">
-        <br>
-        <a href="404.mp4">CHRIS VS YOUR CORE</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\317741897_903424720628107_2315190533639131931_n.jpg" alt="Image 13">
-        <br>
-        <a href="404.mp4">STRENGTH AND CARDIO</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\317386937_1476144119574480_15887081977321395043_n.jpg" alt="Image 14">
-        <br>
-        <a href="404.mp4">200 CLUB</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\317386937_1476144119574480_1588708197732395043_n.jpg" alt="Image 15">
-        <br>
-        <a href="404.mp4">WARMUPS</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\361623815_18382408072002645_667915694870254113_n.jpg" alt="Image 16">
-        <br>
-        <a href="404.mp4">FULL BODY PUMP</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\363388094_18382408060002645_4335574051777202177_n.jpg" alt="Image 17">
-        <br>
-        <a href="404.mp4">FITNESS EQUIPMENT SET PROMOTION</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\363328858_18382408051002645_1355548039426582273_n.jpg" alt="Image 18">
-        <br>
-        <a href="404.mp4">GRAND ROBERTS GYM AT GARAGE</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\351441971_474671644853036_7107841773608121070_n.jpg" alt="Image 19">
-        <br>
-        <a href="404.mp4">MAKES U WANNA GO</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\297431003_447691260588622_6444943642154098080_n.jpg" alt="Image 20">
-        <br>
-        <a href="404.mp4">STRENGTH KIT WORKOUT</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\41905224_266888690832995_7644232126841515826_n.jpg" alt="Image 2">
-        <br>
-        <a href="404.mp4">BADTIMES AT EL ROYALE</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\126026707_1015234878978135_5354980169828303158_n.jpg" alt="Image 3">
-        <br>
-        <a href="404.mp4">PREVIEW CENTER</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\246023980_305187147730970_48399625328582304_n.jpg" alt="Image 4">
-        <br>
-        <a href="404.mp4">NO EQUIPMENT TRAINING</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\251508814_617771756314064_3374505934688861303_n.jpg" alt="Image 5">
-        <br>
-        <a href="404.mp4">FUNCTIONAL SLAMS</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\251270296_903068577001080_3083480302356004593_n.jpg" alt="Image 6">
-        <br>
-        <a href="404.mp4">FUNCTIONAL CHALLENGER</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\317493918_552547889544919_3131174745856446194_n.jpg" alt="Image 10">
-        <br>
-        <a href="404.mp4">CHEST CKT</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\272767945_478831356924220_8058753636835172847_n.jpg" alt="Image 7">
-        <br>
-        <a href="404.mp4">BODYWEIGHT BOOSTER</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\400027012_674009494514052_241153979203293487_n.jpg" alt="Image 1">
-        <br>
-        <a href="404.mp4">15 MIN FULL BODY WORKOUT</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\353050811_123573037422250_280272251798429985_n.jpg" alt="Image 8">
-        <br>
-        <a href="404.mp4">BARBELL WORKOUTS</a>
-    </div>
-    <div class="grid-item">
-        <img src="chrishemsworth\434782574_410830028308888_4781682204531633964_n.jpg" alt="Image 9">
-        <br>
-        <a href="404.mp4">DUMBELL VS BODYWEIGHT</a>
-    </div>
-</div>
 
+    <!-- Grid Container -->
+    <div class="grid-container">
+         <div class="grid-item" onclick="window.location.href='chrishemsworth/50 REP CHALLENGE.mp4'">
+            <img src="chrishemsworth\317314616_1207292350199571_8762622274209304435_n.jpg" alt="Image 11">
+            <a href="chrishemsworth\50 REP CHALLENGE.mp4">50 REP CHALLENGE</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/CHRIS VS YOUR CORE.mp4'">
+            <img src="chrishemsworth\317376327_154099427361591_839873737384328521_n.jpg" alt="Image 12">
+            <a href="chrishemsworth\CHRIS VS YOUR CORE.mp4">CHRIS VS YOUR CORE</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/STRENGTH AND CARDIO.mp4'">
+            <img src="chrishemsworth\317741897_903424720628107_2315190533639131931_n.jpg" alt="Image 13">
+            <a href="chrishemsworth\STRENGTH AND CARDIO.mp4">STRENGTH AND CARDIO</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/200 CLUB.mp4'">
+            <img src="chrishemsworth\317386937_1476144119574480_15887081977321395043_n.jpg" alt="Image 14">
+            <a href="chrishemsworth\200 CLUB.mp4">200 CLUB</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/WARMUPS.mp4'">
+            <img src="chrishemsworth\317386937_1476144119574480_1588708197732395043_n.jpg" alt="Image 15">
+            <a href="chrishemsworth\WARMUPS.mp4">WARMUPS</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/FULL BODY PUMP.mp4'">
+            <img src="chrishemsworth\361623815_18382408072002645_667915694870254113_n.jpg" alt="Image 16">
+            <a href="chrishemsworth\FULL BODY PUMP.mp4">FULL BODY PUMP</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/FITTNESS EQUIPMENT SET PROMOTION.mp4'">
+            <img src="chrishemsworth\363388094_18382408060002645_4335574051777202177_n.jpg" alt="Image 17">
+            <a href="chrishemsworth\FITTNESS EQUIPMENT SET PROMOTION.mp4">FITNESS EQUIPMENT SET PROMOTION</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/GRAND ROBERTS GYM AT GARAGE.mp4'">
+            <img src="chrishemsworth\363328858_18382408051002645_1355548039426582273_n.jpg" alt="Image 18">
+            <a href="chrishemsworth\GRAND ROBERTS GYM AT GARAGE.mp4">GRAND ROBERTS GYM AT GARAGE</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/MAKES U WANNA GO.mp4'">
+            <img src="chrishemsworth\351441971_474671644853036_7107841773608121070_n.jpg" alt="Image 19">
+            <a href="chrishemsworth\MAKES U WANNA GO.mp4">MAKES U WANNA GO</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/STRENGTH KIT WORKOUT.mp4'">
+            <img src="chrishemsworth\297431003_447691260588622_6444943642154098080_n.jpg" alt="Image 20">
+            <a href="chrishemsworth\STRENGTH KIT WORKOUT.mp4">STRENGTH KIT WORKOUT</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/BADTIMES AT EL ROYALE.mp4'">
+            <img src="chrishemsworth\41905224_266888690832995_7644232126841515826_n.jpg" alt="Image 2">
+            <a href="chrishemsworth\BADTIMES AT EL ROYALE.mp4">BADTIMES AT EL ROYALE</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/PREVIEW CENTER.mp4'">
+            <img src="chrishemsworth\126026707_1015234878978135_5354980169828303158_n.jpg" alt="Image 3">
+            <a href="chrishemsworth\PREVIEW CENTER.mp4">PREVIEW CENTER</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/NO EQUIPMENT TRAINING.mp4'">
+            <img src="chrishemsworth\246023980_305187147730970_48399625328582304_n.jpg" alt="Image 4">
+            <a href="chrishemsworth\NO EQUIPMENT TRAINING.mp4">NO EQUIPMENT TRAINING</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/FUNCTIONAL SLAMS.mp4'">
+            <img src="chrishemsworth\251508814_617771756314064_3374505934688861303_n.jpg" alt="Image 5">
+            <a href="chrishemsworth\FUNCTIONAL SLAMS.mp4">FUNCTIONAL SLAMS</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/FUNCTIONAL CHALLENGER.mp4'">
+            <img src="chrishemsworth\251270296_903068577001080_3083480302356004593_n.jpg" alt="Image 6">
+            <a href="chrishemsworth\FUNCTIONAL CHALLENGER.mp4">FUNCTIONAL CHALLENGER</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/CHEST CKT.mp4'">
+            <img src="chrishemsworth\317493918_552547889544919_3131174745856446194_n.jpg" alt="Image 10">
+            <a href="chrishemsworth\CHEST CKT.mp4">CHEST CKT</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/BODYWEIGHT BOOSTER.mp4'">
+            <img src="chrishemsworth\272767945_478831356924220_8058753636835172847_n.jpg" alt="Image 7">
+            <a href="chrishemsworth\BODYWEIGHT BOOSTER.mp4">BODYWEIGHT BOOSTER</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/15 MIN FULL BODY WORKOUT.mp4'">
+            <img src="chrishemsworth\400027012_674009494514052_241153979203293487_n.jpg" alt="Image 1">
+            <a href="chrishemsworth\15 MIN FULL BODY WORKOUT.mp4">15 MIN FULL BODY WORKOUT</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/BARBELL WORKOUTS.mp4'">
+            <img src="chrishemsworth\353050811_123573037422250_280272251798429985_n.jpg" alt="Image 8">
+            <a href="chrishemsworth\BARBELL WORKOUTS.mp4">BARBELL WORKOUTS</a>
+        </div>
+        <div class="grid-item" onclick="window.location.href='chrishemsworth/DUMBELL VS BODYWEIGHT.mp4'">
+            <img src="chrishemsworth\434782574_410830028308888_4781682204531633964_n.jpg" alt="Image 9">
+            <a href="chrishemsworth\DUMBELL VS BODYWEIGHT.mp4">DUMBELL VS BODYWEIGHT</a>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Chris Hemsworth Fan Club. All rights reserved. 
+        <a href="about.html">Contact Us</a>
+    </footer>
+    
+    <audio id="hover-sound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hoverSound = document.getElementById('hover-sound');
+            const gridItems = document.querySelectorAll('.grid-item');
+
+            gridItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    hoverSound.currentTime = 0;
+                    hoverSound.play().catch(e => {}); // catch() prevents errors if sound is interrupted
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>

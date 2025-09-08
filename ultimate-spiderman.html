@@ -5,18 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Spider-Man - All Seasons</title>
     <style>
-        :root {
-            --primary-red: #e50914;
-            --background-light: #f4f4f4;
-            --card-light: #ffffff;
-            --text-dark: #1c1c1c;
-            --text-secondary: #555;
-            --border-light: #ddd;
-        }
+        :root { --primary-red: #e50914; --background-dark: #141414; --card-dark: #181818; --text-light: #fff; --text-grey: #a0a0a0; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: var(--background-light); color: var(--text-dark); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.6) 10%, rgba(0,0,0,0)); padding: 20px 50px; color: white; width: 100%; position: fixed; top: 0; z-index: 1001; transition: background-color 0.4s; }
-        .navbar.scrolled { background-color: #333; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: var(--background-dark); color: var(--text-light); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0)); padding: 20px 50px; color: white; width: 100%; position: fixed; top: 0; z-index: 1001; transition: background-color 0.4s; }
+        .navbar.scrolled { background-color: var(--background-dark); }
         .navbar-logo img {
             height: 35px;
             width: auto;
@@ -28,69 +21,47 @@
             gap: 20px;
         }
         .navbar .welcome { font-weight: bold; }
-        .navbar .hamburger { position: relative; }
+        .navbar .hamburger { position: relative; display: inline-block; }
         .navbar .hamburger img { width: 35px; height: 35px; cursor: pointer; border-radius: 4px; }
-        .dropdown-content { display: none; position: absolute; right: 0; background-color: var(--card-light); min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border: 1px solid var(--border-light); }
-        .dropdown-content a { color: var(--text-dark); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9em; }
-        .dropdown-content a:hover { background-color: #e9e9e9; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: rgba(0, 0, 0, 0.9); min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border: 1px solid rgba(255,255,255,0.15); }
+        .dropdown-content a { color: var(--text-grey); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9em; }
+        .dropdown-content a:hover { background-color: rgba(255,255,255,0.1); color: var(--text-light); }
         .hamburger:hover .dropdown-content { display: block; }
-
-        .hero-container { 
-            min-height: 95vh; 
-            width: 100%; 
-            position: relative; 
-            background-image: linear-gradient(to right, rgba(244, 244, 244, 1) 25%, rgba(244, 244, 244, 0.7) 50%, rgba(244, 244, 244, 0) 100%), 
-                              linear-gradient(to top, var(--background-light) 5%, rgba(244, 244, 244, 0) 25%), 
-                              url('ultimate-spiderman-poster.jpg'); 
-            background-size: cover; 
-            background-position: center top; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            padding: 100px 50px 50px 50px; 
-        }
-
+        .hero-container { height: 98vh; width: 100%; position: relative; background-image: linear-gradient(to right, rgba(20, 20, 20, 1) 25%, rgba(20, 20, 20, 0.6) 50%, rgba(20, 20, 20, 0) 100%), linear-gradient(to top, var(--background-dark) 5%, rgba(20, 20, 20, 0) 25%), url('ultimate-spiderman-poster.jpg'); background-size: cover; background-position: center top; display: flex; align-items: center; padding-left: 50px; }
         .hero-text-content { max-width: 55%; z-index: 10; }
-
-        .hero-text-content .logo { 
-            width: 300px;
-            margin-bottom: 20px; 
-        }
-
-        .hero-text-content h1 { font-size: 3.5em; margin-bottom: 15px; }
-        .hero-text-content .meta-info { color: var(--text-secondary); margin-bottom: 20px; font-size: 1.1em; font-weight: bold; }
-        .hero-text-content p { font-size: 1.2em; line-height: 1.5; margin-bottom: 25px; max-width: 600px; }
-        .hero-buttons button { padding: 12px 25px; font-size: 1.1em; border-radius: 5px; border: none; margin-right: 15px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
-        .btn-play { background-color: var(--primary-red); color: var(--card-light); }
-        .btn-play:hover { background-color: #c40812; transform: scale(1.05); }
-        .btn-info { background-color: rgba(109,109,110,0.7); color: var(--card-light); }
-        .btn-info:hover { background-color: rgba(109,109,110,0.9); transform: scale(1.05); }
-        .main-content { padding: 20px 50px; position: relative; z-index: 12; background-color: var(--background-light); margin-top: -80px; }
-        .filter-row { background-color: var(--card-light); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        .filter-row h3 { font-size: 1.6em; font-weight: bold; margin-bottom: 15px; }
-        .filter-controls { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
-        .season-selector, .search-bar { padding: 12px; font-size: 1.1em; border-radius: 5px; border: 1px solid var(--border-light); background-color: #f9f9f9; color: var(--text-dark); }
-        .search-bar { flex-grow: 1; }
-        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; margin-top: 20px; }
-        .episode { background-color: var(--card-light); border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .episode:hover { transform: scale(1.05); z-index: 20; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        .episode .image-container { width: 100%; padding-top: 56.25%; position: relative; background-color: #e0e0e0; }
+        .hero-text-content .logo { width: 300px; margin-bottom: 20px; }
+        .hero-text-content h2 { font-size: 1.5em; margin-bottom: 15px; }
+        .hero-text-content .meta-info { color: var(--text-grey); margin-bottom: 20px; }
+        .hero-text-content p { font-size: 1.1em; line-height: 1.5; margin-bottom: 25px; }
+        .hero-buttons button { padding: 12px 25px; font-size: 1.1em; border-radius: 5px; border: none; margin-right: 15px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-play { background-color: var(--text-light); color: var(--background-dark); }
+        .btn-play:hover { background-color: rgba(255,255,255,0.75); }
+        .btn-info { background-color: rgba(109,109,110,0.7); color: var(--text-light); }
+        .btn-info:hover { background-color: rgba(109,109,110,0.4); }
+        .main-content { padding: 20px 50px; margin-top: -80px; position: relative; z-index: 12; background-color: var(--background-dark); }
+        .season-selector-row h3 { font-size: 1.6em; font-weight: bold; display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .season-selector, .search-bar { padding: 10px; font-size: 1.1em; border-radius: 5px; border: 1px solid #333; background-color: var(--background-dark); color: var(--text-light); }
+        .filter-controls { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; }
+        .episode { background-color: var(--card-dark); border-radius: 5px; overflow: hidden; transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; cursor: pointer; position: relative; }
+        .episode:hover { transform: scale(1.08); z-index: 20; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+        .episode .image-container { width: 100%; padding-top: 56.25%; position: relative; background-color: #000; }
         .episode img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4em; color: rgba(255,255,255,0.9); text-shadow: 0 0 15px rgba(0,0,0,0.5); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4em; color: rgba(255,255,255,0.8); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
         .episode:hover .play-icon { opacity: 1; }
         .episode-info { padding: 15px; }
-        .episode .title { font-weight: bold; font-size: 1.1em; color: var(--text-dark); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .episode .synopsis { font-size: 0.9em; color: var(--text-secondary); line-height: 1.4; height: 3.8em; overflow: hidden; }
-        .episode .rating { font-weight: bold; color: #28a745; margin-top: 10px; font-size: 0.9em; }
+        .episode .title { font-weight: bold; font-size: 1.1em; color: var(--text-light); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .episode .synopsis { font-size: 0.9em; color: var(--text-grey); line-height: 1.4; height: 3.8em; overflow: hidden; }
+        .episode .rating { font-weight: bold; color: #46d369; margin-top: 10px; font-size: 0.9em; }
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
-        .modal-content { background-color: var(--card-light); color: var(--text-dark); margin: auto; padding: 0; width: 90%; max-width: 900px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.7); position: relative; overflow: hidden; }
+        .modal-content { background-color: var(--card-dark); margin: auto; padding: 0; width: 90%; max-width: 900px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.7); position: relative; overflow: hidden; }
         .modal-video-container { position: relative; background-color: #000; cursor: pointer; }
         #modal-video { width: 100%; height: auto; display: block; }
-        .close { color: var(--text-dark); position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: bold; background-color: rgba(255,255,255,0.7); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1; z-index: 100; cursor: pointer; transition: all 0.2s; }
-        .close:hover, .close:focus { background-color: #fff; transform: scale(1.1); }
+        .close { color: var(--text-light); position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: bold; background-color: rgba(20,20,20,0.7); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1; z-index: 100; cursor: pointer; transition: background-color 0.2s; }
+        .close:hover, .close:focus { background-color: #333; }
         .modal-info { padding: 25px 30px; }
-        #modal-title { font-size: 1.8em; margin-bottom: 15px; color: var(--primary-red); }
-        #modal-synopsis { color: var(--text-secondary); margin-bottom: 15px; line-height: 1.6; }
+        #modal-title { font-size: 1.8em; margin-bottom: 15px; }
+        #modal-synopsis { color: var(--text-grey); margin-bottom: 15px; line-height: 1.6; }
         #modal-rating { font-weight: bold; }
         .video-overlay-controls { position: absolute; top: 0; left: 0; right: 0; bottom: 60px; z-index: 21; }
         .click-zone { position: absolute; top: 0; height: 100%; z-index: 22; }
@@ -102,9 +73,10 @@
         .edge-nav.prev { left: 20px; }
         .edge-nav.next { right: 20px; }
         .edge-nav.disabled { opacity: 0 !important; pointer-events: none !important; }
-        #next-episode-prompt { display: none; position: absolute; bottom: 80px; right: 20px; z-index: 100; background-color: rgba(255, 255, 255, 0.95); color: var(--text-dark); border: 2px solid var(--primary-red); padding: 12px 25px; border-radius: 5px; font-size: 1em; font-weight: bold; cursor: pointer; transition: all 0.3s; }
-        #next-episode-prompt:hover { background-color: var(--primary-red); color: white; border-color: var(--primary-red); transform: scale(1.05); }
-        footer { text-align: center; color: var(--text-secondary); margin-top: 50px; padding-bottom: 20px; }
+        #next-episode-prompt { display: none; position: absolute; bottom: 80px; right: 20px; z-index: 100; background-color: rgba(20, 20, 20, 0.9); color: white; border: 1px solid rgba(255, 255, 255, 0.5); padding: 12px 25px; border-radius: 5px; font-size: 1em; cursor: pointer; transition: all 0.3s; }
+        #next-episode-prompt:hover { background-color: var(--primary-red); border-color: var(--primary-red); transform: scale(1.05); }
+        footer { text-align: center; color: var(--text-grey); margin: 50px 0 20px 0; font-size: 0.8em; }
+        @media (max-width: 768px) { .navbar { padding: 15px 20px; } .hero-container { padding-left: 20px; } .hero-text-content { max-width: 80%; } .hero-text-content .logo { width: 200px; } .main-content { padding: 20px; } .episodes-grid { grid-template-columns: 1fr; } .modal-content { width: 95%; } #next-episode-prompt { bottom: 70px; right: 10px; padding: 10px 15px; font-size: 0.9em; } .edge-nav { font-size: 0.9em; padding: 8px 10px; } }
     </style>
 </head>
 <body>
@@ -128,22 +100,22 @@
     <div class="hero-container">
         <div class="hero-text-content">
             <img src="ultimate-spiderman-logo.png" alt="Ultimate Spider-Man Logo" class="logo">
-            <h1>Ultimate Spider-Man</h1>
-            <div class="meta-info">2012 | U/A 7+ | 4 Seasons | Animated Series</div>
+            <h2 id="series-title">Ultimate Spider-Man</h2>
+            <div class="meta-info">2012 | Maturity Rating: U/A 7+ | 4 Seasons | Animated Series</div>
             <p>Follow young Peter Parker as he trains to become the Ultimate Spider-Man while juggling the pressures of high school.</p>
             <div class="hero-buttons">
-                <button class="btn-play">▶ Play First Episode</button>
+                <button class="btn-play">▶ Play</button>
                 <button class="btn-info">ⓘ More Info</button>
             </div>
         </div>
     </div>
     <div class="main-content">
-        <div class="filter-row">
-            <h3>All Episodes</h3>
+        <div class="season-selector-row">
+            <h3>Episodes</h3>
             <div class="filter-controls">
                 <select id="season-select" class="season-selector">
                     <option value="all">All Seasons</option>
-                    <option value="S01">Season 1</option>
+                    <option value="S01" selected>Season 1</option>
                     <option value="S02">Season 2</option>
                 </select>
                 <input type="text" id="search-bar" class="search-bar" placeholder="Search episodes...">
@@ -151,68 +123,91 @@
         </div>
         <div id="episodes-container" class="episodes-grid"></div>
     </div>
-    <footer><p>© 2024 VR1 Site. All rights reserved.</p></footer>
+    <footer>
+        <p>© 2024 VR1 Site. All rights reserved.</p>
+    </footer>
     <div id="episode-modal" class="modal">
         <div class="modal-content">
             <span class="close">×</span>
             <div class="modal-video-container">
-                <video id="modal-video" controls><source id="modal-video-source" src="" type="video/mp4"></video>
-                <div class="video-overlay-controls">
+                <video id="modal-video" controls>
+                    <source id="modal-video-source" src="" type="video/mp4">
+                </video>
+                 <div class="video-overlay-controls">
                     <div class="click-zone left"></div>
                     <div class="click-zone center"></div>
                     <div class="click-zone right"></div>
-                    <div class="edge-nav prev" id="prev-episode-btn">« Previous</div>
-                    <div class="edge-nav next" id="next-episode-btn">Next »</div>
+                    <div class="edge-nav prev" id="prev-episode-btn">« Previous Episode</div>
+                    <div class="edge-nav next" id="next-episode-btn">Next Episode »</div>
                 </div>
                 <button id="next-episode-prompt">Play Next Episode</button>
             </div>
             <div class="modal-info">
                 <h2 id="modal-title">Episode Title</h2>
                 <p id="modal-synopsis">Episode Synopsis</p>
-                <p id="modal-rating">IMDB: ★ <span id="modal-rating-value"></span></p>
+                <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
             </div>
         </div>
     </div>
     <script>        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA ---
             const allEpisodes = [{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e01.jpg","title":"S01E01 - Great Power","synopsis":"Peter Parker begins his journey as Spider-Man, learning that with great power comes great responsibility.","rating":"7.9/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E01.Great.Power.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e02.jpg","title":"S01E02 - Great Responsibility","synopsis":"Spider-Man faces his first challenges as a hero, discovering the weight of his new responsibilities.","rating":"7.8/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E02.Great.Responsibility.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e03.jpg","title":"S01E03 - Doomed","synopsis":"Spider-Man battles Doctor Doom, one of his greatest enemies, testing his newfound powers.","rating":"8.0/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E03.Doomed.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e04.jpg","title":"S01E04 - Venom","synopsis":"Peter Parker faces a dark force as the symbiote Venom takes over his body.","rating":"8.1/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate Spiderman.S01E04.Venom.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e06.jpg","title":"S01E06 - Why I Hate the Gym","synopsis":"Spider-Man struggles with balancing his superhero duties and high school gym class.","rating":"7.7/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E06.Why.I.Hate.the.Gym.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e08.jpg","title":"S01E08 - Back in Black","synopsis":"Spider-Man returns in his black suit, confronting new challenges with a darker edge.","rating":"8.2/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E08.Back.in.Black.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e09.jpg","title":"S01E09 - Field Trip","synopsis":"A school field trip goes awry when Peter Parker must step in as Spider-Man to save the day.","rating":"7.9/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E09.Field.Trip.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e10.jpg","title":"S01E10 - Freaky","synopsis":"Spider-Man encounters a new villain who turns the tables on him in unexpected ways.","rating":"8.0/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E10.Freaky.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e12.jpg","title":"S01E12 - Me Time","synopsis":"Spider-Man takes a break from hero duties, but trouble finds him even during downtime.","rating":"7.6/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E12.Me.Time.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e21.jpg","title":"S01E21 - I Am Spider-Man","synopsis":"Peter Parker must reconcile his life as Spider-Man with the demands of his personal life.","rating":"8.1/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E21.I.Am.Spider-Man.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e23.jpg","title":"S01E23 - Not a Toy","synopsis":"Spider-Man learns a lesson about responsibility when a powerful artifact falls into the wrong hands.","rating":"8.3/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E23.Not.a.Toy.WEB-DL.x264-FUM.mp4"},{"season":"S01","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/ultimate-spiderman-s01e24.jpg","title":"S01E24 - Attack of the Beetle","synopsis":"Spider-Man must thwart the Beetle, a formidable enemy with a personal vendetta.","rating":"8.2/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S01 WEB-DL x264-FUM/Ultimate.Spiderman.S01E24.Attack.of.the.Beetle.WEB-DL.x264-FUM.mp4"},{"season":"S02","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/ultimate-spiderman-s02e09.jpg","title":"S02E09 - House Arrest","synopsis":"Spider-Man faces challenges on the home front as his enemies close in.","rating":"8.0/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/Ultimate.Spiderman.S02E09.House.Arrest.WEB-DL.x264-FUM.mp4"},{"season":"S02","img":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/ultimate-spiderman-s02e17.jpg","title":"S02E17 - Guardians of the Galaxy","synopsis":"Spider-Man teams up with the Guardians of the Galaxy to face a cosmic threat.","rating":"8.5/10","link":"Ultimate Spider-Man S01-S02 WEB-DL x264-FUM[ettv]/Ultimate Spider-Man S02 WEB-DL x264-FUM/Ultimate.Spiderman.S02E17.Guardians.of.the.Galaxy.WEB-DL.x264-FUM.mp4"}];
 
-            let currentFilteredEpisodes = [], currentEpisodeIndex = -1;
-            const elements = {
-                navbar: document.getElementById('navbar'),
-                container: document.getElementById('episodes-container'),
-                searchBar: document.getElementById('search-bar'),
-                seasonSelect: document.getElementById('season-select'),
-                hoverSound: document.getElementById('hover-sound'),
-                modal: document.getElementById('episode-modal'),
-                modalVideo: document.getElementById('modal-video'),
-                modalVideoSource: document.getElementById('modal-video-source'),
-                modalCloseBtn: document.querySelector('.close'),
-                nextEpisodePrompt: document.getElementById('next-episode-prompt'),
-                centerClickZone: document.querySelector('.click-zone.center'),
-                leftClickZone: document.querySelector('.click-zone.left'),
-                rightClickZone: document.querySelector('.click-zone.right'),
-                prevEpisodeBtn: document.getElementById('prev-episode-btn'),
-                nextEpisodeBtn: document.getElementById('next-episode-btn')
-            };
+            // --- STATE & ELEMENTS ---
+            let currentFilteredEpisodes = [];
+            let currentEpisodeIndex = -1;
+
+            const navbar = document.getElementById('navbar');
+            const container = document.getElementById('episodes-container');
+            const searchBar = document.getElementById('search-bar');
+            const seasonSelect = document.getElementById('season-select');
+            const hoverSound = document.getElementById('hover-sound');
+            
+            const modal = document.getElementById('episode-modal');
+            const modalVideo = document.getElementById('modal-video');
+            const modalVideoSource = document.getElementById('modal-video-source');
+            const modalCloseBtn = document.querySelector('.close');
+            const nextEpisodePrompt = document.getElementById('next-episode-prompt');
+
+            const videoOverlay = document.querySelector('.video-overlay-controls');
+            const centerClickZone = videoOverlay.querySelector('.click-zone.center');
+            const leftClickZone = videoOverlay.querySelector('.click-zone.left');
+            const rightClickZone = videoOverlay.querySelector('.click-zone.right');
+            const prevEpisodeBtn = document.getElementById('prev-episode-btn');
+            const nextEpisodeBtn = document.getElementById('next-episode-btn');
+
+            // --- FUNCTIONS ---
             function renderEpisodes() {
-                const filterText = elements.searchBar.value.toLowerCase();
-                const selectedSeason = elements.seasonSelect.value;
-                elements.container.innerHTML = '';
+                const filterText = searchBar.value.toLowerCase();
+                const selectedSeason = seasonSelect.value;
+                container.innerHTML = '';
                 currentFilteredEpisodes = allEpisodes.filter(ep => (selectedSeason === 'all' || ep.season === selectedSeason) && (ep.title.toLowerCase().includes(filterText) || ep.synopsis.toLowerCase().includes(filterText)));
+
                 if (currentFilteredEpisodes.length === 0) {
-                    elements.container.innerHTML = '<p>No episodes found matching your criteria.</p>';
+                    container.innerHTML = '<p style="color: var(--text-grey);">No episodes found matching your criteria.</p>';
                     return;
                 }
+                
                 currentFilteredEpisodes.forEach((ep, index) => {
                     const episodeElement = document.createElement('div');
-                    episodeElement.className = 'episode';
+                    episodeElement.classList.add('episode');
                     episodeElement.dataset.index = index;
-                    episodeElement.innerHTML = `<div class="image-container"><img src="${ep.img}" alt="${ep.title}" loading="lazy" onerror="this.onerror=null;this.src='ultimate-spiderman-logo.png';"><div class="play-icon">▶</div></div><div class="episode-info"><div class="title">${ep.title}</div><div class="synopsis">${ep.synopsis}</div><div class="rating">IMDB: ★ ${ep.rating}</div></div>`;
+                    episodeElement.innerHTML = `
+                        <div class="image-container">
+                            <img src="${ep.img}" alt="${ep.title}" loading="lazy" onerror="this.onerror=null;this.src='ultimate-spiderman-logo.png';">
+                            <div class="play-icon">▶</div>
+                        </div>
+                        <div class="episode-info">
+                            <div class="title">${ep.title}</div>
+                            <div class="synopsis">${ep.synopsis}</div>
+                            <div class="rating">IMDB: ★ ${ep.rating}</div>
+                        </div>`;
                     episodeElement.addEventListener('click', () => showDetails(index));
-                    episodeElement.addEventListener('mouseenter', () => { elements.hoverSound.currentTime = 0; elements.hoverSound.play().catch(e => {}); });
-                    elements.container.appendChild(episodeElement);
+                    episodeElement.addEventListener('mouseenter', () => { hoverSound.currentTime = 0; hoverSound.play().catch(e => {}); });
+                    container.appendChild(episodeElement);
                 });
             }
+
             function showDetails(index) {
                 if (index < 0 || index >= currentFilteredEpisodes.length) return;
                 currentEpisodeIndex = index;
@@ -220,42 +215,43 @@
                 document.getElementById('modal-title').textContent = episode.title;
                 document.getElementById('modal-synopsis').textContent = episode.synopsis;
                 document.getElementById('modal-rating-value').textContent = episode.rating;
-                elements.modalVideoSource.src = encodeURI(episode.link);
-                elements.modalVideo.load();
-                elements.modalVideo.play().catch(e => console.error("Video play failed:", e));
-                elements.modal.style.display = 'flex';
+                modalVideoSource.src = encodeURI(episode.link);
+                modalVideo.load();
+                modalVideo.play().catch(e => console.error("Video play failed:", e));
+                modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
                 updateNavButtons();
             }
+
             function updateNavButtons() {
-                elements.prevEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex <= 0);
-                elements.nextEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex >= currentFilteredEpisodes.length - 1);
+                prevEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex <= 0);
+                nextEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex >= currentFilteredEpisodes.length - 1);
             }
+
             function closeModal() {
-                elements.modal.style.display = 'none';
-                elements.modalVideo.pause();
-                elements.modalVideoSource.src = "";
+                modal.style.display = 'none';
+                modalVideo.pause();
+                modalVideoSource.src = "";
                 document.body.style.overflow = 'auto';
-                elements.nextEpisodePrompt.style.display = 'none';
+                nextEpisodePrompt.style.display = 'none';
             }
-            elements.searchBar.addEventListener('input', renderEpisodes);
-            elements.seasonSelect.addEventListener('change', renderEpisodes);
-            elements.modalCloseBtn.addEventListener('click', closeModal);
-            window.addEventListener('keydown', e => (e.key === 'Escape' && elements.modal.style.display === 'flex') && closeModal());
-            window.addEventListener('scroll', () => elements.navbar.classList.toggle('scrolled', window.scrollY > 50));
-            elements.centerClickZone.addEventListener('click', () => elements.modalVideo.paused ? elements.modalVideo.play() : elements.modalVideo.pause());
-            elements.leftClickZone.addEventListener('click', () => elements.modalVideo.currentTime -= 10);
-            elements.rightClickZone.addEventListener('click', () => elements.modalVideo.currentTime += 10);
-            elements.prevEpisodeBtn.addEventListener('click', e => { e.stopPropagation(); if (currentEpisodeIndex > 0) showDetails(currentEpisodeIndex - 1); });
-            elements.nextEpisodeBtn.addEventListener('click', e => { e.stopPropagation(); if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1); });
-            elements.modalVideo.addEventListener('timeupdate', () => {
-                const timeLeft = elements.modalVideo.duration - elements.modalVideo.currentTime;
-                elements.nextEpisodePrompt.style.display = (timeLeft < 30 && timeLeft > 0 && currentEpisodeIndex < currentFilteredEpisodes.length - 1) ? 'block' : 'none';
-            });
-            elements.modalVideo.addEventListener('ended', () => { if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) { showDetails(currentEpisodeIndex + 1); } else { closeModal(); } });
-            elements.nextEpisodePrompt.addEventListener('click', () => { if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1); });
+
+            // --- EVENT LISTENERS ---
+            searchBar.addEventListener('input', renderEpisodes);
+            seasonSelect.addEventListener('change', renderEpisodes);
+            modalCloseBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', event => { if (event.target == modal) closeModal(); });
+            window.addEventListener('keydown', event => { if (event.key === 'Escape' && modal.style.display === 'flex') closeModal(); });
+            window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+            centerClickZone.addEventListener('click', () => modalVideo.paused ? modalVideo.play() : modalVideo.pause());
+            leftClickZone.addEventListener('click', () => modalVideo.currentTime -= 10);
+            rightClickZone.addEventListener('click', () => modalVideo.currentTime += 10);
+            prevEpisodeBtn.addEventListener('click', e => { e.stopPropagation(); if (currentEpisodeIndex > 0) showDetails(currentEpisodeIndex - 1); });
+            nextEpisodeBtn.addEventListener('click', e => { e.stopPropagation(); if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1); });
+            modalVideo.addEventListener('timeupdate', () => { const timeLeft = modalVideo.duration - modalVideo.currentTime; if (timeLeft < 30 && timeLeft > 0 && currentEpisodeIndex < currentFilteredEpisodes.length - 1) { nextEpisodePrompt.style.display = 'block'; } else { nextEpisodePrompt.style.display = 'none'; } });
+            modalVideo.addEventListener('ended', () => { if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) { showDetails(currentEpisodeIndex + 1); } else { closeModal(); } });
+            nextEpisodePrompt.addEventListener('click', () => { if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1); });
             document.querySelector('.btn-play').addEventListener('click', () => { renderEpisodes(); if (currentFilteredEpisodes.length > 0) showDetails(0); });
-            document.querySelectorAll('.dropdown-content a, .btn-info').forEach(el => { el.addEventListener('mouseenter', () => { elements.hoverSound.currentTime = 0; elements.hoverSound.play().catch(e => {}); }); });
             renderEpisodes();
         });
     </script>

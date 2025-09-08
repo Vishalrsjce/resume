@@ -9,35 +9,42 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #141414; /* Dark theme background */
+            color: #e0e0e0; /* Light text for dark theme */
+            padding-top: 70px; /* Space for the fixed top bar */
         }
         .container {
             width: 80%;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            background-color: #1f1f1f; /* Dark container background */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
+            border-radius: 8px;
         }
         .welcome-message {
             text-align: center;
             margin-bottom: 20px;
         }
-        .section {
-            margin-bottom: 20px;
+        .welcome-message h1 {
+            color: #fff;
         }
         .section h2 {
             margin-top: 0;
+            color: #fff;
+            border-bottom: 2px solid #e50914; /* Accent color border */
+            padding-bottom: 10px;
         }
         .info {
-            padding: 10px 0;
-            border-bottom: 1px solid #ccc;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
         }
         .info:last-child {
             border-bottom: none;
         }
         .info label {
             font-weight: bold;
+            color: #aaa;
         }
         .profile-picture {
             text-align: center;
@@ -46,40 +53,217 @@
         .profile-picture img {
             max-width: 150px;
             border-radius: 50%;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border: 3px solid #444;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+
+        /* --- Top Bar & Dropdown (Adapted for Dark Theme) --- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            background-color: #141414;
+            border-bottom: 1px solid #222;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .top-bar .logo { width: 120px; height: auto; }
+        .navbar { display: flex; align-items: center; }
+        .navbar .welcome { margin-right: 20px; color: #ccc; }
+        .navbar .hamburger { position: relative; display: inline-block; }
+        .navbar .hamburger img { width: 30px; height: 30px; cursor: pointer; border-radius: 4px; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: rgba(0,0,0,0.9); min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); z-index: 1; border: 1px solid #333; }
+        .dropdown-content a { color: white; padding: 12px 16px; text-decoration: none; display: block; }
+        .dropdown-content a:hover { background-color: #e50914; }
+        .hamburger:hover .dropdown-content { display: block; }
+        
+        /* --- Styles for Picture Customization --- */
+        .edit-button {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #e0e0e0;
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        .edit-button:hover { background-color: #454545; }
+        #icon-selection-area { margin-top: 20px; padding: 20px; border: 1px solid #333; border-radius: 5px; background-color: #111; }
+        .icon-category { margin-bottom: 20px; }
+        .icon-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        .icon-choice { width: 80px; height: 80px; border-radius: 8px; cursor: pointer; border: 3px solid transparent; object-fit: cover; transition: border-color 0.2s; }
+        .icon-choice:hover { border-color: #e50914; }
+        .selection-buttons { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
+        .selection-buttons .remove-btn { background-color: #b00020; }
+        .selection-buttons .remove-btn:hover { background-color: #e50914; }
+        .selection-buttons .cancel-btn { background-color: #555; }
+        .selection-buttons .cancel-btn:hover { background-color: #666; }
     </style>
 </head>
 <body>
+
+    <audio id="hover-sound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
+
+    <div class="top-bar">
+        <img src="LOGO-px7pZaNH5.png" alt="Logo" class="logo">
+        <div class="navbar">
+            <div class="welcome">Welcome, Vishal R</div>
+            <div class="hamburger">
+                <img src="download.png" alt="Menu">
+                <div class="dropdown-content">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                    <a href="home.html">Home</a>
+                    <a href="GALLERY.HTML">Stream</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="welcome-message">
-            <h1>Welcome, Guest XYZ123!</h1>
+            <h1>Welcome, Boss!</h1>
             <p>What else would you like to add?</p>
         </div>
         <div class="section">
             <h2>Basic Info</h2>
             <div class="info profile-picture">
                 <label>Profile picture:</label>
-                <!-- Placeholder image URL -->
-                <img src="thuygefpg.jpg" alt="Placeholder profile picture">
-                <p>Add a profile picture to personalize your account</p>
+                <!-- This now starts with the new default image -->
+                <img id="main-profile-img" src="32436fdb-cc27-43fc-9586-b084f528e45a.jpg" alt="Profile Picture">
+                <p id="add-picture-prompt" style="display: none;">Add a profile picture to personalize your account</p>
+                <button id="edit-pic-btn" class="edit-button">Edit</button>
+                
+                <div id="icon-selection-area" style="display: none;">
+                    <h4>Choose an Icon</h4>
+                    <div id="icon-grid-container"></div>
+                    <div class="selection-buttons">
+                        <button id="remove-pic-btn" class="edit-button remove-btn">Remove Picture</button>
+                        <button id="cancel-edit-btn" class="edit-button cancel-btn">Cancel</button>
+                    </div>
+                </div>
             </div>
             <div class="info">
                 <label>Name:</label>
-                <p>Guest XYZ123</p>
+                <p>Vishal R</p>
+            </div>
+            <div class="info">
+                <label>Birthday:</label>
+                <p>April 6, 1977</p>
+            </div>
+            <div class="info">
+                <label>Gender:</label>
+                <p>Male</p>
             </div>
         </div>
         <div class="section">
             <h2>Contact Info</h2>
             <div class="info">
                 <label>Email:</label>
-                <p>Unknown</p>
+                <p>vishal642003@gmail.com</p>
             </div>
             <div class="info">
                 <label>Phone:</label>
-                <p>Unknown</p>
+                <p>098455 07248</p>
             </div>
         </div>
     </div>
+
+<script>
+    const ICON_CATEGORIES = {
+        "Standard": [ "32436fdb-cc27-43fc-9586-b084f528e45a.jpg", "output.png", "netflix-profile-pictures-1000-x-1000-2fg93funipvqfs9i.webp", "netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg", "netflix-profile-pictures-w3lqr61qe57e9yt8.jpg" ],
+        "anonymous": [ "PROFILES/anonymous/vector-penguin-face_505913-4663.avif", "PROFILES/anonymous/a4c65f709d4c0cb1b4329c12beb9cd78.jpg", "PROFILES/anonymous/images (1).jpeg", "PROFILES/anonymous/images.jpeg" ],
+        "common": [ "PROFILES/common/netflix-profile-pictures-1000-x-1000-88wkdmjrorckekha.jpg", "KIDS.png", "PROFILES/common/images.png" ],
+        "Squid Game": [ "PROFILES/Squid Game/images (11).jpeg", "PROFILES/Squid Game/640189ab3f97e1114a7338fe98a43f4a (1).jpg", "PROFILES/Squid Game/640189ab3f97e1114a7338fe98a43f4a.jpg", "PROFILES/Squid Game/images (2).jpeg", "PROFILES/Squid Game/images (3).jpeg", "PROFILES/Squid Game/images (4).jpeg", "PROFILES/Squid Game/images (5).jpeg", "PROFILES/Squid Game/images (6).jpeg", "PROFILES/Squid Game/images (7).jpeg", "PROFILES/Squid Game/images (8).jpeg", "PROFILES/Squid Game/images (9).jpeg", "PROFILES/Squid Game/images (10).jpeg" ],
+        "Stranger Things": [ "PROFILES/Stranger Things/tumblr_pu4yqjdjuu1tn6b73o3_r1_400.png", "PROFILES/Stranger Things/55ba30e8f83d0064ee7669dc203ad1d5.jpg", "PROFILES/Stranger Things/64308899eec3ccaf42f5182952722b19.jpg", "PROFILES/Stranger Things/images.jpeg" ],
+        "Wednesday": [ "PROFILES/Wednesday/f5d6766723f648e00cc732fd6b7b4e60.jpg" ]
+    };
+    // ** NEW LOGIC **
+    // The picture shown when the page loads
+    const DEFAULT_PIC_SRC = '32436fdb-cc27-43fc-9586-b084f528e45a.jpg';
+    // The picture shown ONLY when the "Remove" button is clicked
+    const REMOVED_PIC_SRC = 'thuygefpg.jpg';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const mainImg = document.getElementById('main-profile-img');
+        const editBtn = document.getElementById('edit-pic-btn');
+        const removeBtn = document.getElementById('remove-pic-btn');
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        const selectionArea = document.getElementById('icon-selection-area');
+        const gridContainer = document.getElementById('icon-grid-container');
+        const promptText = document.getElementById('add-picture-prompt');
+        const hoverSound = document.getElementById('hover-sound');
+
+        function playHoverSound() {
+            hoverSound.currentTime = 0;
+            hoverSound.play().catch(e => console.error("Sound play failed:", e));
+        }
+        
+        function showSelectionArea() {
+            selectionArea.style.display = 'block';
+            editBtn.style.display = 'none';
+        }
+
+        function hideSelectionArea() {
+            selectionArea.style.display = 'none';
+            editBtn.style.display = 'inline-block';
+        }
+
+        function renderIconChoices() {
+            gridContainer.innerHTML = '';
+            for (const category in ICON_CATEGORIES) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'icon-category';
+                categoryDiv.innerHTML = `<h5>${category}</h5>`;
+                
+                const iconGrid = document.createElement('div');
+                iconGrid.className = 'icon-grid';
+                
+                ICON_CATEGORIES[category].forEach(iconPath => {
+                    const img = document.createElement('img');
+                    img.src = iconPath;
+                    img.alt = category + ' icon';
+                    img.className = 'icon-choice';
+                    
+                    img.addEventListener('mouseenter', playHoverSound);
+                    
+                    img.onclick = () => {
+                        mainImg.src = iconPath;
+                        mainImg.alt = 'Selected Profile Picture';
+                        promptText.style.display = 'none'; // A new picture is chosen, so hide the prompt
+                        hideSelectionArea();
+                    };
+                    iconGrid.appendChild(img);
+                });
+                
+                categoryDiv.appendChild(iconGrid);
+                gridContainer.appendChild(categoryDiv);
+            }
+        }
+
+        editBtn.addEventListener('click', showSelectionArea);
+        cancelBtn.addEventListener('click', hideSelectionArea);
+
+        // ** UPDATED REMOVE BUTTON LOGIC **
+        removeBtn.addEventListener('click', () => {
+            mainImg.src = REMOVED_PIC_SRC; // Set to the "removed" (donut) image
+            mainImg.alt = 'Donut with a bite taken out';
+            promptText.style.display = 'block'; // Show the prompt ONLY when picture is removed
+            hideSelectionArea();
+        });
+
+        // Initialize the page
+        mainImg.src = DEFAULT_PIC_SRC; // Ensure the correct default image is set on load
+        renderIconChoices();
+    });
+</script>
+
 </body>
 </html>
