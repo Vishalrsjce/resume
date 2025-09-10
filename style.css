@@ -1,56 +1,190 @@
-/* Save this file as style.css */
+/* --- UNIVERSAL & SHARED STYLES --- */
 body {
-    font-family: Arial, sans-serif;
-    background-color: black;
-    color: #00aaff;
-    overflow: hidden;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 0;
+    transition: background-color 0.3s;
+}
+footer {
+    width: 100%; text-align: center; margin: 40px 0 20px 0; font-size: 0.9em;
 }
 
-.container {
+/* --- HOMEPAGE SPECIFIC STYLES --- */
+body.home-page {
+    background-color: #141414; color: #ffffff;
+}
+.home-page footer { color: #888; }
+
+/* --- STANDARD NAVIGATION BAR --- */
+.navbar {
+    display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; color: white;
+    position: fixed; width: 100%; box-sizing: border-box; top: 0; z-index: 1000;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent); transition: background-color 0.4s;
+}
+.navbar.scrolled { background-color: #141414; }
+.navbar-left, .navbar-right { display: flex; align-items: center; }
+.navbar-logo { color: #e50914; font-size: 1.8em; font-weight: bold; text-decoration: none; margin-right: 25px; }
+.navbar-links a { color: #e5e5e5; text-decoration: none; margin-right: 20px; font-size: 0.9em; transition: color 0.3s; cursor: pointer; }
+.navbar-links a:hover { color: #b3b3b3; }
+
+/* Hamburger Menu */
+.hamburger { position: relative; display: inline-block; }
+.hamburger img { width: 35px; height: 35px; cursor: pointer; border-radius: 4px; }
+.dropdown-content {
+    display: none; position: absolute; right: 0; 
+    /* CHANGED: Adjusted top position to remove the gap between icon and menu */
+    top: 35px; 
+    background-color: rgba(20, 20, 20, 0.9);
+    border: 1px solid #333; min-width: 200px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    z-index: 1001; border-radius: 4px;
+}
+.dropdown-content .welcome-text { padding: 12px 16px; border-bottom: 1px solid #444; font-weight: bold; color: #fff; }
+.dropdown-content a { color: #fff; padding: 12px 16px; text-decoration: none; display: block; }
+.dropdown-content a:hover { background-color: #333; }
+.hamburger:hover .dropdown-content { display: block; }
+
+/* Search Input */
+#search-input {
+    background-color: rgba(0,0,0,0.7); border: 1px solid #aaa; color: white; padding: 8px 15px;
+    border-radius: 4px; margin-right: 20px; transition: width 0.3s, background-color 0.3s; width: 200px;
+}
+#search-input:focus { background-color: #333; width: 300px; outline: none; }
+
+/* --- HERO SECTION --- */
+.hero-container {
+    height: 90vh; position: relative; display: flex; align-items: center; color: #fff; padding: 0 40px;
+}
+.hero-background {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center 30%; z-index: -2;
+    transition: background-image 0.5s ease-in-out;
+}
+.hero-background::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, #141414 10%, transparent 60%), linear-gradient(to top, #141414 5%, transparent 40%);
+}
+.hero-content { max-width: 40%; transition: opacity 0.5s ease-in-out; }
+.hero-content.fade-out { opacity: 0; }
+.hero-title { font-size: 3.5em; font-weight: bold; margin-bottom: 20px; }
+.hero-synopsis { font-size: 1.2em; line-height: 1.5; margin-bottom: 30px; }
+.hero-buttons .hero-btn-play {
+    padding: 12px 30px; font-size: 1.2em; font-weight: bold; border: none;
+    border-radius: 5px; background-color: #fff; color: #000; cursor: pointer; transition: background-color 0.3s;
+}
+.hero-buttons .hero-btn-play:hover { background-color: #ccc; }
+
+/* --- HOMEPAGE CAROUSEL & MAIN CONTENT STYLES --- */
+.main-container { padding: 20px 40px; position: relative; z-index: 10; margin-top: 0; }
+.category-row { margin-bottom: 40px; }
+.category-title { font-size: 1.8em; margin-bottom: 15px; }
+.carousel-container { position: relative; }
+.movies-carousel {
+    display: flex; overflow-x: scroll; overflow-y: hidden; scroll-behavior: smooth;
+    padding-bottom: 20px; -ms-overflow-style: none; scrollbar-width: none;
+}
+.movies-carousel::-webkit-scrollbar { display: none; }
+.movie-card {
+    flex: 0 0 240px; margin-right: 10px; cursor: pointer; transition: transform 0.2s ease-out;
+    position: relative; border-radius: 5px; overflow: hidden; display: block;
+}
+.movie-card:hover { transform: scale(1.1); z-index: 10; }
+.movie-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.trending-card { display: flex; align-items: center; cursor: pointer; }
+.trending-card .rank-number {
+    font-size: 150px; font-weight: bold; color: #141414; -webkit-text-stroke: 4px #c4c4c4;
+    text-stroke: 4px #c4c4c4; margin-right: -40px; z-index: 1;
+}
+.trending-card .movie-poster { width: 180px; }
+.carousel-arrow {
+    position: absolute; top: 0; bottom: 20px; width: 40px; background-color: rgba(0, 0, 0, 0.5);
+    color: white; border: none; font-size: 40px; cursor: pointer; z-index: 20;
+    opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center;
+}
+.carousel-container:hover .carousel-arrow { opacity: 1; }
+.arrow-left { left: 0; }
+.arrow-right { right: 0; }
+
+/* --- GALLERY GRID VIEW STYLES --- */
+.full-grid-container { padding-top: 100px; }
+.grid-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.grid-title { font-size: 2.5em; }
+.back-btn {
+    padding: 10px 20px; font-size: 1em; font-weight: bold; background-color: #333;
+    color: #fff; border: 1px solid #555; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;
+}
+.back-btn:hover { background-color: #555; }
+.movies-grid.gallery-view {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;
+}
+.gallery-view .movie-card { flex-basis: auto; height: 300px; }
+.movies-grid.series-grid-view .movie-card { height: auto; aspect-ratio: 16 / 9; }
+
+/* --- MODAL STYLES --- */
+.modal {
+    display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+    overflow-y: hidden; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center;
+}
+.modal-content {
+    background-color: #181818; color: #fff;
+    padding: 20px; 
+    border: 1px solid #333;
+    width: 90%; max-width: 800px; border-radius: 10px; text-align: left;
+    position: relative; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.modal-video-container { 
     position: relative;
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid #00aaff;
-    border-radius: 8px;
+    cursor: pointer; 
 }
-
-.output, .steps {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #00aaff;
-    border: 1px solid #00aaff;
-    border-radius: 4px;
-}
-
-label, button {
-    color: #00aaff;
-}
-
-button {
-    background-color: black;
-    border: 1px solid #00aaff;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #00aaff;
-    color: black;
-}
-
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
+#modal-video {
     width: 100%;
-    height: 100%;
-    z-index: 1;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    border-radius: 5px;
+    background-color: #000;
+    display: block;
+}
+.close-modal-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: #fff; font-size: 35px;
+    font-weight: bold; cursor: pointer; z-index: 2001;
+    background-color: rgba(20, 20, 20, 0.7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+.modal-info-scrollable {
+    padding-top: 15px;
+}
+#recommendations-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid #444; }
+
+/* NEW: Specific styling for movie cards inside the modal's recommendation carousel */
+.modal-content .movie-card {
+    flex: 0 0 180px;
+    height: 270px;
+}
+
+/* NEW: Custom Dark-Themed Scrollbar for the Modal */
+.modal-content::-webkit-scrollbar {
+    width: 12px;
+}
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: rgba(136, 136, 136, 0.3);
+    border-radius: 20px;
+    border: 3px solid #181818;
+    background-clip: padding-box;
+    transition: background-color 0.3s;
+}
+.modal-content:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(136, 136, 136, 0.7);
 }

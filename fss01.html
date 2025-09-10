@@ -1,602 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Friends Episodes</title>
+    <title>Friends - Season 1</title>
     <style>
+        :root {
+            --primary-red: #e50914;
+            --background-light: #f4f4f4;
+            --card-light: #ffffff;
+            --text-dark: #1c1c1c;
+            --text-secondary: #555;
+            --border-light: #ddd;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
-            color: #000000;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
         }
-
-        .container {
-            background-color: #ADD8E6;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px auto;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-
         .navbar {
             display: flex;
             justify-content: space-between;
-            background-color: #333;
-            padding: 10px;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 10%, rgba(0,0,0,0));
+            padding: 20px 50px;
             color: white;
             width: 100%;
-        }
-
-        .navbar .welcome {
-            margin-left: 10px;
-        }
-
-        .navbar .hamburger {
-            position: relative;
-            display: inline-block;
-        }
-
-        .navbar .hamburger img {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .hamburger:hover .dropdown-content {
-            display: block;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .header img {
-            width: 60px;
-            height: auto;
-            margin-right: 10px;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            color: #e50914;
-        }
-
-        .description-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .text-content {
-            flex: 1;
-            padding: 20px;
-            background-color: #ffffff;
-            color: #000000;
-            border-radius: 10px;
-            margin-right: 20px;
-            min-width: 300px;
-        }
-
-        .text-content h1 {
-            font-size: 2em;
-            margin: 0 0 10px 0;
-            color: #e50914;
-        }
-
-        .text-content p {
-            margin: 10px 0;
-        }
-
-        .image-content {
-            flex: 1;
-            max-width: 400px;
-        }
-
-        .image-content img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .episodes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .episode {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid #FFF;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            text-align: center;
-            transition: transform 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
-
-        .episode:hover {
-            transform: scale(1.05);
-        }
-
-        .episode img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .episode .title {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #e50914;
-        }
-
-        .episode .synopsis {
-            margin: 10px 0;
-            font-size: 0.9em;
-        }
-
-        .episode .rating {
-            font-weight: bold;
-            color: #e50914;
-        }
-
-        .episode .rating::before {
-            content: "IMDB: ★ ";
-        }
-
-        .modal {
-            display: none;
             position: fixed;
-            z-index: 1;
-            left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            transition: background-color 0.4s;
+        }
+        .navbar.scrolled {
+            background-color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-logo img {
+            height: 35px;
+            width: auto;
+            vertical-align: middle;
+        }
+        .navbar-right {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
+            gap: 20px;
         }
-
-        .modal-content {
-            background-color: #ffffff;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #FFF;
+        .navbar .welcome { font-weight: bold; }
+        .navbar .hamburger { position: relative; }
+        .navbar .hamburger img { width: 35px; height: 35px; cursor: pointer; border-radius: 4px; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: var(--card-light); min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; border: 1px solid var(--border-light); }
+        .dropdown-content a { color: var(--text-dark); padding: 12px 16px; text-decoration: none; display: block; font-size: 0.9em; }
+        .dropdown-content a:hover { background-color: #e9e9e9; }
+        .hamburger:hover .dropdown-content { display: block; }
+        .hero-container {
+            min-height: 95vh;
             width: 100%;
-            max-width: 800px;
-            border-radius: 10px;
-            text-align: left;
-            color: #000000;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        footer {
-            text-align: center;
-            color: #e50914;
-            margin-top: 20px;
-        }
-
-        .top-rated-episode {
             position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: 20px 0;
+            background-image: linear-gradient(to right, rgba(244, 244, 244, 1) 25%, rgba(244, 244, 244, 0.7) 50%, rgba(244, 244, 244, 0) 100%), 
+                              linear-gradient(to top, var(--background-light) 5%, rgba(244, 244, 244, 0) 25%), 
+                              url('wp6449504.webp');
+            background-size: cover;
+            background-position: center top;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 50px 50px 50px;
         }
-
-        .top-rated-episode img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        .top-rated-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #e50914;
-            color: #ffffff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .description-container {
-                flex-direction: column;
-            }
-
-            .text-content {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-
-            .modal-content {
-                width: 100%;
-                padding: 10px;
-            }
-        }
+        .hero-text-content { max-width: 55%; z-index: 10; }
+        .hero-text-content .logo { width: 350px; margin-bottom: 20px; }
+        .hero-text-content .meta-info { color: var(--text-secondary); margin-bottom: 20px; font-size: 1.1em; font-weight: bold; }
+        .hero-text-content p { font-size: 1.2em; line-height: 1.5; margin-bottom: 25px; max-width: 600px; }
+        .hero-buttons button { padding: 12px 25px; font-size: 1.1em; border-radius: 5px; border: none; margin-right: 15px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .btn-play { background-color: var(--primary-red); color: var(--card-light); }
+        .btn-play:hover { background-color: #c40812; transform: scale(1.05); }
+        .btn-info { background-color: rgba(109,109,110,0.7); color: var(--card-light); }
+        .btn-info:hover { background-color: rgba(109,109,110,0.9); transform: scale(1.05); }
+        .main-content { padding: 20px 50px; position: relative; z-index: 12; background-color: var(--background-light); margin-top: -80px; }
+        .season-selector-row { background-color: var(--card-light); padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .season-selector-row h3 { font-size: 1.6em; font-weight: bold; margin-bottom: 15px; }
+        .filter-controls { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+        .search-bar { padding: 12px; font-size: 1.1em; border-radius: 5px; border: 1px solid var(--border-light); background-color: #f9f9f9; color: var(--text-dark); flex-grow: 1; }
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; margin-top: 20px; }
+        .episode { background-color: var(--card-light); border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .episode:hover { transform: scale(1.05); z-index: 20; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .episode .image-container { width: 100%; padding-top: 56.25%; position: relative; background-color: #e0e0e0; }
+        .episode img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4em; color: rgba(255,255,255,0.9); text-shadow: 0 0 15px rgba(0,0,0,0.5); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .episode:hover .play-icon { opacity: 1; }
+        .episode-info { padding: 15px; }
+        .episode .title { font-weight: bold; font-size: 1.1em; color: var(--text-dark); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .episode .synopsis { font-size: 0.9em; color: var(--text-secondary); line-height: 1.4; height: 3.8em; overflow: hidden; }
+        .episode .rating { font-weight: bold; color: #28a745; margin-top: 10px; font-size: 0.9em; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
+        .modal-content { background-color: var(--card-light); color: var(--text-dark); margin: auto; padding: 0; width: 90%; max-width: 900px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.7); position: relative; overflow: hidden; }
+        .modal-video-container { position: relative; background-color: #000; cursor: pointer; }
+        #modal-video { width: 100%; height: auto; display: block; }
+        .close { color: var(--text-dark); position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: bold; background-color: rgba(255,255,255,0.7); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; line-height: 1; z-index: 100; cursor: pointer; transition: all 0.2s; }
+        .close:hover, .close:focus { background-color: #fff; transform: scale(1.1); }
+        .modal-info { padding: 25px 30px; }
+        #modal-title { font-size: 1.8em; margin-bottom: 15px; color: var(--primary-red); }
+        #modal-synopsis { color: var(--text-secondary); margin-bottom: 15px; line-height: 1.6; }
+        #modal-rating { font-weight: bold; }
+        .video-overlay-controls { position: absolute; top: 0; left: 0; right: 0; bottom: 60px; z-index: 21; }
+        .click-zone { position: absolute; top: 0; height: 100%; z-index: 22; }
+        .click-zone.left { left: 0; width: 30%; }
+        .click-zone.center { left: 30%; width: 40%; }
+        .click-zone.right { right: 0; width: 30%; }
+        .edge-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(20,20,20,0.8); color: #fff; padding: 10px 15px; border-radius: 5px; font-weight: bold; font-size: 1.1em; opacity: 0; transition: opacity 0.3s; z-index: 23; pointer-events: none; }
+        .video-overlay-controls:hover .edge-nav { opacity: 1; pointer-events: auto; }
+        .edge-nav.prev { left: 20px; }
+        .edge-nav.next { right: 20px; }
+        .edge-nav.disabled { opacity: 0 !important; pointer-events: none !important; }
+        #next-episode-prompt { display: none; position: absolute; bottom: 80px; right: 20px; z-index: 100; background-color: rgba(255, 255, 255, 0.95); color: var(--text-dark); border: 2px solid var(--primary-red); padding: 12px 25px; border-radius: 5px; font-size: 1em; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        #next-episode-prompt:hover { background-color: var(--primary-red); color: white; border-color: var(--primary-red); transform: scale(1.05); }
+        footer { text-align: center; color: var(--text-secondary); margin-top: 50px; padding-bottom: 20px; }
+        @media (max-width: 768px) { .navbar { padding: 15px 20px; } .hero-container { padding: 80px 20px 40px 20px; min-height: 80vh; } .hero-text-content { max-width: 95%; } .hero-text-content .logo {width: 300px;} .main-content { padding: 20px; } .episodes-grid { grid-template-columns: 1fr; } .modal-content { width: 95%; } #next-episode-prompt { bottom: 70px; right: 10px; padding: 10px 15px; font-size: 0.9em; } .edge-nav { font-size: 0.9em; padding: 8px 10px; } }
     </style>
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="welcome">Welcome, guest xyz123</div>
-        <div class="hamburger">
-            <img src="download.png" alt="Menu">
-            <div class="dropdown-content">
-                <a href="profile.html">Profile</a>
-                <a href="logout.html">Logout</a>
-                <a href="home.html">Home</a>
-                <a href="GALLERY.HTML">Stream</a>
-                <a href="about.html">About</a>
+    <audio id="hover-sound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
+
+    <div class="navbar" id="navbar">
+        <a href="netflix.html" class="navbar-logo"><img src="netflix-mobile-application-logo-free-png.webp" alt="Site Logo"></a>
+        <div class="navbar-right">
+            <div class="welcome">Welcome, Vishal R</div>
+            <div class="hamburger">
+                <img src="download.png" alt="Menu">
+                <div class="dropdown-content">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.html">Logout</a>
+                    <a href="home.html">Home</a>
+                    <a href="GALLERY.HTML">Stream</a>
+                    <a href="about.html">About</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="header">
-            <img src="friends-logo-png-transparent.png" alt="Friends Logo">
-            <h1>Friends Overview and Episodes</h1>
-        </div>
 
-        <div class="description-container">
-            <div class="text-content">
-                <h1>Friends</h1>
-                <p>1994 | Maturity Rating: U/A 13+ | Season 1 | Sitcom</p>
-                <p>Follow the lives of six reckless adults living in Manhattan, as they indulge in adventures which make their lives both troublesome and happening.</p>
-                <p><strong>Starring:</strong> Jennifer Aniston, Courteney Cox, Lisa Kudrow</p>
-                <p><strong>Creators:</strong> David Crane, Marta Kauffman</p>
-            </div>
-            <div class="image-content">
-                <img src="wp6449504.webp" alt="Modern Family Poster">
+    <div class="hero-container">
+        <div class="hero-text-content">
+            <img src="friends-logo-png-transparent.png" alt="Friends Logo" class="logo">
+            <h2 id="series-title" style="display:none;">Friends</h2>
+            <div class="meta-info">1994 | Maturity Rating: U/A 13+ | Season 1 | Sitcom</div>
+            <p>Follow the lives of six reckless adults living in Manhattan, as they indulge in adventures which make their lives both troublesome and happening.</p>
+            <div class="hero-buttons">
+                <button class="btn-play">▶ Play First Episode</button>
+                <button class="btn-info">ⓘ More Info</button>
             </div>
         </div>
-
-        <div id="top-rated-container" class="top-rated-episode">
-            <div class="top-rated-badge">Top Rated</div>
-            <img src="friends-logo-png-transparent.png" alt="Top Rated Episode">
+    </div>
+    
+    <div class="main-content">
+        <div class="season-selector-row">
+            <h3>Season 1 Episodes</h3>
+            <div class="filter-controls">
+                <input type="text" id="search-bar" class="search-bar" placeholder="Search episodes in this season...">
+            </div>
         </div>
-
         <div id="episodes-container" class="episodes-grid">
             <!-- Episodes will be dynamically added here -->
         </div>
     </div>
 
     <footer>
-        <div>
-            <p>&copy; 2024 VR1 Site. All rights reserved.</p>
-        </div>
+        <p>© 2024 VR1 Site. All rights reserved.</p>
     </footer>
 
     <div id="episode-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="modal-title">Episode Title</h2>
-            <video id="modal-video" controls>
-                <source id="modal-video-source" src="" type="video/mp4">
-                Your browser does not support the video tag.
-                <track id="modal-captions" kind="captions" srclang="en" label="English">
-            </video>
-            <p id="modal-synopsis">Episode Synopsis</p>
-            <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
+        <div class="modal-content" id="modal-content">
+            <span class="close">×</span>
+            <div class="modal-video-container" id="modal-video-container">
+                <video id="modal-video" controls>
+                    <source id="modal-video-source" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay-controls" id="video-overlay-controls">
+                    <div class="click-zone left"></div>
+                    <div class="click-zone center"></div>
+                    <div class="click-zone right"></div>
+                    <div class="edge-nav prev" id="prev-episode-btn">« Previous</div>
+                    <div class="edge-nav next" id="next-episode-btn">Next »</div>
+                </div>
+                <button id="next-episode-prompt">Play Next Episode</button>
+            </div>
+            <div class="modal-info">
+                <h2 id="modal-title">Episode Title</h2>
+                <p id="modal-synopsis">Episode Synopsis</p>
+                <p id="modal-rating">IMDB Rating: <span id="modal-rating-value"></span></p>
+            </div>
         </div>
     </div>
 
     <script>
-       const episodes = [
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_215473.png',
-        title: 'S01E01 - The One Where Monica Gets a Roommate',
-        synopsis: 'Monica and the gang introduce Rachel to the "real world" after she leaves her fiancé at the altar.',
-        rating: '8.5/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1239353.png',
-        title: 'S01E02 - The One with the Sonogram at the End',
-        synopsis: 'Ross finds out his ex-wife is pregnant; Rachel returns her engagement ring to Barry.',
-        rating: '8.2/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_838159.png',
-        title: 'S01E03 - The One with the Thumb',
-        synopsis: 'Monica accidentally receives a box of human thumbs and Chandler starts smoking again.',
-        rating: '8.0/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_754163.png',
-        title: 'S01E04 - The One with George Stephanopoulos',
-        synopsis: 'The girls spy on George Stephanopoulos and Ross, Chandler, and Joey go to a hockey game.',
-        rating: '8.2/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1287632.png',
-        title: 'S01E05 - The One with the East German Laundry Detergent',
-        synopsis: 'Ross and Rachel do laundry together as a "date"; Chandler breaks up with Janice.',
-        rating: '8.3/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_678324.png',
-        title: 'S01E06 - The One with the Butt',
-        synopsis: 'Joey gets an acting gig as Al Pacino\'s butt double; Chandler is attracted to a woman he\'s broken up with several times.',
-        rating: '8.0/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1229604.png',
-        title: 'S01E07 - The One with the Blackout',
-        synopsis: 'A power outage hits New York City, and Chandler gets stuck in an ATM vestibule with a model.',
-        rating: '8.6/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_923600.png',
-        title: 'S01E08 - The One Where Nana Dies Twice',
-        synopsis: 'Ross and Monica mourn the loss of their grandmother; Chandler questions his sexual orientation.',
-        rating: '8.1/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_687831.png',
-        title: 'S01E09 - The One Where Underdog Gets Away',
-        synopsis: 'The gang\'s individual Thanksgiving plans go awry when they end up locked out of Monica\'s apartment.',
-        rating: '8.3/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_17278.png',
-        title: 'S01E10 - The One with the Monkey',
-        synopsis: 'Ross adopts a monkey named Marcel; everyone makes a pact to celebrate New Year\'s Eve without dates.',
-        rating: '8.1/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_233260.png',
-        title: 'S01E11 - The One with Mrs. Bing',
-        synopsis: 'Chandler\'s flamboyant romance-novelist mother comes to New York to visit.',
-        rating: '8.2/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_156099.png',
-        title: 'S01E12 - The One with the Dozen Lasagnas',
-        synopsis: 'Rachel\'s Italian boyfriend Paolo makes a pass at Phoebe; Ross finds out the sex of his baby.',
-        rating: '8.2/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_401151.png',
-        title: 'S01E13 - The One with the Boobies',
-        synopsis: 'Chandler accidentally sees Rachel topless after her shower; Joey finds out his dad is having an affair.',
-        rating: '8.3/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_583205.png',
-        title: 'S01E14 - The One with the Candy Hearts',
-        synopsis: 'Ross\' first date in nine years is on Valentine\'s Day with a beautiful neighbor.',
-        rating: '8.2/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1010164.png',
-        title: 'S01E15 - The One with the Stoned Guy',
-        synopsis: 'Monica cooks a gourmet meal for a restaurateur who is stoned; Ross and Chandler\'s old friend.',
-        rating: '8.1/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_23372.png',
-        title: 'S01E16 - The One with Two Parts: Part 1',
-        synopsis: 'Joey falls for Phoebe\'s twin sister; Chandler feels guilty after kissing a co-worker.',
-        rating: '8.4/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_57788.png',
-        title: 'S01E17 - The One with Two Parts: Part 2',
-        synopsis: 'Rachel switches identities with Monica so she can use her health insurance.',
-        rating: '8.4/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1272432.png',
-        title: 'S01E18 - The One with All the Poker',
-        synopsis: 'Rachel, tired of being a waitress, interviews for a fashion job; the gang plays poker.',
-        rating: '8.6/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_636544.png',
-        title: 'S01E19 - The One Where the Monkey Gets Away',
-        synopsis: 'Rachel loses Ross\' pet monkey Marcel; Joey\'s new girlfriend wants to get him in bed.',
-        rating: '8.3/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1117090.png',
-        title: 'S01E20 - The One with the Evil Orthodontist',
-        synopsis: 'Rachel begins dating her ex-fiancé Barry; Chandler goes nuts when a woman he likes doesn\'t call.',
-        rating: '8.2/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_431927.png',
-        title: 'S01E21 - The One with Fake Monica',
-        synopsis: 'Monica befriends the woman who stole her credit card; Joey enlivens an acting class.',
-        rating: '8.3/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_771183.png',
-        title: 'S01E22 - The One with the Ick Factor',
-        synopsis: 'Monica\'s boyfriend Ethan reveals a shocking secret; Ross learns the sex of his child.',
-        rating: '8.2/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_138984.png',
-        title: 'S01E23 - The One with the Birth',
-        synopsis: 'Carol goes into labor while Ross, Phoebe, and Susan get stuck in a janitor\'s closet.',
-        rating: '8.7/10',
-        link: '404.mkv'
-    },
-    {
-        season: 'S01',
-        img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_537975.png',
-        title: 'S01E24 - The One Where Rachel Finds Out',
-        synopsis: 'Rachel finds out that Ross is in love with her just as he goes on a trip to China.',
-        rating: '8.8/10',
-        link: '404.mkv'
-    },
-];
-
-
-        function renderEpisodes() {
+        document.addEventListener('DOMContentLoaded', () => {
+            const season1Episodes = [
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_215473.png', title: 'S01E01 - The One Where Monica Gets a Roommate', synopsis: 'Monica and the gang introduce Rachel to the "real world" after she leaves her fiancé at the altar.', rating: '8.5/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E01.The.One.where.Monica.Gets.a.New.Roomate.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1239353.png', title: 'S01E02 - The One with the Sonogram at the End', synopsis: 'Ross finds out his ex-wife is pregnant; Rachel returns her engagement ring to Barry.', rating: '8.2/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E02.The.One.With.the.Sonogram.at.the.End.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_838159.png', title: 'S01E03 - The One with the Thumb', synopsis: 'Monica accidentally receives a box of human thumbs and Chandler starts smoking again.', rating: '8.0/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E03.The.One.With.the.Thumb.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_754163.png', title: 'S01E04 - The One with George Stephanopoulos', synopsis: 'The girls spy on George Stephanopoulos and Ross, Chandler, and Joey go to a hockey game.', rating: '8.2/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E04.The.One.With.George.Stephanopoulos.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1287632.png', title: 'S01E05 - The One with the East German Laundry Detergent', synopsis: 'Ross and Rachel do laundry together as a "date"; Chandler breaks up with Janice.', rating: '8.3/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E05.The.One.With.the.East.German.Laundry.Detergent.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_678324.png', title: 'S01E06 - The One with the Butt', synopsis: "Joey gets an acting gig as Al Pacino's butt double; Chandler is attracted to a woman he's broken up with several times.", rating: '8.0/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E06.The.One.With.the.Butt.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1229604.png', title: 'S01E07 - The One with the Blackout', synopsis: 'A power outage hits New York City, and Chandler gets stuck in an ATM vestibule with a model.', rating: '8.6/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E07.The.One.With.the.Blackout.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_923600.png', title: 'S01E08 - The One Where Nana Dies Twice', synopsis: 'Ross and Monica mourn the loss of their grandmother; Chandler questions his sexual orientation.', rating: '8.1/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E08.The.One.Where.Nana.Dies.Twice.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_687831.png', title: 'S01E09 - The One Where Underdog Gets Away', synopsis: "The gang's individual Thanksgiving plans go awry when they end up locked out of Monica's apartment.", rating: '8.3/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E09.The.One.Where.Underdog.Gets.Away.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_17278.png', title: "S01E10 - The One with the Monkey", synopsis: "Ross adopts a monkey named Marcel; everyone makes a pact to celebrate New Year's Eve without dates.", rating: '8.1/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E10.The.One.With.the.Monkey.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_233260.png', title: "S01E11 - The One with Mrs. Bing", synopsis: "Chandler's flamboyant romance-novelist mother comes to New York to visit.", rating: '8.2/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E11.The.One.With.Mrs.Bing.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_156099.png', title: 'S01E12 - The One with the Dozen Lasagnas', synopsis: "Rachel's Italian boyfriend Paolo makes a pass at Phoebe; Ross finds out the sex of his baby.", rating: '8.2/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E12.The.One.With.the.Dozen.Lasagnas.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_401151.png', title: 'S01E13 - The One with the Boobies', synopsis: "Chandler accidentally sees Rachel topless after her shower; Joey finds out his dad is having an affair.", rating: '8.3/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E13.The.One.With.the.Boobies.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_583205.png', title: "S01E14 - The One with the Candy Hearts", synopsis: "Ross' first date in nine years is on Valentine's Day with a beautiful neighbor.", rating: '8.2/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E14.The.One.With.the.Candy.Hearts.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1010164.png', title: "S01E15 - The One with the Stoned Guy", synopsis: "Monica cooks a gourmet meal for a restaurateur who is stoned; Ross and Chandler's old friend.", rating: '8.1/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E15.The.One.With.the.Stoned.Guy.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_23372.png', title: 'S01E16 - The One with Two Parts: Part 1', synopsis: "Joey falls for Phoebe's twin sister; Chandler feels guilty after kissing a co-worker.", rating: '8.4/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E16.The.One.With.Two.Parts.part1.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_57788.png', title: 'S01E17 - The One with Two Parts: Part 2', synopsis: 'Rachel switches identities with Monica so she can use her health insurance.', rating: '8.4/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E17.The.One.With.Two.Parts.part2.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1272432.png', title: 'S01E18 - The One with All the Poker', synopsis: 'Rachel, tired of being a waitress, interviews for a fashion job; the gang plays poker.', rating: '8.6/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E18.The.One.With.All.the.Poker.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_636544.png', title: 'S01E19 - The One Where the Monkey Gets Away', synopsis: "Rachel loses Ross' pet monkey Marcel; Joey's new girlfriend wants to get him in bed.", rating: '8.3/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E19.The.One.Where.the.Monkey.Gets.Away.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_1117090.png', title: "S01E20 - The One with the Evil Orthodontist", synopsis: "Rachel begins dating her ex-fiancé Barry; Chandler goes nuts when a woman he likes doesn't call.", rating: '8.2/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E20.The.One.with.the.Evil.Orthodontist.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_431927.png', title: 'S01E21 - The One with Fake Monica', synopsis: 'Monica befriends the woman who stole her credit card; Joey enlivens an acting class.', rating: '8.3/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E21.The.One.with.Fake.Monica.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_771183.png', title: "S01E22 - The One with the Ick Factor", synopsis: "Monica's boyfriend Ethan reveals a shocking secret; Ross learns the sex of his child.", rating: '8.2/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E22.The.One.with.the.Ick.Factor.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_138984.png', title: "S01E23 - The One with the Birth", synopsis: "Carol goes into labor while Ross, Phoebe, and Susan get stuck in a janitor's closet.", rating: '8.7/10', link: "Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E23.The.One.with.the.Birth.720p.BluRay.2CH.x265.HEVC-PSA.mkv" },
+                { season: 'S01', img: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/videoframe_537975.png', title: 'S01E24 - The One Where Rachel Finds Out', synopsis: 'Rachel finds out that Ross is in love with her just as he goes on a trip to China.', rating: '8.8/10', link: 'Friends.Complete.Series.720p.BluRay.2CH.x265.HEVC-PSA/S01/Friends.S01E24.The.One.where.Rachel.Finds.Out.720p.BluRay.2CH.x265.HEVC-PSA.mkv' },
+            ];
+            
+            let currentFilteredEpisodes = [];
+            let currentEpisodeIndex = -1;
+            const navbar = document.getElementById('navbar');
             const container = document.getElementById('episodes-container');
-            let topRatedEpisode = episodes[0];
+            const searchBar = document.getElementById('search-bar');
+            const hoverSound = document.getElementById('hover-sound');
+            const modal = document.getElementById('episode-modal');
+            const modalVideo = document.getElementById('modal-video');
+            const modalVideoSource = document.getElementById('modal-video-source');
+            const modalCloseBtn = document.querySelector('.close');
+            const nextEpisodePrompt = document.getElementById('next-episode-prompt');
+            const videoOverlay = document.getElementById('video-overlay-controls');
+            const centerClickZone = videoOverlay.querySelector('.click-zone.center');
+            const leftClickZone = videoOverlay.querySelector('.click-zone.left');
+            const rightClickZone = videoOverlay.querySelector('.click-zone.right');
+            const prevEpisodeBtn = document.getElementById('prev-episode-btn');
+            const nextEpisodeBtn = document.getElementById('next-episode-btn');
 
-            container.innerHTML = '';
+            function renderEpisodes() {
+                const filterText = searchBar.value.toLowerCase();
+                container.innerHTML = '';
+                
+                currentFilteredEpisodes = season1Episodes.filter(ep => {
+                    return ep.title.toLowerCase().includes(filterText) || ep.synopsis.toLowerCase().includes(filterText);
+                });
 
-            episodes.forEach(ep => {
-                const rating = parseFloat(ep.rating.split('/')[0]);
-                if (rating > parseFloat(topRatedEpisode.rating.split('/')[0])) {
-                    topRatedEpisode = ep;
+                if (currentFilteredEpisodes.length === 0) {
+                    container.innerHTML = '<p style="padding-left: 10px;">No episodes found matching your search.</p>';
+                    return;
                 }
+                
+                currentFilteredEpisodes.forEach((ep, index) => {
+                    const episodeElement = document.createElement('div');
+                    episodeElement.classList.add('episode');
+                    episodeElement.dataset.index = index;
+                    episodeElement.innerHTML = `
+                        <div class="image-container">
+                            <img src="${ep.img}" alt="${ep.title}" loading="lazy">
+                            <div class="play-icon">▶</div>
+                        </div>
+                        <div class="episode-info">
+                            <div class="title">${ep.title}</div>
+                            <div class="synopsis">${ep.synopsis}</div>
+                            <div class="rating">Rating: ${ep.rating}</div>
+                        </div>
+                    `;
+                    episodeElement.addEventListener('click', () => showDetails(index));
+                    episodeElement.addEventListener('mouseenter', () => {
+                        hoverSound.currentTime = 0;
+                        hoverSound.play().catch(e => {});
+                    });
+                    container.appendChild(episodeElement);
+                });
+            }
 
-                const episodeElement = document.createElement('div');
-                episodeElement.classList.add('episode');
-                episodeElement.innerHTML = `
-                    <img src="${ep.img}" alt="${ep.title}">
-                    <div class="title">${ep.title}</div>
-                    <div class="synopsis">${ep.synopsis}</div>
-                    <div class="rating">${ep.rating}</div>
-                `;
-                episodeElement.addEventListener('click', () => showDetails(ep));
-                container.appendChild(episodeElement);
+            function showDetails(index) {
+                if (index < 0 || index >= currentFilteredEpisodes.length) return;
+                
+                currentEpisodeIndex = index;
+                const episode = currentFilteredEpisodes[index];
+                document.getElementById('modal-title').textContent = episode.title;
+                document.getElementById('modal-synopsis').textContent = episode.synopsis;
+                document.getElementById('modal-rating-value').textContent = episode.rating;
+                modalVideoSource.src = encodeURI(episode.link);
+                modalVideo.load();
+                modalVideo.play().catch(e => console.error("Video play failed:", e));
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                updateNavButtons();
+            }
+
+            function updateNavButtons() {
+                prevEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex <= 0);
+                nextEpisodeBtn.classList.toggle('disabled', currentEpisodeIndex >= currentFilteredEpisodes.length - 1);
+            }
+
+            function closeModal() {
+                modal.style.display = 'none';
+                modalVideo.pause();
+                modalVideoSource.src = "";
+                document.body.style.overflow = 'auto';
+                nextEpisodePrompt.style.display = 'none';
+            }
+
+            searchBar.addEventListener('input', renderEpisodes);
+            modalCloseBtn.addEventListener('click', closeModal);
+            window.addEventListener('keydown', e => (e.key === 'Escape' && modal.style.display === 'flex') && closeModal());
+            window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+            centerClickZone.addEventListener('click', () => modalVideo.paused ? modalVideo.play() : modalVideo.pause());
+            leftClickZone.addEventListener('click', () => modalVideo.currentTime -= 10);
+            rightClickZone.addEventListener('click', () => modalVideo.currentTime += 10);
+            
+            prevEpisodeBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                if (currentEpisodeIndex > 0) showDetails(currentEpisodeIndex - 1);
+            });
+            nextEpisodeBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1);
             });
 
-            if (topRatedEpisode) {
-                document.querySelector('.top-rated-episode img').src = topRatedEpisode.img;
-                document.querySelector('.top-rated-episode img').alt = topRatedEpisode.title;
-                document.querySelector('.top-rated-badge').textContent = `Top Rated: ${topRatedEpisode.title}`;
-                document.querySelector('.top-rated-episode').onclick = () => showDetails(topRatedEpisode);
-            }
-        }
+            modalVideo.addEventListener('timeupdate', () => {
+                const timeLeft = modalVideo.duration - modalVideo.currentTime;
+                nextEpisodePrompt.style.display = (timeLeft < 30 && timeLeft > 0 && currentEpisodeIndex < currentFilteredEpisodes.length - 1) ? 'block' : 'none';
+            });
 
-        function showDetails(episode) {
-            const modal = document.getElementById('episode-modal');
-            document.getElementById('modal-title').textContent = episode.title;
-            document.getElementById('modal-synopsis').textContent = episode.synopsis;
-            document.getElementById('modal-rating-value').textContent = episode.rating;
-            document.getElementById('modal-video-source').src = episode.link;
-            document.getElementById('modal-captions').src = episode.link.replace('.mkv', '.vtt'); // Assuming VTT captions are available
-            document.getElementById('modal-video').load();
-            modal.style.display = 'flex';
-        }
+            modalVideo.addEventListener('ended', () => {
+                if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) {
+                    showDetails(currentEpisodeIndex + 1);
+                } else {
+                    closeModal();
+                }
+            });
 
-        document.querySelector('.close').addEventListener('click', () => {
-            document.getElementById('episode-modal').style.display = 'none';
-            document.getElementById('modal-video').pause();
+            nextEpisodePrompt.addEventListener('click', () => {
+                if (currentEpisodeIndex < currentFilteredEpisodes.length - 1) showDetails(currentEpisodeIndex + 1);
+            });
+
+            document.querySelector('.btn-play').addEventListener('click', () => {
+                if (currentFilteredEpisodes.length > 0) showDetails(0);
+            });
+
+            document.querySelectorAll('.dropdown-content a, .btn-info').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    hoverSound.currentTime = 0;
+                    hoverSound.play().catch(e => {});
+                });
+            });
+
+            renderEpisodes();
         });
-
-        window.onclick = event => {
-            if (event.target == document.getElementById('episode-modal')) {
-                document.getElementById('episode-modal').style.display = 'none';
-                document.getElementById('modal-video').pause();
-            }
-        };
-
-        renderEpisodes();
     </script>
 </body>
-
 </html>

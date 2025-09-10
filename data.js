@@ -150,6 +150,577 @@ const allMovies = [
     "link": "Karate Kid Legends (2025) [720p] [WEBRip] [YTS.MX]/Karate.Kid.Legends.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
     "year": 2025
 },
+
+{
+    "genres": ["animation", "action", "comedy", "family"],
+    "img": "KIDS-01/Angry Birds (2016).webp",
+    "title": "The Angry Birds Movie (2016)",
+    "synopsis": "When an island of happy, flightless birds is visited by mysterious green pigs, it's up to three unlikely outcasts - Red, Chuck, and Bomb - to figure out what the pigs are up to.",
+    "rating": "6.3/10",
+    "cast": ["Jason Sudeikis", "Josh Gad", "Danny McBride", "Maya Rudolph"],
+    "link": "KIDS-01/Angry Birds (2016) [YTS.AG]/Angry.Birds.2016.720p.BluRay.x264-[YTS.AG].mp4",
+    "year": 2016
+},
+{
+    "genres": ["comedy", "adventure", "family"],
+    "img": "KIDS-01/Babys Day Out (1994).webp",
+    "title": "Baby's Day Out (1994)",
+    "synopsis": "Three bumbling kidnappers get more than they bargained for when a precocious baby escapes their clutches and leads them on a wild chase across the city.",
+    "rating": "6.2/10",
+    "cast": ["Joe Mantegna", "Lara Flynn Boyle", "Joe Pantoliano", "Brian Haley"],
+    "link": "KIDS-01/Babys Day Out (1994) [HDDVD REMUX] [720p] [BluRay] [YTS.MX]/Babys.Day.Out.1994.HDDVD.REMUX.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+    "year": 1994
+},
+{
+    "genres": ["animation", "action", "adventure", "comedy", "family", "sci-fi"],
+    "img": "KIDS-01/Big Hero 6 (2014) G.webp",
+    "title": "Big Hero 6 (2014)",
+    "synopsis": "A special bond develops between plus-sized inflatable robot Baymax and prodigy Hiro Hamada, who team up with a group of friends to form a band of high-tech heroes.",
+    "rating": "7.8/10",
+    "cast": ["Ryan Potter", "Scott Adsit", "Jamie Chung", "T.J. Miller"],
+    "link": "KIDS-01/Big Hero 6 (2014)/Big.Hero.6.2014.720p.BluRay.x264.YIFY.mp4",
+    "year": 2014
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "sport"],
+    "img": "KIDS-01/Cars (2006) D.webp",
+    "title": "Cars (2006)",
+    "synopsis": "A hot-shot race car named Lightning McQueen gets waylaid in Radiator Springs, where he finds the true meaning of friendship and family.",
+    "rating": "7.2/10",
+    "cast": ["Owen Wilson", "Paul Newman", "Bonnie Hunt", "Larry the Cable Guy"],
+    "link": "KIDS-01/Cars (2006)/Cars.2006.720p.BrRip.x264.YIFY.mp4",
+    "year": 2006
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "mystery"],
+    "img": "KIDS-01/Cars 2 (2011) D.webp",
+    "title": "Cars 2 (2011)",
+    "synopsis": "Star race car Lightning McQueen and his best friend Mater head to Japan and Europe to compete in the first annual World Grand Prix. But the road to the championship is filled with plenty of potholes, detours and hilarious surprises when Mater gets caught up in an intriguing adventure of his own: international espionage.",
+    "rating": "6.2/10",
+    "cast": ["Owen Wilson", "Larry the Cable Guy", "Michael Caine", "Emily Mortimer"],
+    "link": "KIDS-01/Cars 2 (2011)/Cars.2.2011.720p.BrRip.264.YIFY.mp4",
+    "year": 2011
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "sport"],
+    "img": "KIDS-01/Cars 3 (2017).webp",
+    "title": "Cars 3 (2017)",
+    "synopsis": "Blindsided by a new generation of blazing-fast racers, the legendary Lightning McQueen is suddenly pushed out of the sport he loves. To get back in the game, he will need the help of an eager young race technician with her own plan to win, inspiration from the late Fabulous Hudson Hornet, and a few unexpected turns.",
+    "rating": "6.7/10",
+    "cast": ["Owen Wilson", "Cristela Alonzo", "Chris Cooper", "Nathan Fillion"],
+    "link": "KIDS-01/Cars 3 (2017) [YTS.AG]/Cars.3.2017.720p.BluRay.x264-[YTS.AG].mp4",
+    "year": 2017
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family"],
+    "img": "KIDS-01/Ice Age (2002) D.webp",
+    "title": "Ice Age (2002)",
+    "synopsis": "Set during the Ice Age, a woolly mammoth, a saber-toothed tiger, a sloth, and a saber-toothed squirrel are forced to become unlikely heroes when they come across a human baby.",
+    "rating": "7.5/10",
+    "cast": ["Ray Romano", "John Leguizamo", "Denis Leary", "Chris Wedge"],
+    "link": "KIDS-01/Ice Age (2002)/Ice Age.2002.720p.BrRip.x264.YIFY.mp4",
+    "year": 2002
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family"],
+    "img": "KIDS-01/Ice Age  The Meltdown (2006).webp",
+    "title": "Ice Age: The Meltdown (2006)",
+    "synopsis": "Manny, Sid, and Diego discover that the ice age is coming to an end, and with it, a huge flood is on its way. They must warn all the animals and find a way to escape the impending doom.",
+    "rating": "6.8/10",
+    "cast": ["Ray Romano", "John Leguizamo", "Denis Leary", "Queen Latifah"],
+    "link": "KIDS-01/Ice Age The Meltdown (2006)/Ice Age The Meltdown.2006.720p.BrRip.x264.YIFY.mp4",
+    "year": 2006
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family"],
+    "img": "KIDS-01/Ice Age Continental Drift (2012).webp",
+    "title": "Ice Age: Continental Drift (2012)",
+    "synopsis": "Manny, Diego, and Sid embark on another adventure after their continent is set adrift. Using an iceberg as a ship, they encounter sea creatures and battle pirates as they try to find a new land.",
+    "rating": "6.4/10",
+    "cast": ["Ray Romano", "John Leguizamo", "Denis Leary", "Queen Latifah"],
+    "link": "KIDS-01/Ice Age 4 Continental Drift (2012)/Ice.Age.Continental.Drift.2012.720p.BluRay.x264.YIFY.mp4",
+    "year": 2012
+},
+{
+    "genres": ["animation", "action", "adventure", "comedy", "family"],
+    "img": "KIDS-01/Kung Fu Panda (2008) D.webp",
+    "title": "Kung Fu Panda (2008)",
+    "synopsis": "The Dragon Warrior, Po, an unlikely hero who proves that if you believe in yourself, anything is possible.",
+    "rating": "7.6/10",
+    "cast": ["Jack Black", "Dustin Hoffman", "Angelina Jolie", "Ian McShane"],
+    "link": "KIDS-01/Kung Fu Panda (2008)/Kung.Fu.Panda.2008.720p.BrRip.x264.YIFY.mp4",
+    "year": 2008
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family"],
+    "img": "KIDS-01/Madagascar  (2005).webp",
+    "title": "Madagascar (2005)",
+    "synopsis": "Four pampered animals from New York's Central Park Zoo find themselves shipwrecked on the exotic island of Madagascar, where they learn to survive in the wild.",
+    "rating": "6.9/10",
+    "cast": ["Ben Stiller", "Chris Rock", "David Schwimmer", "Jada Pinkett Smith"],
+    "link": "KIDS-01/Madagascar (2005)/Madagascar.2005.720p.BrRip.x264.YIFY.mp4",
+    "year": 2005
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family"],
+    "img": "KIDS-01/Madagascar 3 Europes Most Wanted  (2012).webp",
+    "title": "Madagascar 3: Europe's Most Wanted (2012)",
+    "synopsis": "Alex, Marty, Gloria and Melman are still fighting to get home to their beloved New York City. Their journey takes them through Europe where they find the perfect cover: a traveling circus, which they reinvent Madagascar style.",
+    "rating": "6.8/10",
+    "cast": ["Ben Stiller", "Chris Rock", "David Schwimmer", "Jada Pinkett Smith"],
+    "link": "KIDS-01/Madagascar 3 Europes Most Wanted (2012)/Madagascar.3.Europes.Most.Wanted.2012.720p.BRrip.x264.YIFY.mp4",
+    "year": 2012
+},
+{
+    "genres": ["animation", "action", "comedy", "family", "sci-fi"],
+    "img": "KIDS-01/Megamind  (2010).jpg",
+    "title": "Megamind (2010)",
+    "synopsis": "When a brilliant supervillain finally defeats his nemesis, he finds his life meaningless and creates a new superhero to fight, but things don't go as planned.",
+    "rating": "7.3/10",
+    "cast": ["Will Ferrell", "Tina Fey", "Jonah Hill", "David Cross"],
+    "link": "KIDS-01/Megamind (2010)/Megamind 2010.720p.BrRip.x264.YIFY.mp4",
+    "year": 2010
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "fantasy"],
+    "img": "KIDS-01/Peter Rabbit.webp",
+    "title": "Peter Rabbit (2018)",
+    "synopsis": "Peter Rabbit, a rebellious rabbit, tries to sneak into a farmer's vegetable garden, leading to a feud that escalates into an all-out battle for ownership of the garden and the affection of their human neighbor.",
+    "rating": "6.3/10",
+    "cast": ["James Corden", "Domhnall Gleeson", "Rose Byrne", "Sam Neill"],
+    "link": "KIDS-01/Peter Rabbit (2018) [BluRay] [720p] [YTS.AM]/Peter.Rabbit.2018.720p.BluRay.x264-[YTS.AM].mp4",
+    "year": 2018
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "fantasy"],
+    "img": "KIDS-01/Ralph Breaks the Internet (2018).jpg",
+    "title": "Ralph Breaks the Internet (2018)",
+    "synopsis": "Six years after the events of 'Wreck-It Ralph', Ralph and Vanellope, now friends, discover a Wi-Fi router in their arcade, leading them to a new adventure in the Internet to save Vanellope's game.",
+    "rating": "7.0/10",
+    "cast": ["John C. Reilly", "Sarah Silverman", "Gal Gadot", "Taraji P. Henson"],
+    "link": "KIDS-01/Ralph Breaks The Internet (2018) [BluRay] [720p] [YTS.AM]/Ralph.Breaks.The.Internet.2018.720p.BluRay.x264-[YTS.AM].mp4",
+    "year": 2018
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "musical"],
+    "img": "KIDS-01/Rio  (2011).jpg",
+    "title": "Rio (2011)",
+    "synopsis": "Blu, a domesticated macaw who can't fly, is taken to Rio de Janeiro to mate with a female of his kind, Jewel. But when they are captured by smugglers, they must rely on each other to escape and rediscover their true selves.",
+    "rating": "6.9/10",
+    "cast": ["Jesse Eisenberg", "Anne Hathaway", "George Lopez", "Jemaine Clement"],
+    "link": "KIDS-01/Rio (2011)/Rio.2011.720p.BluRay.x264.YIFY.mp4",
+    "year": 2011
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "musical"],
+    "img": "KIDS-01/Rio  2 (2014).jpg",
+    "title": "Rio 2 (2014)",
+    "synopsis": "Blu and Jewel, along with their three kids, venture into the Amazon rainforest to find more of their kind, but they discover new challenges and dangers along the way.",
+    "rating": "6.3/10",
+    "cast": ["Jesse Eisenberg", "Anne Hathaway", "Jemaine Clement", "Kristin Chenoweth"],
+    "link": "KIDS-01/Rio 2 (2014)/Rio.2.2014.720p.BluRay.x264.YIFY.mp4",
+    "year": 2014
+},
+{
+    "genres": ["action", "adventure", "comedy", "family", "sci-fi"],
+    "img": "KIDS-01/Sonic The Hedgehog 3.webp",
+    "title": "Sonic the Hedgehog 3 (2024)",
+    "synopsis": "Sonic, Tails, and Knuckles must team up to stop Doctor Robotnik and Shadow the Hedgehog from destroying the world.",
+    "rating": "N/A",
+    "cast": ["Ben Schwartz", "Idris Elba", "Colleen O'Shaughnessey", "Jim Carrey"],
+    "link": "KIDS-01/Sonic The Hedgehog 3 (2024) [720p] [BluRay] [YTS.MX]/Sonic.The.Hedgehog.3.2024.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+    "year": 2024
+},
+{
+    "genres": ["animation", "action", "adventure", "comedy", "family", "sci-fi"],
+    "img": "KIDS-01/Spies in Disguise (2019).jpg",
+    "title": "Spies in Disguise (2019)",
+    "synopsis": "When the world's best spy is turned into a pigeon, he must rely on his nerdy tech officer to save the world from a powerful villain.",
+    "rating": "6.8/10",
+    "cast": ["Will Smith", "Tom Holland", "Rashida Jones", "Ben Mendelsohn"],
+    "link": "KIDS-01/Spies In Disguise (2019) [720p] [BluRay] [YTS.MX]/Spies.In.Disguise.2019.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+    "year": 2019
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "fantasy", "musical"],
+    "img": "KIDS-01/Tangled  (2010).jpg",
+    "title": "Tangled (2010)",
+    "synopsis": "The magically long-haired Rapunzel has spent her entire life in a tower, but when she meets a charming bandit, she leaves her prison to discover the world for the first time.",
+    "rating": "7.7/10",
+    "cast": ["Mandy Moore", "Zachary Levi", "Donna Murphy", "Ron Perlman"],
+    "link": "KIDS-01/Tangled (2010)/Tangled.2010.720p.x264.Br.YIFY.mkv",
+    "year": 2010
+},
+{
+    "genres": ["animation", "action", "comedy", "family"],
+    "img": "KIDS-01/The Angry Birds Movie 2.webp",
+    "title": "The Angry Birds Movie 2 (2019)",
+    "synopsis": "The flightless birds and scheming green pigs take their rivalry to the next level when a new threat emerges that puts both Bird and Pig Island in danger. Red, Chuck, Bomb, and Mighty Eagle team up with King Mudbeard's sister, Silver, and her tech-savvy friends to forge an unlikely alliance and save their homes.",
+    "rating": "6.4/10",
+    "cast": ["Jason Sudeikis", "Josh Gad", "Leslie Jones", "Bill Hader"],
+    "link": "KIDS-01/The Angry Birds Movie 2 (2019) [BluRay] [720p] [YTS.LT]/The.Angry.Birds.Movie.2.2019.720p.BluRay.x264-[YTS.LT].mp4",
+    "year": 2019
+},
+{
+    "genres": ["animation", "comedy", "family"],
+    "img": "KIDS-01/The Boss Baby (2017).jpg",
+    "title": "The Boss Baby (2017)",
+    "synopsis": "A seven-year-old boy's life is turned upside down when his new baby brother arrives - a suit-wearing, briefcase-carrying baby who is secretly a spy on a mission.",
+    "rating": "6.3/10",
+    "cast": ["Alec Baldwin", "Steve Buscemi", "Jimmy Kimmel", "Lisa Kudrow"],
+    "link": "KIDS-01/The Boss Baby (2017) [YTS.AG]/The.Boss.Baby.2017.720p.BluRay.x264-[YTS.AG].mp4",
+    "year": 2017
+},
+{
+    "genres": ["adventure", "drama", "family", "musical"],
+    "img": "KIDS-01/The Lion King.jpg",
+    "title": "The Lion King (2019)",
+    "synopsis": "A young lion prince is exiled after his evil uncle usurps the throne, and he must eventually return to reclaim his rightful place as king.",
+    "rating": "6.9/10",
+    "cast": ["Donald Glover", "Beyoncé", "James Earl Jones", "Chiwetel Ejiofor"],
+    "link": "KIDS-01/The Lion King (2019) [BluRay] [720p] [YTS.LT]/The.Lion.King.2019.720p.BluRay.x264-[YTS.LT].mp4",
+    "year": 2019
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "sci-fi"],
+    "img": "KIDS-01/Wreck-It Ralph ( 2012).jpg",
+    "title": "Wreck-It Ralph (2012)",
+    "synopsis": "Wreck-It Ralph, a video game villain, wants to be a hero and sets out to fulfill his dream, but his quest brings havoc to his entire arcade.",
+    "rating": "7.7/10",
+    "cast": ["John C. Reilly", "Jack McBrayer", "Sarah Silverman", "Jane Lynch"],
+    "link": "KIDS-01/Wreck-It Ralph (2012)/Wreck.it.Ralph.2012.720p.BrRip.x264.BOKUTOX.YIFY.mp4",
+    "year": 2012
+},
+{
+    "genres": ["animation", "adventure", "comedy", "family", "mystery"],
+    "img": "KIDS-01/Zootopia  (2016).jpg",
+    "title": "Zootopia (2016)",
+    "synopsis": "In a city of anthropomorphic animals, a rookie bunny cop and a cynical con artist fox uncover a conspiracy that threatens to disrupt the peaceful coexistence of predators and prey.",
+    "rating": "8.0/10",
+    "cast": ["Ginnifer Goodwin", "Jason Bateman", "Idris Elba", "Jenny Slate"],
+    "link": "KIDS-01/Zootopia (2016) [YTS.AG]/Zootopia.2016.720p.BluRay.x264-[YTS.AG].mp4",
+    "year": 2016
+},
+{
+    "genres": ["comedy", "mystery"],
+    "img": "OTHERS-01/Ace Ventura Pet Detective.jpg",
+    "title": "Ace Ventura: Pet Detective (1994)",
+    "synopsis": "A wacky, unorthodox pet detective is on the case to find the missing mascot of the Miami Dolphins, leading him to uncover a sinister plot.",
+    "rating": "6.9/10",
+    "cast": ["Jim Carrey", "Courteney Cox", "Sean Young", "Tone Loc"],
+    "link": "OTHERS-01/Ace Ventura_ Pet Detective (1994)/Ace.Ventura_.Pet.Detective.1994.720p.BluRay.x264.YIFY.mp4",
+    "year": 1994
+},
+{
+    "genres": ["comedy", "romance"],
+    "img": "OTHERS-01/Anyone But You.jpg",
+    "title": "Anyone But You (2023)",
+    "synopsis": "After a disastrous first date, Bea and Ben find themselves reunited at a destination wedding in Australia. To avoid awkwardness, they pretend to be a couple, but their fake romance might just lead to something real.",
+    "rating": "6.2/10",
+    "cast": ["Sydney Sweeney", "Glen Powell", "Alexandra Shipp", "Hadley Robinson"],
+    "link": "OTHERS-01/Anyone But You (2023) [BLURAY] [720p] [BluRay] [YTS.MX]/Anyone.But.You.2023.BLURAY.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+    "year": 2023
+},
+{
+    "genres": ["comedy", "family"],
+    "img": "OTHERS-01/BEAN MOVIE 1997.webp",
+    "title": "Bean (1997)",
+    "synopsis": "The hapless Mr. Bean is sent to Los Angeles to oversee the transfer of a valuable painting, causing chaos and destruction wherever he goes.",
+    "rating": "6.5/10",
+    "cast": ["Rowan Atkinson", "Peter MacNicol", "John Mills", "Pamela Reed"],
+    "link": "OTHERS-01/Mr Bean (1997)/Mr.Bean.1997.720p.BRrip.x264.YIFY.mp4",
+    "year": 1997
+},
+{
+    "genres": ["drama", "mystery", "sci-fi", "thriller"],
+    "img": "OTHERS-01/Coherence.jpg",
+    "title": "Coherence (2013)",
+    "synopsis": "During a dinner party, a comet passes overhead, causing strange occurrences that challenge the reality of the guests and their perceptions of each other.",
+    "rating": "7.2/10",
+    "cast": ["Emily Baldoni", "Maury Sterling", "Nicholas Brendon", "Lorene Scafaria"],
+    "link": "OTHERS-01/Coherence (2013)/Coherence.2013.720p.BluRay.x264.YIFY.mp4",
+    "year": 2013
+},
+{
+    "genres": ["comedy", "drama", "sci-fi"],
+    "img": "OTHERS-01/Don't Look Up.jpg",
+    "title": "Don't Look Up (2021)",
+    "synopsis": "Two astronomers embark on a media tour to warn humanity of an approaching comet that will destroy Earth, but they face skepticism and apathy from the public and politicians.",
+    "rating": "7.2/10",
+    "cast": ["Leonardo DiCaprio", "Jennifer Lawrence", "Meryl Streep", "Jonah Hill"],
+    "link": "OTHERS-01/Dont Look Up (2021) [720p] [WEBRip] [YTS.MX]/Dont.Look.Up.2021.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2021
+},
+{
+    "genres": ["action", "drama", "sport"],
+    "img": "OTHERS-01/F1 The Movie (2025).webp",
+    "title": "F1 The Movie (2025)",
+    "synopsis": "A Formula 1 driver comes out of retirement to mentor a promising rookie, facing fierce competition and personal challenges on and off the track.",
+    "rating": "7.8/10",
+    "cast": ["Brad Pitt", "Damson Idris", "Kerry Condon", "Tobias Menzies"],
+    "link": "OTHERS-01/F1 The Movie (2025) [720p] [WEBRip] [YTS.MX]/F1.The.Movie.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2025
+},
+{
+    "genres": ["drama", "sci-fi", "thriller"],
+    "img": "OTHERS-01/Gravity.webp",
+    "title": "Gravity (2013)",
+    "synopsis": "Two astronauts are stranded in space after their shuttle is destroyed, fighting for survival as they drift further into the vast emptiness.",
+    "rating": "7.7/10",
+    "cast": ["Sandra Bullock", "George Clooney", "Ed Harris"],
+    "link": "OTHERS-01/Gravity (2013)/Gravity.2013.720p.BluRay.x264.YIFY.mp4",
+    "year": 2013
+},
+{
+    "genres": ["animation", "action", "adventure", "family", "fantasy"],
+    "img": "OTHERS-01/How to Train Your Dragon.jpg",
+    "title": "How to Train Your Dragon (2010)",
+    "synopsis": "A young Viking who is not built for his tribe's tradition of dragon slaying befriends a dragon, leading to a new path for his people.",
+    "rating": "8.1/10",
+    "cast": ["Jay Baruchel", "Gerard Butler", "Craig Ferguson", "America Ferrera"],
+    "link": "OTHERS-01/How To Train Your Dragon (2025) [720p] [WEBRip] [YTS.MX]/How.To.Train.Your.Dragon.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2010
+},
+{
+    "genres": ["action", "adventure", "sci-fi"],
+    "img": "OTHERS-01/Iron Man  (2008).webp",
+    "title": "Iron Man (2008)",
+    "synopsis": "Tony Stark, a billionaire industrialist and genius inventor, is kidnapped and forced to build a devastating weapon. Instead, he creates a suit of armor to escape and becomes Iron Man.",
+    "rating": "7.9/10",
+    "cast": ["Robert Downey Jr.", "Gwyneth Paltrow", "Terrence Howard", "Jeff Bridges"],
+    "link": "OTHERS-01/Iron Man (2008)/Iron Man 2008.720p.BrRip.x264.YIFY.mp4",
+    "year": 2008
+},
+{
+    "genres": ["action", "adventure", "sci-fi"],
+    "img": "OTHERS-01/Iron Man 2  (2010).webp",
+    "title": "Iron Man 2 (2010)",
+    "synopsis": "With the world now aware of his identity as Iron Man, Tony Stark must contend with both his declining health and a vengeful new enemy with a vendetta against the Stark family.",
+    "rating": "6.9/10",
+    "cast": ["Robert Downey Jr.", "Gwyneth Paltrow", "Don Cheadle", "Scarlett Johansson"],
+    "link": "OTHERS-01/Iron Man 2 (2010)/Iron.Man.II.x264.720p.mkv",
+    "year": 2010
+},
+{
+    "genres": ["action", "adventure", "comedy"],
+    "img": "OTHERS-01/Johnny English.webp",
+    "title": "Johnny English (2003)",
+    "synopsis": "After a series of blunders leaves the British Secret Service without its top agents, bumbling spy Johnny English is tasked with protecting the Crown Jewels and uncovering a plot to steal them.",
+    "rating": "6.2/10",
+    "cast": ["Rowan Atkinson", "Natalie Imbruglia", "John Malkovich", "Ben Miller"],
+    "link": "OTHERS-01/Johnny English (2003)/Johnny.English.2003.720p.BrRip.264.YIFY.mp4",
+    "year": 2003
+},
+{
+    "genres": ["action", "adventure", "comedy"],
+    "img": "OTHERS-01/Johnny English Reborn.webp",
+    "title": "Johnny English Reborn (2011)",
+    "synopsis": "Johnny English is called back into action after a long absence to investigate a plot to assassinate the Chinese Premier.",
+    "rating": "6.3/10",
+    "cast": ["Rowan Atkinson", "Rosamund Pike", "Daniel Kaluuya", "Gillian Anderson"],
+    "link": "OTHERS-01/Johnny English Reborn (2011)/Johnny.English.Reborn.2011.720p.BrRip.x264.mp4",
+    "year": 2011
+},
+{
+    "genres": ["action", "adventure", "comedy"],
+    "img": "OTHERS-01/Johnny English Strikes Again.webp",
+    "title": "Johnny English Strikes Again (2018)",
+    "synopsis": "When a cyber attack reveals the identity of all active undercover agents in the UK, Johnny English is forced out of retirement to find the mastermind hacker.",
+    "rating": "6.2/10",
+    "cast": ["Rowan Atkinson", "Olga Kurylenko", "Ben Miller", "Emma Thompson"],
+    "link": "OTHERS-01/Johnny English Strikes Again (2018) [BluRay] [720p] [YTS.AM]/Johnny.English.Strikes.Again.2018.720p.BluRay.x264-[YTS.AM].mp4",
+    "year": 2018
+},
+{
+    "genres": ["adventure", "sci-fi", "thriller"],
+    "img": "OTHERS-01/Jurassic Park  (1993).webp",
+    "title": "Jurassic Park (1993)",
+    "synopsis": "A millionaire opens a theme park populated with genetically engineered dinosaurs, but a power outage and sabotage unleash the prehistoric creatures.",
+    "rating": "8.2/10",
+    "cast": ["Sam Neill", "Laura Dern", "Jeff Goldblum", "Richard Attenborough"],
+    "link": "OTHERS-01/Jurassic Park (1993)/Jurassic.Park.1993.720p.BrRip.264.YIFY.mp4",
+    "year": 1993
+},
+{
+    "genres": ["action", "adventure", "sci-fi"],
+    "img": "OTHERS-01/Jurassic World  (2015).webp",
+    "title": "Jurassic World (2015)",
+    "synopsis": "A new, genetically modified dinosaur escapes and wreaks havoc at the Jurassic World theme park, forcing the staff to evacuate the island and contain the threat.",
+    "rating": "6.9/10",
+    "cast": ["Chris Pratt", "Bryce Dallas Howard", "Irrfan Khan", "Vincent D'Onofrio"],
+    "link": "OTHERS-01/Jurassic World (2015)/Jurassic.World.2015.720p.BluRay.x264.YIFY.mp4",
+    "year": 2015
+},
+{
+    "genres": ["action", "adventure", "sci-fi"],
+    "img": "OTHERS-01/Jurassic World Fallen Kingdom.webp",
+    "title": "Jurassic World: Fallen Kingdom (2018)",
+    "synopsis": "When the dormant volcano on Isla Nublar begins to roar to life, Owen and Claire return to save the remaining dinosaurs from extinction, but they uncover a conspiracy that could bring about a global catastrophe.",
+    "rating": "6.2/10",
+    "cast": ["Chris Pratt", "Bryce Dallas Howard", "Rafe Spall", "Justice Smith"],
+    "link": "OTHERS-01/Jurassic World Fallen Kingdom (2018) [BluRay] [720p] [YTS.AM]/Jurassic.World.Fallen.Kingdom.2018.720p.BluRay.x264-[YTS.AM].mp4",
+    "year": 2018
+},
+{
+    "genres": ["action", "adventure", "sci-fi"],
+    "img": "OTHERS-01/Jurassic World Rebirth (2025).webp",
+    "title": "Jurassic World: Rebirth (2025)",
+    "synopsis": "Details are scarce, but it's expected to continue the saga of dinosaurs in the modern world, likely exploring the consequences of their widespread presence.",
+    "rating": "5.9/10",
+    "cast": ["Scarlett Johansson", "Mahershala Ali", "Jonathan Bailey", "Manuel Garcia-Rulfo"],
+    "link": "OTHERS-01/Jurassic World Rebirth (2025) [720p] [WEBRip] [YTS.MX]/Jurassic.World.Rebirth.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2025
+},
+{
+    "genres": ["horror", "thriller"],
+    "img": "OTHERS-01/Lights Out.webp",
+    "title": "Lights Out (2016)",
+    "synopsis": "A woman is haunted by a mysterious entity that can only appear in the dark, and she must protect her younger brother from the same terrifying presence.",
+    "rating": "6.3/10",
+    "cast": ["Teresa Palmer", "Gabriel Bateman", "Maria Bello", "Billy Burke"],
+    "link": "OTHERS-01/Lights Out (2016) [YTS.AG]/Lights.Out.2016.720p.BluRay.x264-[YTS.AG].mp4",
+    "year": 2016
+},
+{
+    "genres": ["horror", "sci-fi", "thriller"],
+    "img": "OTHERS-01/M3GAN.webp",
+    "title": "M3GAN (2022)",
+    "synopsis": "A brilliant roboticist designs a life-like doll that is programmed to be a child's greatest companion and a parent's greatest ally. However, as M3GAN becomes increasingly protective, she takes her role to terrifying extremes.",
+    "rating": "6.4/10",
+    "cast": ["Allison Williams", "Violet McGraw", "Ronny Chieng", "Brian Jordan Alvarez"],
+    "link": "OTHERS-01/M3GAN (2022) [720p] [BluRay] [YTS.MX]/M3GAN.2022.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+    "year": 2022
+},
+{
+    "genres": ["horror", "sci-fi", "thriller"],
+    "img": "OTHERS-01/M3GAN 2.0.webp",
+    "title": "M3GAN 2.0 (2025)",
+    "synopsis": "Details are yet to be fully revealed, but M3GAN is expected to return with an upgraded, and likely more sinister, artificial intelligence.",
+    "rating": "6.1/10",
+    "cast": ["Allison Williams", "Violet McGraw"],
+    "link": "OTHERS-01/M3GAN 2.0 (2025) [720p] [WEBRip] [YTS.MX]/M3GAN.2.0.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2025
+},
+{
+    "genres": ["action", "adventure", "thriller"],
+    "img": "OTHERS-01/Mission Impossible - The Final Reckoning.webp",
+    "title": "Mission: Impossible - The Final Reckoning (2025)",
+    "synopsis": "Ethan Hunt and his IMF team embark on their most dangerous mission yet, facing a global conspiracy that threatens humanity itself.",
+    "rating": "7.3/10",
+    "cast": ["Tom Cruise", "Hayley Atwell", "Ving Rhames", "Simon Pegg"],
+    "link": "OTHERS-01/Mission Impossible - The Final Reckoning (2025) [720p] [WEBRip] [YTS.MX]/Mission.Impossible.-.The.Final.Reckoning.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2025
+},
+{
+    "genres": ["action", "adventure", "sci-fi"],
+    "img": "OTHERS-01/Superman.webp",
+    "title": "Superman (2025)",
+    "synopsis": "A fresh take on the iconic superhero, exploring Clark Kent's journey as he reconciles his Kryptonian heritage with his human upbringing while trying to protect Earth.",
+    "rating": "7.2/10",
+    "cast": ["David Corenswet", "Rachel Brosnahan", "Nicholas Hoult", "Isabela Merced"],
+    "link": "OTHERS-01/Superman (2025) [720p] [WEBRip] [YTS.MX]/Superman.2025.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2025
+},
+{
+    "genres": ["comedy", "fantasy"],
+    "img": "OTHERS-01/Ted 2.webp",
+    "title": "Ted 2 (2015)",
+    "synopsis": "Newlywed couple Ted and Tami-Lynn want to have a baby, but to qualify to be a parent, Ted must prove in court that he is a person.",
+    "rating": "6.3/10",
+    "cast": ["Mark Wahlberg", "Seth MacFarlane", "Amanda Seyfried", "Jessica Barth"],
+    "link": "OTHERS-01/Ted 2 (2015)/Ted.2.2015.720p.BluRay.x264.YIFY.[YTS.AG].mp4",
+    "year": 2015
+},
+{
+    "genres": ["horror", "mystery", "thriller"],
+    "img": "OTHERS-01/The Conjuring 2.webp",
+    "title": "The Conjuring 2 (2016)",
+    "synopsis": "Paranormal investigators Ed and Lorraine Warren travel to London to help a single mother and her four children who are experiencing poltergeist activity in their home.",
+    "rating": "7.3/10",
+    "cast": ["Patrick Wilson", "Vera Farmiga", "Madison Wolfe", "Frances O'Connor"],
+    "link": "OTHERS-01/The Conjuring 2 (2016) [YTS.AG]/The.Conjuring.2.2016.720p.BluRay.x264-[YTS.AG].mp4",
+    "year": 2016
+},
+{
+    "genres": ["comedy"],
+    "img": "OTHERS-01/The Hangover Part III.webp",
+    "title": "The Hangover Part III (2013)",
+    "synopsis": "This time, there's no wedding and no bachelor party. What could go wrong? When one of their own is kidnapped, the Wolfpack must track down Mr. Chow to save him.",
+    "rating": "5.1/10",
+    "cast": ["Bradley Cooper", "Ed Helms", "Zach Galifianakis", "Ken Jeong"],
+    "link": "OTHERS-01/The Hangover Part III (2013)/The.Hangover.Part.III.2013.720p.BluRay.x264.YIFY.mp4",
+    "year": 2013
+},
+{
+    "genres": ["comedy", "romance"],
+    "img": "OTHERS-01/The Hating Game.webp",
+    "title": "The Hating Game (2021)",
+    "synopsis": "Lucy Hutton and Joshua Templeman, executive assistants to rival publishing house CEOs, hate each other. When they both vie for the same promotion, their office rivalry turns into a passionate game of one-upmanship.",
+    "rating": "6.2/10",
+    "cast": ["Lucy Hale", "Austin Stowell", "Corbin Bernsen", "Yasha Jackson"],
+    "link": "OTHERS-01/The Hating Game (2021) [720p] [WEBRip] [YTS.MX]/The.Hating.Game.2021.720p.WEBRip.x264.AAC-[YTS.MX].mp4",
+    "year": 2021
+},
+{
+    "genres": ["comedy", "romance"],
+    "img": "OTHERS-01/The Kissing Booth.webp",
+    "title": "The Kissing Booth (2018)",
+    "synopsis": "A high school student is forced to confront her secret crush at a carnival kissing booth, leading to a complicated romance that tests her friendship with her best friend.",
+    "rating": "5.9/10",
+    "cast": ["Joey King", "Jacob Elordi", "Joel Courtney", "Molly Ringwald"],
+    "link": "OTHERS-01/The Kissing Booth (2018) [WEBRip] [720p] [YTS.AM]/The.Kissing.Booth.2018.720p.WEBRip.x264-[YTS.AM].mp4",
+    "year": 2018
+},
+{
+    "genres": ["comedy", "drama", "romance"],
+    "img": "OTHERS-01/The Proposal.webp",
+    "title": "The Proposal (2009)",
+    "synopsis": "A high-powered book editor faces deportation to Canada, so she convinces her assistant to marry her in exchange for a promotion. They travel to Alaska to meet his eccentric family, leading to unexpected complications and romance.",
+    "rating": "6.7/10",
+    "cast": ["Sandra Bullock", "Ryan Reynolds", "Betty White", "Mary Steenburgen"],
+    "link": "OTHERS-01/The Proposal (2009)/The.Proposal.2009.720p.BrRip.x264.YIFY.mp4",
+    "year": 2009
+},
+{
+    "genres": ["animation", "action", "adventure", "sci-fi"],
+    "img": "OTHERS-01/Transformers One.webp",
+    "title": "Transformers One (2024)",
+    "synopsis": "An animated origin story exploring how Optimus Prime and Megatron went from brothers-in-arms to sworn enemies on their home planet of Cybertron.",
+    "rating": "7.1/10",
+    "cast": ["Chris Hemsworth", "Brian Tyree Henry", "Scarlett Johansson", "Keegan-Michael Key"],
+    "link": "OTHERS-01/Transformers One (2024) [UHD BLURAY] [720p] [BluRay] [YTS.MX]/Transformers.One.2024.UHD.BLURAY.720p.BluRay.x264.AAC-[YTS.MX].mp4",
+    "year": 2024
+},
+{
+    "genres": ["drama", "fantasy", "romance"],
+    "img": "OTHERS-01/Twilight.webp",
+    "title": "Twilight (2008)",
+    "synopsis": "A high school student falls in love with a mysterious classmate, only to discover he is a vampire. Their forbidden romance puts both their lives in danger.",
+    "rating": "5.3/10",
+    "cast": ["Kristen Stewart", "Robert Pattinson", "Billy Burke", "Ashley Greene"],
+    "link": "OTHERS-01/Twilight Saga (2008)/Twilight.Saga.2008.BrRip.720p.X264.YIFY.mp4",
+    "year": 2008
+},
+{
+    "genres": ["adventure", "comedy"],
+    "img": "OTHERS-01/Vacation.webp",
+    "title": "Vacation (2015)",
+    "synopsis": "Rusty Griswold, now grown up, decides to take his own family on a cross-country road trip to Walley World in an attempt to rekindle their bond, mirroring his childhood vacation.",
+    "rating": "6.1/10",
+    "cast": ["Ed Helms", "Christina Applegate", "Skyler Gisondo", "Steele Stebbins"],
+    "link": "OTHERS-01/Vacation (2015)/Vacation.2015.720p.BluRay.x264.YIFY.[YTS.AG].mp4",
+    "year": 2015
+},
+{
+    "genres": ["comedy", "romance"],
+    "img": "OTHERS-01/Yes Man.webp",
+    "title": "Yes Man (2008)",
+    "synopsis": "A man challenges himself to say 'yes' to everything for a year, leading to unexpected adventures and a new outlook on life.",
+    "rating": "6.8/10",
+    "cast": ["Jim Carrey", "Zooey Deschanel", "Bradley Cooper", "Terence Stamp"],
+    "link": "OTHERS-01/Yes Man (2008)/YsMn.Br.mkv",
+    "year": 2008
+},
 ];
 
 const allSeries = [
