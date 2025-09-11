@@ -2,262 +2,368 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Flappy Bird Game</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #87CEEB;
-        }
+        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; background-color: #333; }
+        canvas { display: block; position: absolute; top: 52px; left: 0; }
 
-        canvas {
-            display: block;
-        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: #333; padding: 10px; color: white; position: fixed; top: 0; width: calc(100% - 20px); z-index: 20; }
+        .navbar .welcome { margin-left: 10px; }
+        .navbar .hamburger { position: relative; display: inline-block; }
+        .navbar .hamburger img { width: 30px; height: 30px; cursor: pointer; }
+        .dropdown-content { display: none; position: absolute; right: 0; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1; }
+        .dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; }
+        .dropdown-content a:hover { background-color: #f1f1f1; }
+        .hamburger:hover .dropdown-content { display: block; }
+        
+        .popup-container { position: fixed; top: 52px; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; z-index: 10; pointer-events: none; }
+        .popup { position: relative; padding: 20px; background-color: rgba(255, 255, 255, 0.9); box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); border-radius: 8px; text-align: center; pointer-events: auto; }
+        .hidden { display: none !important; }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            background-color: #333;
-            padding: 10px;
-            color: white;
-        }
-        .navbar .welcome {
-            margin-left: 10px;
-        }
-        .navbar .hamburger {
-            position: relative;
-            display: inline-block;
-        }
-        .navbar .hamburger img {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-        .hamburger:hover .dropdown-content {
-            display: block;
-        }
-        footer {
-            font-weight: bold;
-            text-decoration: none;
-        }
+        #startScreenPopup { width: 90%; max-width: 450px; }
+        #startScreenPopup h2 { margin-top: 0; }
+        .player-creation, .leaderboard { margin-bottom: 15px; }
+        #playerNameInput { padding: 8px; margin: 5px; width: 80%; font-size: 1.1em; text-align: center; }
+        
+        .customization-area { display: flex; justify-content: space-around; align-items: center; margin: 15px 0; }
+        .customization-box { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .preview-icon { width: 60px; height: 60px; border-radius: 5px; object-fit: cover; border: 2px solid #555;}
+        
+        #leaderboardList { list-style: none; padding: 0; max-height: 150px; overflow-y: auto; text-align: left; }
+        #leaderboardList li { background-color: #eee; padding: 5px; margin-bottom: 5px; border-radius: 4px; display: flex; align-items: center; gap: 10px; }
+        #leaderboardList li:first-child { background-color: gold; }
+        .leaderboard-icon { width: 30px; height: 30px; border-radius: 4px; object-fit: cover; }
 
-        #gameOverPopup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        #rulesPopup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            z-index: 10;
-        }
+        #pinPopup input { text-align: center; font-size: 1.2em; }
+        
+        #iconSelectionPopup { max-height: 80vh; overflow-y: auto; }
+        .icon-category { margin-bottom: 15px; text-align: center;}
+        .icon-category h4 { margin-bottom: 10px; }
+        .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; justify-content: center; }
+        .icon-choice-container { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform 0.2s; }
+        .icon-choice { width: 60px; height: 60px; border-radius: 5px; border: 2px solid transparent; object-fit: contain; }
+        .icon-choice-container:hover { transform: scale(1.1); }
+        .icon-name { font-size: 12px; margin-top: 4px; color: #333; }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="welcome">Welcome, guest xyz123</div>
-    <div class="hamburger">
-        <img src="download.png" alt="Menu">
-        <div class="dropdown-content">
-            <a href="profile.html">Profile</a>
-            <a href="logout.html">Logout</a>
-            <a href="home.html">Home</a>
-            <a href="GALLERY.HTML">Stream</a>
-            <a href="about.html">About</a>
+    <div class="welcome">Welcome, Vishal R</div>
+    <div class="hamburger"> <img src="download.png" alt="Menu"> <div class="dropdown-content"> <a href="profile.html">Profile</a> <a href="logout.html">Logout</a> <a href="home.html">Home</a> <a href="GALLERY.HTML">Stream</a> <a href="about.html">About</a> </div> </div>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<div class="popup-container" id="popupContainer">
+    <div id="startScreenPopup" class="popup">
+        <h2>Flappy Bird</h2>
+        <div class="player-creation">
+            <input type="text" id="playerNameInput" placeholder="Enter Your Name">
+            <div class="customization-area">
+                <div class="customization-box">
+                    <label>Profile Icon</label>
+                    <img id="profileIconPreview" class="preview-icon" src="">
+                    <button onclick="openIconSelector('profile')">Change</button>
+                </div>
+                <div class="customization-box">
+                    <label>Bird Skin</label>
+                    <img id="birdSkinPreview" class="preview-icon" src="">
+                    <button onclick="openIconSelector('bird')">Change</button>
+                </div>
+            </div>
         </div>
+        <div class="leaderboard">
+            <h3>Leaderboard</h3>
+            <ul id="leaderboardList"></ul>
+        </div>
+        <button onclick="startGame()">Start Game</button>
+        <button onclick="showPinPrompt()" style="background-color: #d9534f; color: white;">Clear All Records</button>
+    </div>
+
+    <div id="iconSelectionPopup" class="popup hidden">
+        <h3 id="iconPopupTitle">Choose an Icon</h3>
+        <div id="icon-choices-container"></div>
+        <button onclick="closeIconSelector()" style="margin-top: 15px;">Cancel</button>
+    </div>
+
+    <div id="gameOverPopup" class="popup hidden">
+        <h3>Game Over!</h3>
+        <p>Player: <b id="finalPlayer"></b></p>
+        <p>Score: <b id="finalScore"></b></p>
+        <p>High Score: <b id="highScore"></b></p>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+
+    <div id="pinPopup" class="popup hidden">
+        <p>Enter Admin PIN to clear records:</p>
+        <input type="password" id="pinInput" maxlength="4"><br><br>
+        <button onclick="checkPin()">Confirm</button> <button onclick="hidePinPrompt()">Cancel</button>
     </div>
 </div>
 
-<canvas id="gameCanvas" width="800" height="400"></canvas>
-
-<div id="gameOverPopup">
-    <img src="png-transparent-bell-flying-bird-flight-floppy-bird-infinity-flappy-bird-fly-animals-insects-smiley.png" alt="Game Over" style="width: 100px; height: 100px;">
-    <p>Game Over!</p>
-    <button onclick="restartGame()">Restart</button>
-</div>
-
-<div id="rulesPopup">
-    <h2>Game Rules</h2>
-    <p>- Press the spacebar or tap to make the bird jump.</p>
-    <p>- Avoid the pipes and score points by passing between them.</p>
-    <p>- The game ends if the bird hits a pipe or the ground.</p>
-    <button onclick="startGame()">Start Game</button>
-</div>
-
-<footer>
-    <div style="text-align: center; color: blue;">
-        <p>&copy; 2024 VR1 Site. All rights reserved.</p>
-    </div>
-</footer>
+<audio id="hoverSound" src="ui-pop-sound-316482.mp3" preload="auto"></audio>
 
 <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - 52;
 
     const birdImg = new Image();
-    birdImg.src = "png-transparent-bell-flying-bird-flight-floppy-bird-infinity-flappy-bird-fly-animals-insects-smiley.png";
+    const bgImg = new Image();
+    bgImg.src = 'background_and_road.png';
+    const flapSound = new Audio('flappy_whoosh-43099.mp3');
+    const scoreSound = new Audio('collectcoin-6075.mp3');
+    const levelUpSound = new Audio('level-up-05-326133.mp3');
+    const gameOverSound = new Audio('game-over-arcade-6435.mp3');
+    const hoverSound = document.getElementById('hoverSound');
+    
+    const bird = { x: 100, y: 150, width: 40, height: 40, velocity: 0, gravity: 0.5, jumpStrength: 9 };
+    let pipes = [], score = 0, frame = 0, gameStarted = false, backgroundX = 0;
 
-    const bird = {
-        x: 50,
-        y: canvas.height / 2 - 15,
-        width: 30,
-        height: 30,
-        velocity: 0,
-        gravity: 0.5,
-        jumpStrength: 8,
+    let players = [], currentPlayerIndex = -1;
+    
+    const BIRD_SKINS = [
+        { name: "Flok", path: "png-transparent-bell-flying-bird-flight-floppy-bird-infinity-flappy-bird-fly-animals-insects-smiley.png" },
+        { name: "Tom", path: "birds/flappy bird png.png" },
+        { name: "Jared", path: "birds/flappy-bird-character-illustration-5hvxagfgzbu1lfol.png" },
+        { name: "Timothy", path: "birds/Flappy-Bird-PNG-Background-Image.png" },
+        { name: "Bob", path: "birds/Flappy-Bird-PNG-Photo.png" },
+        { name: "Guss", path: "birds/Flappy-Bird-PNG-Pic.png" },
+        { name: "John", path: "birds/Flappy-Bird-Transparent-Background.png" },
+        { name: "Ronald", path: "birds/icon-flappy-bird-jpg-hd-png-download-tfhwubtt9cxlsebo.png" },
+        { name: "Lane", path: "birds/transparent-flappy-bird-png-transparent-background-flappy-bird-png-download-ye37mwhxjqsct8zr.png" }
+    ];
+    
+    const PROFILE_ICONS = {
+        "Standard": ["output.png", "netflix-profile-pictures-w3lqr61qe57e9yt8.jpg", "netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg", "netflix-profile-pictures-1000-x-1000-2fg93funipvqfs9i.webp"],
+        "anonymous": ["PROFILES/anonymous/vector-penguin-face_505913-4663.avif", "PROFILES/anonymous/a4c65f709d4c0cb1b4329c12beb9cd78.jpg", "PROFILES/anonymous/images.jpeg"],
+        "common": ["PROFILES/common/netflix-profile-pictures-1000-x-1000-88wkdmjrorckekha.jpg", "KIDS.png"],
+        "Squid Game": ["PROFILES/Squid Game/images (11).jpeg", "PROFILES/Squid Game/640189ab3f97e1114a7338fe98a43f4a (1).jpg", "PROFILES/Squid Game/images (2).jpeg", "PROFILES/Squid Game/images (3).jpeg"],
+        "Stranger Things": ["PROFILES/Stranger Things/tumblr_pu4yqjdjuu1tn6b73o3_r1_400.png", "PROFILES/Stranger Things/55ba30e8f83d0064ee7669dc203ad1d5.jpg"],
+        "Wednesday": ["PROFILES/Wednesday/f5d6766723f648e00cc732fd6b7b4e60.jpg"]
     };
 
-    let pipes = [];
-    let score = 0;
-    let gameOver = false;
+    let sessionSetup = {
+        profileIcon: PROFILE_ICONS.Standard[0],
+        birdSkin: BIRD_SKINS[0].path
+    };
 
-    function drawBird() {
-        ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+    function playHoverSound() {
+        hoverSound.currentTime = 0;
+        hoverSound.play().catch(e => {});
     }
 
-    function drawPipes() {
-        for (let i = 0; i < pipes.length; i++) {
-            ctx.fillStyle = "green";
-            ctx.fillRect(pipes[i].x, pipes[i].y, pipes[i].width, pipes[i].height);
+    function loadGameData() {
+        const data = localStorage.getItem('flappyBirdPlayers');
+        players = data ? JSON.parse(data) : [];
+        updateLeaderboard();
+        updateSessionPreviews();
+    }
+
+    function saveGameData() {
+        localStorage.setItem('flappyBirdPlayers', JSON.stringify(players));
+    }
+
+    function updateSessionPreviews() {
+        document.getElementById('profileIconPreview').src = sessionSetup.profileIcon;
+        document.getElementById('birdSkinPreview').src = sessionSetup.birdSkin;
+    }
+
+    function updateLeaderboard() {
+        const list = document.getElementById('leaderboardList');
+        list.innerHTML = '';
+        if (players.length === 0) {
+            list.innerHTML = '<li>No players yet. Be the first!</li>';
+            return;
         }
+        [...players].sort((a, b) => b.highScore - a.highScore).forEach(player => {
+            const li = document.createElement('li');
+            li.innerHTML = `<img src="${player.icon}" alt="${player.name}" class="leaderboard-icon"> <span>${player.name}: ${player.highScore}</span>`;
+            list.appendChild(li);
+        });
     }
 
-    function jumpBird() {
-        bird.velocity = -bird.jumpStrength;
+    function showPinPrompt() { document.getElementById('pinPopup').classList.remove('hidden'); }
+    function hidePinPrompt() { document.getElementById('pinPopup').classList.add('hidden'); document.getElementById('pinInput').value = ''; }
+
+    function checkPin() {
+        if (document.getElementById('pinInput').value === '0604') {
+            if (confirm('Are you sure? This will delete all players and scores forever.')) {
+                localStorage.removeItem('flappyBirdPlayers');
+                window.location.reload();
+            }
+        } else alert('Incorrect PIN.');
+        hidePinPrompt();
     }
 
-    function updateGameArea() {
-        if (gameOver) return;
+    function openIconSelector(type) {
+        const container = document.getElementById('icon-choices-container');
+        container.innerHTML = '';
+        
+        if (type === 'bird') {
+            document.getElementById('iconPopupTitle').textContent = 'Choose a Bird Skin';
+            const birdGrid = document.createElement('div');
+            birdGrid.className = 'icon-grid';
+            BIRD_SKINS.forEach(skin => {
+                const item = document.createElement('div');
+                item.className = 'icon-choice-container';
+                item.onclick = () => selectSessionSkin('birdSkin', skin.path);
+                item.innerHTML = `<img src="${skin.path}" class="icon-choice"> <p class="icon-name">${skin.name}</p>`;
+                item.addEventListener('mouseenter', playHoverSound);
+                birdGrid.appendChild(item);
+            });
+            container.appendChild(birdGrid);
+        } else { // profile
+            document.getElementById('iconPopupTitle').textContent = 'Choose a Profile Icon';
+            for (const category in PROFILE_ICONS) {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'icon-category';
+                categoryDiv.innerHTML = `<h4>${category}</h4>`;
+                const iconGrid = document.createElement('div');
+                iconGrid.className = 'icon-grid';
+                PROFILE_ICONS[category].forEach(iconPath => {
+                    const item = document.createElement('div');
+                    item.className = 'icon-choice-container';
+                    item.onclick = () => selectSessionSkin('profileIcon', iconPath);
+                    item.innerHTML = `<img src="${iconPath}" class="icon-choice" style="object-fit: cover;">`;
+                    item.addEventListener('mouseenter', playHoverSound);
+                    iconGrid.appendChild(item);
+                });
+                categoryDiv.appendChild(iconGrid);
+                container.appendChild(categoryDiv);
+            }
+        }
+        document.getElementById('iconSelectionPopup').classList.remove('hidden');
+        document.getElementById('startScreenPopup').classList.add('hidden');
+    }
 
+    function selectSessionSkin(type, path) {
+        sessionSetup[type] = path;
+        closeIconSelector();
+    }
+
+    function closeIconSelector() {
+        updateSessionPreviews();
+        document.getElementById('iconSelectionPopup').classList.add('hidden');
+        document.getElementById('startScreenPopup').classList.remove('hidden');
+    }
+    
+    function gameLoop() {
+        if (!gameStarted) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        backgroundX -= 1;
+        if (backgroundX <= -canvas.width) backgroundX = 0;
+        ctx.drawImage(bgImg, backgroundX, 52, canvas.width, canvas.height-52);
+        ctx.drawImage(bgImg, backgroundX + canvas.width, 52, canvas.width, canvas.height-52);
         bird.velocity += bird.gravity;
         bird.y += bird.velocity;
-
-        if (bird.y < 0) {
-            bird.y = 0;
-            bird.velocity = 0;
-        } else if (bird.y + bird.height > canvas.height) {
-            bird.y = canvas.height - bird.height;
-            bird.velocity = 0;
+        if (bird.y + bird.height > canvas.height || bird.y < 0) endGame();
+        ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+        if (frame % 100 === 0) {
+            const pipeY = Math.random() * (canvas.height - 300) + 50;
+            pipes.push({ x: canvas.width, y: 0, width: 60, height: pipeY, passed: false });
+            pipes.push({ x: canvas.width, y: pipeY + 200, width: 60, height: canvas.height, passed: false });
         }
-
-        drawBird();
-
-        if (Math.random() < 0.01) {
-            const gapHeight = 200;
-            const minHeight = 50;
-            const pipeHeight = Math.floor(Math.random() * (canvas.height - gapHeight - 2 * minHeight)) + minHeight;
-
-            const upperPipe = {
-                x: canvas.width,
-                y: 0,
-                width: 30,
-                height: pipeHeight,
-                passed: false,
-            };
-
-            const lowerPipe = {
-                x: canvas.width,
-                y: pipeHeight + gapHeight,
-                width: 30,
-                height: canvas.height - (pipeHeight + gapHeight),
-                passed: false,
-            };
-
-            pipes.push(upperPipe, lowerPipe);
-        }
-
-        for (let i = 0; i < pipes.length; i++) {
-            pipes[i].x -= 3;
-
-            if (
-                bird.x < pipes[i].x + pipes[i].width &&
-                bird.x + bird.width > pipes[i].x &&
-                bird.y < pipes[i].y + pipes[i].height &&
-                bird.y + bird.height > pipes[i].y
-            ) {
-                gameOver = true;
-                document.getElementById("gameOverPopup").style.display = "block";
-            }
-
-            if (pipes[i].x + pipes[i].width < bird.x && !pipes[i].passed) {
+        pipes.forEach((pipe, index) => {
+            pipe.x -= 3;
+            ctx.fillStyle = '#008000';
+            ctx.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
+            ctx.strokeRect(pipe.x, pipe.y, pipe.width, pipe.height);
+            if (bird.x < pipe.x + pipe.width && bird.x + bird.width > pipe.x && bird.y < pipe.y + pipe.height && bird.y + bird.height > pipe.y) endGame();
+            if (pipe.x + pipe.width < bird.x && index % 2 === 0 && !pipe.passed) {
                 score++;
-                pipes[i].passed = true;
+                scoreSound.play();
+                if (score > 0 && score % 5 === 0) levelUpSound.play();
+                pipes[index+1].passed = true;
+                pipe.passed = true;
             }
-        }
-
-        drawPipes();
-
-        ctx.fillStyle = "black";
-        ctx.font = "20px Arial";
-        ctx.fillText("Score: " + score, 10, 30);
-
-        requestAnimationFrame(updateGameArea);
+            if (pipe.x + pipe.width < 0) pipes.splice(index, 1);
+        });
+        ctx.fillStyle = "white"; ctx.font = "30px Arial"; ctx.strokeStyle = 'black'; ctx.lineWidth = 3;
+        ctx.strokeText("Score: " + score, 10, 85); ctx.fillText("Score: " + score, 10, 85);
+        frame++;
+        requestAnimationFrame(gameLoop);
     }
-
-    function restartGame() {
-        gameOver = false;
-        pipes = [];
-        score = 0;
-        bird.y = canvas.height / 2 - 15;
-        bird.velocity = 0;
-        document.getElementById("gameOverPopup").style.display = "none";
-        updateGameArea();
-    }
-
+    
+    function jumpBird() { if (!gameStarted) return; bird.velocity = -bird.jumpStrength; flapSound.play(); }
+    
     function startGame() {
-        document.getElementById("rulesPopup").style.display = "none";
-        updateGameArea();
+        const name = document.getElementById('playerNameInput').value.trim();
+        if (!name) {
+            alert("Please enter a player name.");
+            return;
+        }
+
+        let playerIndex = players.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
+
+        if (playerIndex !== -1) { // Existing player
+            currentPlayerIndex = playerIndex;
+            players[currentPlayerIndex].icon = sessionSetup.profileIcon; // Update icon
+            players[currentPlayerIndex].skin = sessionSetup.birdSkin; // Update skin
+        } else { // New player
+            players.push({
+                name: name,
+                icon: sessionSetup.profileIcon,
+                skin: sessionSetup.birdSkin,
+                highScore: 0
+            });
+            currentPlayerIndex = players.length - 1;
+        }
+
+        birdImg.src = players[currentPlayerIndex].skin;
+        saveGameData();
+        updateLeaderboard();
+        
+        document.getElementById('startScreenPopup').classList.add('hidden');
+        resetGame();
+        gameStarted = true;
+        gameLoop();
+    }
+    
+    function endGame() {
+        if (!gameStarted) return;
+        gameOverSound.play();
+        gameStarted = false;
+        
+        const currentPlayer = players[currentPlayerIndex];
+        if (score > currentPlayer.highScore) {
+            currentPlayer.highScore = score;
+            saveGameData();
+            updateLeaderboard();
+        }
+        
+        document.getElementById('finalPlayer').textContent = currentPlayer.name;
+        document.getElementById('finalScore').textContent = score;
+        document.getElementById('highScore').textContent = currentPlayer.highScore;
+        document.getElementById('gameOverPopup').classList.remove('hidden');
     }
 
-    document.addEventListener("keydown", function(event) {
-        if (event.key === " ") {
-            jumpBird();
+    function resetGame() { bird.y = 150; bird.velocity = 0; pipes = []; score = 0; frame = 0; }
+    function restartGame() {
+        document.getElementById('gameOverPopup').classList.add('hidden');
+        document.getElementById('startScreenPopup').classList.remove('hidden');
+    }
+
+    document.addEventListener("keydown", (event) => { if (event.key === " " && gameStarted) jumpBird(); });
+    canvas.addEventListener('click', () => { if(gameStarted) jumpBird(); });
+    
+    document.getElementById('playerNameInput').addEventListener('input', (e) => {
+        const name = e.target.value.trim();
+        const existingPlayer = players.find(p => p.name.toLowerCase() === name.toLowerCase());
+        if (existingPlayer) {
+            sessionSetup.profileIcon = existingPlayer.icon;
+            sessionSetup.birdSkin = existingPlayer.skin;
+        } else {
+            sessionSetup.profileIcon = PROFILE_ICONS.Standard[0];
+            sessionSetup.birdSkin = BIRD_SKINS[0].path;
         }
+        updateSessionPreviews();
     });
 
-    document.addEventListener("touchstart", function() {
-        jumpBird();
-    });
-
-    window.onload = function() {
-        document.getElementById("rulesPopup").style.display = "block";
-    };
+    window.onload = loadGameData;
 </script>
 
 </body>
