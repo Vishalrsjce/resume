@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Dossier | Vishal R</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Force Times New Roman for the high-authority dossier look */
+        body, h1, h2, h3, p, a, span, button, table, td, th, li {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+
+        .resume-container {
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 80px;
+            padding-top: 100px; /* Offset for nav */
+        }
+
+        .dossier-header {
+            text-align: center; 
+            margin-bottom: 3rem;
+        }
+
+        .filter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.8);
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            border: 1px solid var(--border);
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .tier-marker {
+            grid-column: 1 / -1;
+            color: var(--primary);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin: 40px 0 20px 0;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card .glass-card {
+            height: 100%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(10px);
+            transition: 0.4s;
+        }
+
+        .project-card:hover .glass-card {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .headline-badge {
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .cert-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            margin-top: 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .cert-table th, .cert-table td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cert-table th {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .pdf-link {
+            font-size: 0.85rem;
+            color: var(--primary);
+            display: block;
+            margin-top: 5px;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .project-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    
+    <canvas id="physics-bg"></canvas>
+
+    <nav>
+        <div class="logo">VISHAL <span style="color:var(--primary)">R</span></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about1.html">About</a>
+            <a href="resume1.html">Resume</a>
+            <a href="contact.html">Contact</a>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </nav>
+
+    <div class="container resume-container">
+        
+        <header class="dossier-header">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem; font-weight: 900;">Technical <span style="color:var(--primary)">Dossier</span></h1>
+            <p style="color: var(--text-dim); font-size: 1.1rem; margin-bottom: 2rem;">
+                Associate @ SJCE Hardware Club (2023-24) | Industrial & AI Systems Architect
+            </p>
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <a href="https://vishalrsjce.github.io/resume/" target="_blank" class="btn" style="background: rgba(59, 130, 246, 0.1); border: 1px solid var(--primary);">🌐 View Live Profile</a>
+                <a href="resume1.pdf.pdf" target="_blank" class="btn" style="background: var(--primary);">📄 Download Official PDF</a>
+            </div>
+        </header>
+
+        <div class="filter-nav">
+            <button class="filter-btn active" onclick="filterAction('all', this)">Master Index</button>
+            <button class="filter-btn" onclick="filterAction('cyber', this)">Cybersecurity</button>
+            <button class="filter-btn" onclick="filterAction('ai', this)">AI Architectures</button>
+            <button class="filter-btn" onclick="filterAction('iot', this)">IoT & Space</button>
+            <button class="filter-btn" onclick="filterAction('soft', this)">Software Dev</button>
+        </div>
+
+        <div id="project-grid" class="project-grid">
+            <!-- Data Injected by JS -->
+        </div>
+
+        <h2 style="margin-top: 6rem; text-align: center; font-size: 2.5rem;">Industry <span style="color:var(--primary);">Credentials</span></h2>
+        <div class="glass-card" style="padding: 0; margin-top: 2rem;">
+            <table class="cert-table">
+                <thead>
+                    <tr><th>Credential Detail</th><th>Issuing Authority</th><th>Year</th></tr>
+                </thead>
+                <tbody id="cert-table-body">
+                    <!-- Data Injected by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem;">
+            <p style="color: var(--text-dim); font-style: italic;">Verified Dossier Content | Confidentiality: Professional Public Record</p>
+        </div>
+    </div>
+
+    <script>
+        const projectData = [
+            // TIER 1
+            { title: "Autonomous AI CTI Engine", category: "cyber ai", badge: "FLAGSHIP", desc: "Llama-3 based engine for Cyber Threat Intelligence. Automated incident response verdicts.", link: "https://vishalrsjce.github.io/AI_CTI_Project/", tier: "Priority 01: Core Intelligence" },
+            { title: "SOC Operations: Wazuh", category: "cyber", badge: "SIEM", desc: "Enterprise SIEM deployment manual for log analysis and real-time threat monitoring.", link: "https://vishalrsjce.github.io/SOC-Operations-Wazuh-SIEM-Training/", tier: "Priority 01: Core Intelligence" },
+            { title: "Red Teaming Security", category: "cyber", badge: "OFFENSIVE", desc: "Offensive web security strategies and exploitation frameworks for vulnerability assessment.", link: "https://vishalrsjce.github.io/Red-Teaming-Offensive-Web-Security/", tier: "Priority 01: Core Intelligence" },
+            
+            // TIER 2
+            { title: "Nanosatellite EPS", category: "iot", badge: "SPACE GRADE", desc: "Electrical Power System design for orbital environments. MPPT & Battery Logic.", link: "https://vishalrsjce.github.io/Electrical-Power-System-EPS-for-Nanosatellites/", tier: "Priority 02: Advanced Engineering" },
+            { title: "PCAP Threat Hunting", category: "cyber", badge: "FORENSICS", desc: "Deep packet analysis for identifying malware beaconing and exfiltration patterns.", link: "https://vishalrsjce.github.io/PCAP-Threat-Hunting-Network-Analysis/", tier: "Priority 02: Advanced Engineering" },
+            { title: "GNS3 Network Emulation", category: "soft", badge: "INFRA", desc: "Simulation of enterprise-grade security zones and complex routing topologies.", link: "https://vishalrsjce.github.io/Network-Emulation-Enterprise-Security-GNS3-/", tier: "Priority 02: Advanced Engineering" },
+
+            // TIER 3
+            { title: "ESP32 Smart Monitoring", category: "iot", badge: "SJCE HW CLUB", desc: "Developed as Associate @ SJCE Hardware Club. Real-time surveillance system.", link: "https://vishalrsjce.github.io/ESP32-CAM-Smart-Monitoring-System/", tier: "Priority 03: Infrastructure & Smart Hardware" },
+            { title: "Bash & Linux Automation", category: "soft", badge: "DEVOPS", desc: "Shell scripts for log rotation, server health, and industrial system hardening.", link: "https://vishalrsjce.github.io/Bash-Scripting-and-Linux-Automation/", tier: "Priority 03: Infrastructure & Smart Hardware" },
+            { title: "Cisco Enterprise Design", category: "soft", badge: "NETWORKING", desc: "Scalable network design using VLAN, OSPF, and ACL via Cisco Packet Tracer.", link: "https://vishalrsjce.github.io/Cisco-Packet-Tracer-Laboratory-Enterprise-Design/", tier: "Priority 03: Infrastructure & Smart Hardware" },
+            { title: "Smart Attendance System", category: "iot", badge: "AIOT", desc: "Biometric and OpenCV integration for automated logging and workforce management.", link: "https://vishalrsjce.github.io/Smart-Attendance-Monitoring-System/", tier: "Priority 03: Infrastructure & Smart Hardware" },
+
+            // TIER 4
+            { title: "Movie Recommendation (SVD)", category: "ai", badge: "SVD", desc: "Predictive engine utilizing Matrix Factorization for preference mapping.", link: "https://vishalrsjce.github.io/Movie-Recommendation-System-with-and-without-SVD-using-Front-end/", tier: "Priority 04: Software & Logic" },
+            { title: "Movie Reservation (Ads)", category: "soft", badge: "MONETIZATION", desc: "Full-stack reservation system with custom pre-load ad monetization logic.", link: "https://vishalrsjce.github.io/Integrated-Movie-Reservation-System-with-Pre-Load-Ad-Monetization/", tier: "Priority 04: Software & Logic" },
+            { title: "Python Software Logic", category: "soft", badge: "ENG LOGIC", desc: "Repository of advanced Python algorithms and software engineering patterns.", link: "https://vishalrsjce.github.io/Python-Software-Development-Logic/", tier: "Priority 04: Software & Logic" },
+            { title: "Cyber Knowledge Base", category: "cyber", badge: "GRC", desc: "Mapping security domains to NIST and MITRE ATT&CK industry standards.", link: "https://vishalrsjce.github.io/Cybersecurity-Knowledge-Base-Frameworks/", tier: "Priority 04: Software & Logic" },
+
+            // TIER 5 (SUB-MODULES & INTERACTIVE)
+            { title: "Chaos Vigenère Cipher", category: "soft", badge: "CRYPTO", desc: "Hardening ciphers using Chaos Theory for high-entropy encryption.", link: "https://vishalrsjce.github.io/Movie-Recommendation-System-with-and-without-SVD-using-Front-end/Chaos-Enhanced%20Vigen%C3%A8re%20Cipher.HTML", tier: "Priority 05: Interactive Modules" },
+            { title: "Traffic Light Controller", category: "iot", badge: "ARDUINO", desc: "Density-based traffic management using ultrasonic sensors.", link: "https://vishalrsjce.github.io/Density-Based-Traffic-Light-Controller-Using-Arduino/", tier: "Priority 05: Interactive Modules" },
+            { title: "2-Player Battleground", category: "soft", badge: "GAMES", desc: "Real-time multiplayer browser combat engine.", link: "https://vishalrsjce.github.io/2-Player-Battleground/", tier: "Priority 05: Interactive Modules" },
+            { title: "Flappy Bird Custom", category: "soft", badge: "GAME DEV", desc: "Custom physics implementation of the classic bird flight logic.", link: "https://vishalrsjce.github.io/Flappy-Bird-Custom-Edition---Weakypedia/", tier: "Priority 05: Interactive Modules" },
+            { title: "Windows Batch Scripts", category: "soft", badge: "AUTOMATION", desc: "System-level administrative scripts for Windows environments.", link: "https://vishalrsjce.github.io/Windows-Batch-Scripting-Attribute-Automation/", tier: "Priority 05: Interactive Modules" },
+            { title: "Workout App Module", category: "soft", badge: "LOGIC", desc: "Fitness routine generation module based on user parameters.", link: "https://vishalrsjce.github.io/Movie-Recommendation-System-with-and-without-SVD-using-Front-end/workout_app.html", tier: "Priority 05: Interactive Modules" },
+            { title: "2-Player Games Index", category: "soft", badge: "PORTAL", desc: "Portal for multiplayer browser gaming logic implementations.", link: "https://vishalrsjce.github.io/Movie-Recommendation-System-with-and-without-SVD-using-Front-end/2%20player%20games.html", tier: "Priority 05: Interactive Modules" },
+            { title: "Movie Portal Home", category: "soft", badge: "UI", desc: "Landing architecture for movie recommendation system.", link: "https://vishalrsjce.github.io/Movie-Recommendation-System-with-and-without-SVD-using-Front-end/home.html", tier: "Priority 05: Interactive Modules" },
+            { title: "Flappy Bird (Module)", category: "soft", badge: "HTML5", desc: "Isolated HTML implementation of game physics.", link: "https://vishalrsjce.github.io/Movie-Recommendation-System-with-and-without-SVD-using-Front-end/FLAPPY%20BIRD.HTML", tier: "Priority 05: Interactive Modules" }
+        ];
+
+        const certData = [
+            { detail: "IEEE Published Paper (IoT Smart Monitoring)", auth: "IEEE", year: "2024", link: "Vishal R_iEEE_certificate.pdf", text: "View Certificate", xLink: "https://ieeexplore.ieee.org/document/10895461" },
+            { detail: "Cybersecurity Industry Certification", auth: "Cyber Lancers", year: "2025", link: "Cyber Academy Certificate_.pdf", text: "View Official Certificate" },
+            { detail: "Digital Engineering Industry Readiness", auth: "NASSCOM", year: "2024", link: "Vishal+R_nasscom.pdf", text: "Verify via NASSCOM" },
+            { detail: "Advanced PLC Programming", auth: "Siemens Certified", year: "2023", link: "#", text: "Credential Verified" },
+            { detail: "SCADA Systems Engineering", auth: "Rockwell Automation", year: "2023", link: "#", text: "Credential Verified" },
+            { detail: "Embedded IoT Specialist", auth: "IIT Bombay", year: "2022", link: "#", text: "Verified via IITB" },
+            { detail: "MATLAB Programming", auth: "MathWorks", year: "2022", link: "#", text: "Verified via MathWorks" }
+        ];
+
+        function renderProjects(filter = 'all') {
+            const grid = document.getElementById('project-grid');
+            grid.innerHTML = '';
+            let currentTier = "";
+
+            projectData.forEach(p => {
+                if (filter !== 'all' && !p.category.includes(filter)) return;
+                if (filter === 'all' && p.tier !== currentTier) {
+                    currentTier = p.tier;
+                    grid.innerHTML += `<div class="tier-marker">${currentTier}</div>`;
+                }
+                grid.innerHTML += `
+                    <div class="project-card">
+                        <div class="glass-card">
+                            <div>
+                                <div class="headline-badge">${p.badge}</div>
+                                <h3>${p.title}</h3>
+                                <p>${p.desc}</p>
+                            </div>
+                            <a href="${p.link}" target="_blank" class="btn-link" style="color: var(--primary); font-weight: bold; text-decoration: none;">EXECUTE MODULE →</a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderCerts() {
+            const body = document.getElementById('cert-table-body');
+            body.innerHTML = certData.map(c => `
+                <tr>
+                    <td>
+                        <strong>${c.detail}</strong>
+                        <a href="${c.link}" target="_blank" class="pdf-link">${c.text}</a>
+                        ${c.xLink ? `<a href="${c.xLink}" target="_blank" class="pdf-link" style="margin-top:2px;">Verify @ IEEE Xplore</a>` : ''}
+                    </td>
+                    <td>${c.auth}</td>
+                    <td>${c.year}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterAction(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProjects(cat);
+        }
+
+        window.onload = () => {
+            renderProjects();
+            renderCerts();
+        };
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

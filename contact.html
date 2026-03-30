@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Vishal R</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Strict Dossier Typography */
+        body, h1, h2, h3, p, a, span, button, li {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+
+        .contact-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            padding-top: 100px;
+            padding-bottom: 50px;
+        }
+
+        .contact-card {
+            width: 100%;
+            max-width: 600px;
+            padding: 3rem;
+            animation: slideUp 0.8s ease-out;
+            border: 1px solid var(--border);
+            position: relative;
+            text-align: left; /* Aligned for the ID look */
+        }
+
+        /* Identity Header Section */
+        .identity-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            object-fit: cover;
+            box-shadow: 0 0 20px var(--primary-glow);
+            flex-shrink: 0;
+        }
+
+        .identity-text {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Status Indicator */
+        .status-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            padding: 4px 12px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            color: #10b981;
+            font-size: 0.65rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-methods-container {
+            margin-top: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .contact-link:hover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.08);
+            transform: scale(1.02) translateX(5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .link-info {
+            text-align: left;
+        }
+
+        .link-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .link-value {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .arrow-icon {
+            font-size: 1.2rem;
+            color: var(--primary);
+            opacity: 0.4;
+            transition: 0.3s;
+        }
+
+        .contact-link:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .location-badge {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .verification-tag {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .contact-card { padding: 2rem; margin: 1rem; }
+            .identity-header { flex-direction: column; text-align: center; gap: 15px; }
+            .status-bar { margin: auto; }
+            .link-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <canvas id="physics-bg"></canvas>
+
+    <nav>
+        <div class="logo">VISHAL <span style="color:var(--primary)">R</span></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about1.html">About</a>
+            <a href="resume1.html">Resume</a>
+            <a href="contact.html">Contact</a>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </nav>
+
+    <div class="container contact-wrapper">
+        <div class="glass-card contact-card">
+            
+            <!-- VERIFIED IDENTITY HEADER -->
+            <div class="identity-header">
+                <img src="20240328_170407.jpg" alt="Vishal R" class="contact-profile-img">
+                <div class="identity-text">
+                    <div class="status-bar">
+                        <div class="status-dot"></div>
+                        <span class="status-text">Uplink Ready // Online</span>
+                    </div>
+                    <h1 style="font-size: 2.2rem; margin: 0; font-weight: 900;">Secure <span style="color: var(--primary);">Handshake</span></h1>
+                    <p style="color: var(--text-dim); font-size: 0.95rem; margin: 0;">Identity Verified: Industrial Engineer & AI Architect</p>
+                </div>
+            </div>
+
+            <p style="color: var(--text-dim); font-size: 1.1rem; margin-bottom: 2rem; border-left: 2px solid var(--primary); padding-left: 15px;">
+                Direct communication channel for mission-critical collaborations, technical consultation, and professional opportunities.
+            </p>
+
+            <div class="contact-methods-container">
+                
+                <a href="mailto:vishal642003@gmail.com" class="contact-link">
+                    <div class="link-info">
+                        <span class="link-label">Direct Email</span>
+                        <span class="link-value">vishal642003@gmail.com</span>
+                    </div>
+                    <span class="arrow-icon">→</span>
+                </a>
+
+                <a href="tel:+919845507248" class="contact-link">
+                    <div class="link-info">
+                        <span class="link-label">Mobile Uplink</span>
+                        <span class="link-value">+91 9845507248</span>
+                    </div>
+                    <span class="arrow-icon">→</span>
+                </a>
+
+                <a href="https://linkedin.com/in/vishal-r-664929292" target="_blank" class="contact-link">
+                    <div class="link-info">
+                        <span class="link-label">LinkedIn</span>
+                        <span class="link-value">Verified Professional Profile</span>
+                    </div>
+                    <span class="arrow-icon">↗</span>
+                </a>
+
+                <a href="https://github.com/vishalrsjce" target="_blank" class="contact-link">
+                    <div class="link-info">
+                        <span class="link-label">GitHub</span>
+                        <span class="link-value">Technical Repositories</span>
+                    </div>
+                    <span class="arrow-icon">↗</span>
+                </a>
+
+            </div>
+
+            <div class="location-badge">
+                <p>Location: <span style="color: var(--text-main);">Mysore, Karnataka, India</span></p>
+                <p class="verification-tag">Dossier Access Level: [Associate @ SJCE Hardware Club]</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

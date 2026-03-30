@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Vishal R</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Strict Dossier Typography */
+        body, h1, h2, h3, p, a, span, button, li {
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+
+        .about-content {
+            max-width: 1100px;
+            margin: auto;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Hero Layout for Image + Intro */
+        .about-hero {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .profile-side {
+            position: relative;
+        }
+
+        .about-img {
+            width: 100%;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.5s ease;
+        }
+
+        .profile-side::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .section-header {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: bold;
+        }
+
+        .highlight-text {
+            font-size: 1.8rem;
+            line-height: 1.3;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+            font-weight: 500;
+            border-left: 4px solid var(--primary);
+            padding-left: 25px;
+        }
+
+        .highlight-text b {
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .stat-box h3 {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-box h3::before {
+            content: '>';
+            font-weight: bold;
+        }
+
+        .stat-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        .stat-box b {
+            color: var(--text-main);
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .callout-quote {
+            margin-top: 4rem;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .callout-quote blockquote {
+            font-size: 1.6rem;
+            font-style: italic;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .callout-quote cite {
+            display: block;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        @media (max-width: 950px) {
+            .about-hero { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+            .profile-side { max-width: 300px; margin: auto; }
+            .highlight-text { font-size: 1.4rem; text-align: left; }
+            .philosophy-grid { grid-template-columns: 1fr; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <canvas id="physics-bg"></canvas>
+
+    <nav>
+        <div class="logo">VISHAL <span style="color:var(--primary)">R</span></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about1.html">About</a>
+            <a href="resume1.html">Resume</a>
+            <a href="contact.html">Contact</a>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="about-content">
+            
+            <!-- TOP HERO SECTION WITH IMAGE -->
+            <div class="about-hero">
+                <div class="profile-side">
+                    <img src="20240328_170407.jpg" alt="Vishal R" class="about-img">
+                </div>
+                <div class="text-side">
+                    <span class="section-header">Operational Briefing</span>
+                    <h1 style="font-size: 4rem; margin-bottom: 1.5rem; font-weight: 900;">About <span style="color: var(--primary);">Vishal R</span></h1>
+                    <p class="highlight-text">
+                        I specialize in the architecture of <b>Reliable Systems</b>. My work exists at the critical intersection where <b>Heavy Industrial Engineering</b> meets <b>High-Level Autonomous Logic</b>.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- PHILOSOPHY GRID -->
+            <div class="philosophy-grid">
+                <div class="stat-box">
+                    <h3>Industrial Infrastructure</h3>
+                    <p>Advanced command over <b>Siemens PLC</b> and <b>Rockwell SCADA</b> environments. I design logic frameworks that govern the physical floor with the absolute precision required for <b>Critical National Infrastructure</b>.</p>
+                </div>
+                
+                <div class="stat-box">
+                    <h3>Cyber-Physical Security</h3>
+                    <p>Vetted with <b>Cybersecurity Industry Certification (2025)</b>. My focus remains on securing the modern grid, spanning from <b>Network Forensics (PCAP)</b> to enterprise <b>SIEM (Wazuh)</b> deployments.</p>
+                </div>
+                
+                <div class="stat-box">
+                    <h3>Advanced AI Research</h3>
+                    <p>Architecting and deploying <b>Llama-3 8B</b> and <b>SVD-based engines</b> using Unsloth and Ollama. I bridge the gap between <b>Big Data</b> and real-time, human-centric intelligence.</p>
+                </div>
+                
+                <div class="stat-box">
+                    <h3>Aerospace Grade Standards</h3>
+                    <p>Lead developer for <b>Nanosatellite EPS</b> modules. My hardware and firmware standards are specifically engineered to survive the extreme constraints and zero-fail requirements of <b>Space Environments</b>.</p>
+                </div>
+            </div>
+
+            <!-- QUOTE SECTION -->
+            <div class="callout-quote">
+                <blockquote>
+                    "Dual-competence is my strategic edge. I bridge the gap between silicon-based logic and steel-based machinery."
+                </blockquote>
+                <cite>Technical Dossier Summary // Vishal R</cite>
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem; padding-bottom: 4rem;">
+                <a href="resume1.html" class="btn">Examine Technical Dossier</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
